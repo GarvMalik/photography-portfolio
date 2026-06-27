@@ -56,12 +56,7 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
       </div>
 
       {/* Grid */}
-      <div ref={gridRef} style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr",
-        gap: "var(--grid-gap)",
-        padding: "var(--grid-gap)",
-      }}>
+      <div ref={gridRef} className="masonry-grid">
         {photos.map((photo, i) => {
           const span = SPANS[i] ?? { col: "auto", row: "auto" };
           const num  = String(i + 1).padStart(2, "0");

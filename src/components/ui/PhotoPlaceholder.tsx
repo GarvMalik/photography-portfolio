@@ -86,19 +86,19 @@ export function PhotoPlaceholder({ ratio, src, alt, label, sub, className }: Pro
       {label && (
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0,
-          padding: "24px 10px 9px",
-          background: "linear-gradient(to top, rgba(0,0,0,.65), transparent)",
-          display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+          padding: "28px 12px 11px",
+          background: "linear-gradient(to top, rgba(0,0,0,.72), transparent)",
+          display: "flex", flexDirection: "column", gap: "3px",
           pointerEvents: "none",
         }}>
-          <span style={{ fontSize: "7.5px", letterSpacing: "0.18em", color: "rgba(255,255,255,.75)", textTransform: "uppercase" }}>
-            {label}
-          </span>
           {sub && (
-            <span style={{ fontSize: "7px", letterSpacing: "0.12em", color: "rgba(255,255,255,.28)", textTransform: "uppercase" }}>
+            <span style={{ fontSize: "7.5px", letterSpacing: "0.2em", color: "rgba(255,255,255,.5)", textTransform: "uppercase" }}>
               {sub}
             </span>
           )}
+          <span style={{ fontSize: "9.5px", letterSpacing: "0.14em", color: "rgba(255,255,255,.85)", textTransform: "uppercase", fontWeight: 500 }}>
+            {label}
+          </span>
         </div>
       )}
     </div>

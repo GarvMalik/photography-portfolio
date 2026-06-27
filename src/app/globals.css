@@ -9,11 +9,12 @@
     color: var(--c-fg);
     font-family: var(--font-display);
     scroll-behavior: auto;
+    overflow-x: clip;
   }
 
   body {
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -82,6 +83,30 @@
 }
 .series-arrow {
   transition: transform 0.3s var(--ease-out-expo);
+}
+
+/* ── Masonry grid (responsive) ─────────────────────── */
+.masonry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--grid-gap);
+  padding: var(--grid-gap);
+}
+@media (max-width: 720px) {
+  /* Drop to 2 columns and flatten the desktop row/col spans */
+  .masonry-grid { grid-template-columns: 1fr 1fr; }
+  .masonry-grid > * {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+}
+@media (max-width: 460px) {
+  .masonry-grid { grid-template-columns: 1fr; }
+}
+
+/* Hide a few scattered hero photos on small screens to reduce clutter */
+@media (max-width: 540px) {
+  .hero-photo.hide-sm { display: none; }
 }
 
 /* ── Grid item hover overlay ───────────────────────── */

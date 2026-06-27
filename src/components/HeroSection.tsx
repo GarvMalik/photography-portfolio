@@ -128,6 +128,7 @@ export function HeroSection() {
         <div
           key={i}
           ref={el => { photoRefs.current[i] = el; }}
+          className={"hero-photo" + ([3, 5, 8].includes(i) ? " hide-sm" : "")}
           style={{
             position: "absolute",
             left: `${p.x}%`,

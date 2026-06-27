@@ -61,7 +61,7 @@ export function StoriesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{
+    <section id="stories" ref={sectionRef} style={{
       borderTop: "0.5px solid var(--c-border)",
       padding: "clamp(3rem, 8vw, 7rem) var(--page-px)",
     }}>

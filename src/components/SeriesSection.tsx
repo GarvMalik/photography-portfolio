@@ -1,26 +1,88 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { CollectionOverlay, type Collection } from "@/components/CollectionOverlay";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SERIES = [
-  { n: "01", title: "Aurora & Frost",  frames: "12", year: "2024", ratio: "3/4" as const, src: "/images/finland/finland-11.jpg" },
-  { n: "02", title: "Modernisme",      frames: "09", year: "2024", ratio: "3/4" as const, src: "/images/spain/spain-29.jpg" },
-  { n: "03", title: "Golden Hour",     frames: "11", year: "2024", ratio: "4/3" as const, src: "/images/spain/spain-40.jpg" },
-  { n: "04", title: "In Bloom",        frames: "08", year: "2024", ratio: "3/4" as const, src: "/images/best-of-all/best-14.jpg" },
-  { n: "05", title: "The BML Years",   frames: "14", year: "2019–23", ratio: "4/3" as const, src: "/images/bml-life/bml-13.jpg" },
+// Themed series — cross-cut the locations. Each opens a real gallery.
+const SERIES: (Collection & { cover: string; coverRatio: "2/3" | "3/4" | "4/3" })[] = [
+  {
+    id: "aurora-frost", title: "Aurora & Frost", country: "Nordic Winter",
+    year: "2024", frames: "08", cover: "/images/finland/finland-11.jpg", coverRatio: "3/4",
+    photos: [
+      { src: "/images/best-of-all/best-09.jpg",  ratio: "3/4" },
+      { src: "/images/finland/finland-11.jpg",   ratio: "4/3" },
+      { src: "/images/finland/finland-15.jpg",   ratio: "3/4" },
+      { src: "/images/finland/finland-14.jpg",   ratio: "4/3" },
+      { src: "/images/finland/finland-12.jpg",   ratio: "4/3" },
+      { src: "/images/finland/finland-16.jpg",   ratio: "3/4" },
+      { src: "/images/best-of-all/best-20.jpg",  ratio: "3/4" },
+      { src: "/images/finland/finland-13.jpg",   ratio: "4/3" },
+    ],
+  },
+  {
+    id: "modernisme", title: "Modernisme", country: "Gaudí's Barcelona",
+    year: "2024", frames: "07", cover: "/images/spain/spain-29.jpg", coverRatio: "3/4",
+    photos: [
+      { src: "/images/spain/spain-03.jpg", ratio: "3/4" },
+      { src: "/images/spain/spain-29.jpg", ratio: "3/4" },
+      { src: "/images/spain/spain-30.jpg", ratio: "3/4" },
+      { src: "/images/spain/spain-28.jpg", ratio: "3/4" },
+      { src: "/images/spain/spain-33.jpg", ratio: "4/3" },
+      { src: "/images/spain/spain-34.jpg", ratio: "3/4" },
+      { src: "/images/spain/spain-05.jpg", ratio: "3/4" },
+    ],
+  },
+  {
+    id: "golden-hour", title: "Golden Hour", country: "Last Light",
+    year: "2024", frames: "06", cover: "/images/spain/spain-40.jpg", coverRatio: "4/3",
+    photos: [
+      { src: "/images/spain/spain-43.jpg",     ratio: "4/3" },
+      { src: "/images/spain/spain-40.jpg",     ratio: "4/3" },
+      { src: "/images/spain/spain-41.jpg",     ratio: "4/3" },
+      { src: "/images/spain/spain-42.jpg",     ratio: "4/3" },
+      { src: "/images/finland/finland-07.jpg", ratio: "2/3" },
+      { src: "/images/best-of-all/best-21.jpg", ratio: "4/3" },
+    ],
+  },
+  {
+    id: "in-bloom", title: "In Bloom", country: "Still Life",
+    year: "2024", frames: "06", cover: "/images/best-of-all/best-14.jpg", coverRatio: "3/4",
+    photos: [
+      { src: "/images/best-of-all/best-14.jpg", ratio: "3/4" },
+      { src: "/images/best-of-all/best-10.jpg", ratio: "3/4" },
+      { src: "/images/best-of-all/best-15.jpg", ratio: "3/4" },
+      { src: "/images/best-of-all/best-18.jpg", ratio: "3/4" },
+      { src: "/images/best-of-all/best-19.jpg", ratio: "3/4" },
+      { src: "/images/india/india-07.jpg",      ratio: "2/3" },
+    ],
+  },
+  {
+    id: "after-dark", title: "After Dark", country: "Night Studies",
+    year: "2023", frames: "06", cover: "/images/india/india-11.jpg", coverRatio: "4/3",
+    photos: [
+      { src: "/images/india/india-11.jpg",     ratio: "4/3" },
+      { src: "/images/spain/spain-24.jpg",     ratio: "3/4" },
+      { src: "/images/spain/spain-38.jpg",     ratio: "4/3" },
+      { src: "/images/finland/finland-08.jpg", ratio: "4/3" },
+      { src: "/images/india/india-12.jpg",     ratio: "4/3" },
+      { src: "/images/india/india-13.jpg",     ratio: "4/3" },
+    ],
+  },
 ];
 
 export function SeriesSection() {
   const sectionRef  = useRef<HTMLElement>(null);
   const headRef     = useRef<HTMLDivElement>(null);
-  const rowRefs     = useRef<(HTMLAnchorElement | null)[]>([]);
+  const rowRefs     = useRef<(HTMLDivElement | null)[]>([]);
   const imgWrapRef  = useRef<HTMLDivElement>(null);
   const imgInnerRef = useRef<(HTMLDivElement | null)[]>([]);
   const activeIdx   = useRef<number>(-1);
+
+  const [active, setActive] = useState<Collection | null>(null);
 
   useEffect(() => {
     const trigger = { trigger: sectionRef.current, start: "top 72%" };
@@ -40,7 +102,6 @@ export function SeriesSection() {
     // ── Hover image reveal ──────────────────────────────────────────
     const wrap = imgWrapRef.current!;
 
-    // Track cursor Y to move the image vertically
     const onMouseMove = (e: MouseEvent) => {
       if (activeIdx.current < 0) return;
       const section = sectionRef.current!.getBoundingClientRect();
@@ -54,28 +115,19 @@ export function SeriesSection() {
 
       row.addEventListener("mouseenter", () => {
         activeIdx.current = i;
-
-        // Hide all inner images, show the hovered one
         imgInnerRef.current.forEach((el, j) => {
           if (!el) return;
           gsap.set(el, { display: j === i ? "block" : "none" });
         });
-
-        // Slide in from right with clip-path
         gsap.fromTo(wrap,
           { clipPath: "inset(0% 100% 0% 0%)", x: 30, opacity: 1 },
-          { clipPath: "inset(0% 0% 0% 0%)", x: 0,
-            duration: 0.55, ease: "power4.out" }
+          { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.55, ease: "power4.out" }
         );
       });
 
       row.addEventListener("mouseleave", () => {
         activeIdx.current = -1;
-        gsap.to(wrap, {
-          clipPath: "inset(0% 0% 0% 100%)",
-          duration: 0.4,
-          ease: "power3.in",
-        });
+        gsap.to(wrap, { clipPath: "inset(0% 0% 0% 100%)", duration: 0.4, ease: "power3.in" });
       });
     });
 
@@ -85,7 +137,7 @@ export function SeriesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ borderTop: "0.5px solid var(--c-border)", position: "relative" }}>
+    <section id="series" ref={sectionRef} style={{ borderTop: "0.5px solid var(--c-border)", position: "relative" }}>
 
       {/* Floating hover image — absolutely positioned, right side */}
       <div
@@ -103,11 +155,11 @@ export function SeriesSection() {
       >
         {SERIES.map((s, i) => (
           <div
-            key={s.n}
+            key={s.id}
             ref={el => { imgInnerRef.current[i] = el; }}
             style={{ display: "none" }}
           >
-            <PhotoPlaceholder ratio={s.ratio} src={s.src} alt={s.title} />
+            <PhotoPlaceholder ratio={s.coverRatio} src={s.cover} alt={s.title} />
           </div>
         ))}
       </div>
@@ -125,39 +177,51 @@ export function SeriesSection() {
 
       {/* Rows */}
       <div style={{ marginTop: "1.5rem" }}>
-        {SERIES.map((s, i) => (
-          <a
-            key={s.n}
-            ref={el => { rowRefs.current[i] = el; }}
-            href={`#${s.title.toLowerCase().replace(/\s+/g, "-")}`}
-            data-cursor
-            data-cursor-label="OPEN"
-            className="series-row"
-          >
-            <div style={{ display: "flex", alignItems: "baseline", gap: "clamp(1rem, 3vw, 3rem)" }}>
-              <span className="series-dim" style={{
-                fontSize: "9px", letterSpacing: "0.18em",
-                color: "var(--c-fg-3)", textTransform: "uppercase", minWidth: "2rem",
-              }}>
-                {s.n}
-              </span>
-              <span style={{
-                fontSize: "clamp(1.2rem, 3.5vw, 3.2rem)",
-                fontWeight: 500, letterSpacing: "-0.01em", textTransform: "uppercase",
-              }}>
-                {s.title}
-              </span>
-            </div>
+        {SERIES.map((s, i) => {
+          const n = String(i + 1).padStart(2, "0");
+          return (
+            <div
+              key={s.id}
+              ref={el => { rowRefs.current[i] = el; }}
+              role="button"
+              tabIndex={0}
+              onClick={() => setActive(s)}
+              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(s); } }}
+              data-cursor
+              data-cursor-label="OPEN"
+              className="series-row"
+              style={{ cursor: "none" }}
+            >
+              <div style={{ display: "flex", alignItems: "baseline", gap: "clamp(1rem, 3vw, 3rem)" }}>
+                <span className="series-dim" style={{
+                  fontSize: "9px", letterSpacing: "0.18em",
+                  color: "var(--c-fg-3)", textTransform: "uppercase", minWidth: "2rem",
+                }}>
+                  {n}
+                </span>
+                <span style={{
+                  fontSize: "clamp(1.2rem, 3.5vw, 3.2rem)",
+                  fontWeight: 500, letterSpacing: "-0.01em", textTransform: "uppercase",
+                }}>
+                  {s.title}
+                </span>
+              </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-              <span className="series-dim caps tracked" style={{ fontSize: "9px", color: "var(--c-fg-3)" }}>
-                {s.frames} frames · {s.year}
-              </span>
-              <span className="series-arrow" style={{ fontSize: "1.2rem", lineHeight: 1 }}>→</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
+                <span className="series-dim caps tracked" style={{ fontSize: "9px", color: "var(--c-fg-3)" }}>
+                  {s.frames} frames · {s.year}
+                </span>
+                <span className="series-arrow" style={{ fontSize: "1.2rem", lineHeight: 1 }}>→</span>
+              </div>
             </div>
-          </a>
-        ))}
+          );
+        })}
       </div>
+
+      {/* Gallery overlay */}
+      {active && (
+        <CollectionOverlay collection={active} onClose={() => setActive(null)} />
+      )}
     </section>
   );
 }

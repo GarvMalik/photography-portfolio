@@ -76,18 +76,43 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/india/india-13.jpg", ratio: "4/3"  }, // night travel
     ],
   },
+  {
+    id: "bml",
+    title: "BML Munjal",
+    country: "Gurgaon, India",
+    year: "2019–23",
+    frames: "14",
+    photos: [
+      { src: "/images/bml-life/bml-11.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-13.jpg", ratio: "4/3"  },
+      { src: "/images/bml-life/bml-05.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-02.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-01.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-08.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-12.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-09.jpg", ratio: "4/3"  },
+      { src: "/images/bml-life/bml-04.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-07.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-06.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-14.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-03.jpg", ratio: "3/4"  },
+      { src: "/images/bml-life/bml-10.jpg", ratio: "3/4"  },
+    ],
+  },
 ];
 
 const TAGS: Record<string, string[]> = {
   barcelona: ["Gaudí", "Gothic", "Coast"],
   finland:   ["Tampere", "Seasons", "Lakes"],
   himalayas: ["Mountains", "Forest", "Altitude"],
+  bml:       ["People", "Campus", "Friends"],
 };
 
 const DESCRIPTIONS: Record<string, string> = {
   barcelona: "The city never stops moving. Gaudí's bones bent into the skyline, the Gothic quarter folding in on itself, and the harbour going gold every evening while strangers walked through it like they owned the light.",
   finland:   "One city, every season. Tampere sits on the rapids between two lakes — green and loud in autumn, white and silent by January. You begin to understand why the Finns don't need to speak. The light here is low, long, and patient.",
   himalayas: "The air thins and the noise drops away. Deodar forests, snow on the far peaks, a town stacked up a hillside. You drive through the night to get there and the mountains don't even notice you arrived.",
+  bml:       "Four years at BML Munjal. The people more than the place — the late nights, the noise, the in-jokes you can't explain to anyone who wasn't there. Less composed than the rest of this, and that's the point.",
 };
 
 export function TripsSection() {
@@ -122,7 +147,7 @@ export function TripsSection() {
 
   return (
     <>
-      <section ref={sectionRef} style={{
+      <section id="dispatches" ref={sectionRef} style={{
         borderTop: "0.5px solid var(--c-border)",
         padding: "clamp(3rem, 8vw, 7rem) var(--page-px)",
       }}>

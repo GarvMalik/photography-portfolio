@@ -3,9 +3,9 @@
   --c-bg-2:    #0d0d0d;
   --c-bg-3:    #141414;
   --c-fg:      #ffffff;
-  --c-fg-2:    rgba(255, 255, 255, 0.60);
-  --c-fg-3:    rgba(255, 255, 255, 0.25);
-  --c-fg-4:    rgba(255, 255, 255, 0.10);
+  --c-fg-2:    rgba(255, 255, 255, 0.62);
+  --c-fg-3:    rgba(255, 255, 255, 0.45);
+  --c-fg-4:    rgba(255, 255, 255, 0.28);
   --c-border:  rgba(255, 255, 255, 0.08);
 
   --font-display: var(--font-space-grotesk, system-ui, sans-serif);
