@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { PhotoTilt } from "@/components/ui/PhotoTilt";
 
 // Scattered photo positions — (x%, y%) from top-left of section, rotation, size, parallax depth
 const SCATTERED = [
@@ -133,18 +134,19 @@ export function HeroSection() {
             top: `${p.y}%`,
             width: p.w,
             transform: `rotate(${p.rot}deg)`,
-            zIndex: 2,
+            zIndex: 1,
             willChange: "transform",
-            // subtle drop shadow for depth
             filter: "drop-shadow(0 4px 24px rgba(0,0,0,0.5))",
           }}
         >
+          <PhotoTilt strength={8}>
           <PhotoPlaceholder ratio={p.ratio} />
+        </PhotoTilt>
         </div>
       ))}
 
-      {/* Large text — sits behind photos */}
-      <div ref={textRef} style={{ position: "relative", zIndex: 1, pointerEvents: "none" }}>
+      {/* Large text — sits IN FRONT of photos */}
+      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none" }}>
         <h1 style={{
           fontSize: "clamp(3.5rem, 13vw, 13rem)",
           fontWeight: 500,
@@ -161,7 +163,7 @@ export function HeroSection() {
       {/* Meta bar */}
       <div ref={metaRef} style={{
         position: "relative",
-        zIndex: 1,
+        zIndex: 3,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
