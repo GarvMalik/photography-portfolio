@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, type CSSProperties } from "react";
 import gsap from "gsap";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 
 export interface Collection {
   id:      string;
@@ -9,7 +8,7 @@ export interface Collection {
   country: string;
   year:    string;
   frames:  string;
-  photos:  { ratio: "2/3" | "3/4" | "1/1" | "16/9" | "4/3"; src?: string }[];
+  photos:  { src?: string; ratio: "2/3" | "3/4" | "1/1" | "16/9" | "4/3" }[];
 }
 
 interface Props {
@@ -18,43 +17,55 @@ interface Props {
 }
 
 export function CollectionOverlay({ collection, onClose }: Props) {
-  const overlayRef  = useRef<HTMLDivElement>(null);
-  const titleRef    = useRef<HTMLDivElement>(null);
-  const subRef      = useRef<HTMLDivElement>(null);
-  const photosRef   = useRef<(HTMLDivElement | null)[]>([]);
-  const ghostRef    = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const scrollRef  = useRef<HTMLDivElement>(null);
+  const figureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [current, setCurrent] = useState(0);
 
-  // Entrance — wipe up from bottom, then title, then photo
+  const total = collection.photos.length;
+
+  // ── Entrance — wipe up, then stagger the photos in ──────────────
   useEffect(() => {
     const tl = gsap.timeline();
     tl.fromTo(overlayRef.current,
       { clipPath: "inset(100% 0% 0% 0%)" },
-      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.75, ease: "power4.inOut" }
-    )
-    .fromTo(titleRef.current,
-      { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power4.out" }, "-=0.2"
-    )
-    .fromTo(subRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.5 }, "-=0.3"
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power4.inOut" }
     );
-
-    // Stagger photos in
-    photosRef.current.forEach((el, i) => {
+    figureRefs.current.forEach((el, i) => {
       gsap.fromTo(el,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.9, delay: 0.5 + i * 0.1, ease: "power4.out" }
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1.0, delay: 0.45 + i * 0.06, ease: "power3.out" }
       );
     });
 
-    // Lock scroll
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  // Close — wipe back down
+  // ── Track which photo is centered (drives counter + avatar) ─────
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const idx = Number((e.target as HTMLElement).dataset.idx);
+            if (!Number.isNaN(idx)) setCurrent(idx);
+          }
+        });
+      },
+      { root, rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    figureRefs.current.forEach(el => el && io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const goTo = useCallback((idx: number) => {
+    const clamped = Math.max(0, Math.min(total - 1, idx));
+    figureRefs.current[clamped]?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [total]);
+
   const handleClose = useCallback(() => {
     gsap.to(overlayRef.current, {
       clipPath: "inset(0% 0% 100% 0%)",
@@ -63,163 +74,109 @@ export function CollectionOverlay({ collection, onClose }: Props) {
     });
   }, [onClose]);
 
-  // Ghost double-exposure on hover
-  const onPhotoMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    const { left, top, width, height } = el.getBoundingClientRect();
-    const ghost = ghostRef.current;
-    if (!ghost) return;
-
-    // Position ghost relative to hovered photo
-    const ghostEl = el.querySelector("[data-ghost]") as HTMLElement;
-    if (!ghostEl) return;
-
-    const x = (e.clientX - left) / width  - 0.5;
-    const y = (e.clientY - top)  / height - 0.5;
-
-    gsap.to(ghostEl, {
-      x: x * 50,
-      y: y * 35,
-      opacity: 0.4,
-      scale: 1.06,
-      duration: 0.8,
-      ease: "power2.out",
-      overwrite: true,
-    });
-  }, []);
-
-  const onPhotoLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const ghostEl = e.currentTarget.querySelector("[data-ghost]") as HTMLElement;
-    if (!ghostEl) return;
-    gsap.to(ghostEl, {
-      opacity: 0, scale: 0.97, x: 0, y: 0,
-      duration: 0.5, ease: "power3.out",
-    });
-  }, []);
-
-  const goNext = () => {
-    if (current < collection.photos.length - 1) {
-      const nextIdx = current + 1;
-      setCurrent(nextIdx);
-      photosRef.current[nextIdx]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-  const goPrev = () => {
-    if (current > 0) {
-      const prevIdx = current - 1;
-      setCurrent(prevIdx);
-      photosRef.current[prevIdx]?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
-  // Keyboard nav
+  // ── Keyboard ────────────────────────────────────────────────────
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleClose();
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") goNext();
-      if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  goPrev();
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); }
+      if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  { e.preventDefault(); goTo(current - 1); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [current, handleClose]);
+  }, [current, goTo, handleClose]);
+
+  const glassPill: CSSProperties = { borderRadius: "100px" };
+  const ctrlBtn: CSSProperties = {
+    width: 34, height: 34, display: "grid", placeItems: "center",
+    background: "rgba(255,255,255,0.08)", border: "0.5px solid rgba(255,255,255,0.18)",
+    borderRadius: "50%", color: "#fff", cursor: "none",
+    transition: "background 0.25s, opacity 0.25s",
+  };
 
   return (
     <div
       ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${collection.title} gallery`}
       style={{
         position: "fixed", inset: 0,
-        background: "#050505",
+        background: "#000",
         zIndex: 450,
-        display: "flex", flexDirection: "column",
         clipPath: "inset(100% 0% 0% 0%)",
         overflow: "hidden",
       }}
     >
-      {/* ── Top bar ── */}
+      {/* ── Top label ── */}
       <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "18px var(--page-px)",
-        borderBottom: "0.5px solid var(--c-border)",
-        flexShrink: 0, zIndex: 2,
+        position: "absolute", top: 0, left: 0, right: 0, zIndex: 3,
+        display: "flex", justifyContent: "space-between", alignItems: "flex-start",
+        padding: "26px var(--page-px)",
+        pointerEvents: "none",
+        background: "linear-gradient(to bottom, rgba(0,0,0,0.6), transparent)",
       }}>
-        {/* Title */}
         <div>
-          <div ref={titleRef} style={{
-            fontSize: "clamp(1.6rem, 5vw, 4rem)",
-            fontWeight: 500, letterSpacing: "-0.03em",
-            textTransform: "uppercase", color: "var(--c-fg)",
-            lineHeight: 1,
+          <div style={{
+            fontSize: "clamp(1.4rem, 4vw, 3rem)", fontWeight: 500,
+            letterSpacing: "-0.03em", textTransform: "uppercase", lineHeight: 1, color: "#fff",
           }}>
             {collection.title}
           </div>
-          <div ref={subRef} style={{
-            fontSize: "9px", letterSpacing: "0.2em",
-            color: "var(--c-fg-3)", textTransform: "uppercase",
-            marginTop: "6px",
+          <div style={{
+            fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.6)",
+            textTransform: "uppercase", marginTop: "7px",
           }}>
             {collection.country} · {collection.frames} frames · {collection.year}
           </div>
         </div>
-
-        <button
-          onClick={handleClose}
-          data-cursor data-cursor-label="CLOSE"
-          style={{
-            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
-            fontSize: "9px", letterSpacing: "0.28em",
-            color: "var(--c-fg-3)", textTransform: "uppercase",
-            fontFamily: "var(--font-display)",
-          }}
-        >
-          Close ✕
-        </button>
       </div>
 
-      {/* ── Scrollable photos ── */}
-      <div style={{
-        flex: 1, overflowY: "auto",
-        padding: "3rem var(--page-px) 6rem",
-        display: "flex", flexDirection: "column",
-        alignItems: "center", gap: "4rem",
-      }}>
+      {/* ── Vertical scroll gallery ── */}
+      <div
+        ref={scrollRef}
+        style={{
+          position: "absolute", inset: 0,
+          overflowY: "auto", overflowX: "hidden",
+          scrollBehavior: "smooth",
+          display: "flex", flexDirection: "column", alignItems: "center",
+          padding: "16vh var(--page-px) 22vh",
+          gap: "8vh",
+        }}
+      >
         {collection.photos.map((photo, i) => (
           <div
             key={i}
-            ref={el => { photosRef.current[i] = el; }}
-            onMouseMove={onPhotoMove}
-            onMouseLeave={onPhotoLeave}
-            onClick={() => setCurrent(i)}
-            style={{
-              position: "relative",
-              width: "min(100%, 680px)",
-              cursor: "none",
-            }}
+            ref={el => { figureRefs.current[i] = el; }}
+            data-idx={i}
+            data-cursor
+            data-cursor-label="ZOOM"
+            style={{ position: "relative", lineHeight: 0 }}
           >
-            {/* Ghost double-exposure layer */}
-            <div
-              data-ghost
-              style={{
-                position: "absolute", inset: 0, zIndex: 2,
-                mixBlendMode: "screen",
-                filter: "blur(2px) brightness(1.8)",
-                opacity: 0, pointerEvents: "none",
-                willChange: "transform, opacity",
-              }}
-            >
-              <PhotoPlaceholder ratio={photo.ratio} src={photo.src} />
-            </div>
-
-            {/* Main photo */}
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <PhotoPlaceholder ratio={photo.ratio} src={photo.src} />
-            </div>
-
+            {photo.src ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={photo.src}
+                alt={`${collection.title} — frame ${i + 1}`}
+                style={{
+                  display: "block",
+                  maxHeight: "80vh",
+                  maxWidth: "min(94vw, 1080px)",
+                  width: "auto", height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <div style={{
+                width: "min(94vw, 1080px)", aspectRatio: photo.ratio,
+                background: "#111",
+              }} />
+            )}
             {/* Frame number */}
             <span style={{
               position: "absolute", bottom: "12px", right: "14px",
               fontSize: "9px", letterSpacing: "0.2em",
-              color: "rgba(255,255,255,0.3)", textTransform: "uppercase",
-              zIndex: 3, pointerEvents: "none",
+              color: "rgba(255,255,255,0.55)", textTransform: "uppercase",
+              textShadow: "0 1px 6px rgba(0,0,0,0.7)", pointerEvents: "none",
             }}>
               {String(i + 1).padStart(2, "0")}
             </span>
@@ -227,75 +184,98 @@ export function CollectionOverlay({ collection, onClose }: Props) {
         ))}
       </div>
 
-      {/* ── Bottom nav ── */}
+      {/* ── Floating glass control bar ── */}
       <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "1.25rem var(--page-px)",
-        borderTop: "0.5px solid var(--c-border)",
-        background: "#050505",
-        zIndex: 10,
+        position: "absolute", bottom: "26px", left: "50%",
+        transform: "translateX(-50%)",
+        display: "flex", alignItems: "center", gap: "10px",
+        zIndex: 5,
       }}>
-        {/* Prev */}
-        <button
-          onClick={goPrev}
-          disabled={current === 0}
-          data-cursor data-cursor-label="PREV"
-          style={{
-            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
-            fontSize: "9px", letterSpacing: "0.22em",
-            color: current > 0 ? "var(--c-fg-2)" : "var(--c-fg-4)",
-            textTransform: "uppercase",
-          }}
-        >
-          ← Prev
-        </button>
-
-        {/* Counter */}
-        <span style={{
-          fontSize: "9px", letterSpacing: "0.18em",
-          color: "var(--c-fg-3)", textTransform: "uppercase",
-          fontVariantNumeric: "tabular-nums",
+        <div className="glass" style={{
+          ...glassPill,
+          display: "flex", alignItems: "center", gap: "14px",
+          padding: "8px 10px 8px 8px",
         }}>
-          {String(current + 1).padStart(2, "0")} — {String(collection.photos.length).padStart(2, "0")}
-        </span>
+          {/* Avatar — current photo */}
+          <div style={{
+            width: 38, height: 38, borderRadius: "50%", overflow: "hidden",
+            flexShrink: 0, background: "#222",
+          }}>
+            {collection.photos[current]?.src && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={collection.photos[current].src} alt=""
+                   style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            )}
+          </div>
 
-        {/* Next */}
+          {/* Counter */}
+          <div style={{ minWidth: "62px" }}>
+            <div style={{ fontSize: "7.5px", letterSpacing: "0.22em", color: "rgba(255,255,255,0.55)", textTransform: "uppercase" }}>
+              Gallery
+            </div>
+            <div style={{ fontSize: "13px", fontWeight: 500, color: "#fff", letterSpacing: "0.04em", fontVariantNumeric: "tabular-nums", marginTop: "1px" }}>
+              {String(current + 1).padStart(2, "0")} — {String(total).padStart(2, "0")}
+            </div>
+          </div>
+
+          {/* Up / Down */}
+          <div style={{ display: "flex", gap: "6px" }}>
+            <button
+              onClick={() => goTo(current - 1)}
+              disabled={current === 0}
+              aria-label="Previous photo"
+              data-cursor
+              style={{ ...ctrlBtn, opacity: current === 0 ? 0.35 : 1 }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15" /></svg>
+            </button>
+            <button
+              onClick={() => goTo(current + 1)}
+              disabled={current === total - 1}
+              aria-label="Next photo"
+              data-cursor
+              style={{ ...ctrlBtn, opacity: current === total - 1 ? 0.35 : 1 }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Close — separate glass circle */}
         <button
-          onClick={goNext}
-          disabled={current === collection.photos.length - 1}
-          data-cursor data-cursor-label="NEXT"
+          onClick={handleClose}
+          aria-label="Close gallery"
+          data-cursor
+          data-cursor-label="CLOSE"
+          className="glass"
           style={{
-            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
-            fontSize: "9px", letterSpacing: "0.22em",
-            color: current < collection.photos.length - 1 ? "var(--c-fg-2)" : "var(--c-fg-4)",
-            textTransform: "uppercase",
+            width: 54, height: 54, borderRadius: "50%",
+            display: "grid", placeItems: "center", cursor: "none", color: "#fff",
           }}
         >
-          Next →
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" /></svg>
         </button>
       </div>
 
-      {/* NEXT fixed right-side button (like aikawakenichi) */}
-      {current < collection.photos.length - 1 && (
+      {/* ── Side NEXT pill ── */}
+      {current < total - 1 && (
         <button
-          onClick={goNext}
-          data-cursor data-cursor-label="NEXT"
+          onClick={() => goTo(current + 1)}
+          aria-label="Next photo"
+          data-cursor
+          className="glass"
           style={{
             position: "absolute", right: "var(--page-px)", top: "50%",
             transform: "translateY(-50%)",
-            background: "none", border: "0.5px solid var(--c-border)",
-            padding: "8px 14px", cursor: "none",
-            fontSize: "8px", letterSpacing: "0.28em",
-            color: "var(--c-fg-3)", textTransform: "uppercase",
-            zIndex: 10,
+            padding: "12px 18px", borderRadius: "100px",
+            fontSize: "9px", letterSpacing: "0.28em", color: "#fff",
+            textTransform: "uppercase", cursor: "none", zIndex: 5,
+            fontFamily: "var(--font-display)",
           }}
         >
           Next
         </button>
       )}
-
-      <div ref={ghostRef} />
     </div>
   );
 }

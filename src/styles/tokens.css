@@ -22,6 +22,6 @@
   --page-px:  clamp(1.25rem, 4vw, 3rem);
 
   --z-nav:     100;
-  --z-cursor:  200;
   --z-overlay: 300;
+  --z-cursor:  9999;
 }

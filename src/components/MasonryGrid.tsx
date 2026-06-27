@@ -89,23 +89,14 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                 />
               </ParticleBlast>
 
-              {/* Hover overlay */}
+              {/* Hover overlay — keeps the photo visible, just adds a "View" affordance */}
               <div className="grid-overlay">
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                  <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
-                    {num}
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px" }}>
+                  <span style={{ fontSize: "9px", letterSpacing: "0.22em", color: "#fff", textTransform: "uppercase" }}>
+                    View
                   </span>
-                  <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)" }}>→</span>
+                  <span style={{ fontSize: "15px", color: "#fff", lineHeight: 1 }}>→</span>
                 </div>
-                <p style={{ margin: "0 0 4px", fontSize: "clamp(12px, 1.5vw, 16px)",
-                            fontWeight: 500, color: "#fff", textTransform: "uppercase",
-                            letterSpacing: "0.04em" }}>
-                  {photo.type}
-                </p>
-                <p style={{ margin: 0, fontSize: "9px", letterSpacing: "0.16em",
-                            color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>
-                  {photo.series} · 2024
-                </p>
               </div>
 
               {/* Persistent frame number — top left */}
