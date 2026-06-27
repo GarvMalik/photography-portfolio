@@ -93,7 +93,7 @@ export function StatementSection() {
         marginTop: "0.5rem",
         flexShrink: 0,
       }}>
-        <PhotoPlaceholder ratio="3/4" />
+        <PhotoPlaceholder ratio="3/4" src="/images/best-of-all/best-06.jpg" alt="Light through a dark window" />
       </div>
     </section>
   );

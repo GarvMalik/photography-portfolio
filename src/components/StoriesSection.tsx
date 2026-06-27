@@ -13,26 +13,29 @@ const STORIES = [
     location: "Tampere, Finland",
     year: "2024",
     type: "Street",
-    body: "It's the forty minutes just before the street lamps kick in. The sky is still holding onto blue. People walk faster. A woman stops to adjust her scarf and in that pause — that single, unhurried pause — the whole city seems to hold its breath with her. I pressed the shutter without thinking.",
+    src: "/images/finland/finland-07.jpg",
+    body: "It's the forty minutes just before the street lamps kick in. The sky is still holding onto a last bruise of orange. People walk faster. The crosswalk empties and for a second the whole street belongs to no one — just the trees losing their colour and the light going soft. I pressed the shutter without thinking.",
     ratio: "2/3" as const,
   },
   {
     n: "002",
-    title: "Geometry of Ramblas",
+    title: "Geometry of Gaudí",
     location: "Barcelona, Spain",
     year: "2024",
     type: "Architecture",
+    src: "/images/spain/spain-29.jpg",
     body: "Gaudí didn't build buildings. He built arguments. Every curve is a rebuttal to the straight line, every tile a sentence in a language the walls are still speaking. I kept shooting the negative space — what he chose not to fill.",
     ratio: "3/4" as const,
   },
   {
     n: "003",
     title: "Ice Season",
-    location: "Pyynikki, Finland",
+    location: "Tampere, Finland",
     year: "2023",
     type: "Landscape",
-    body: "By January the lake is solid enough to walk on. The Finns do this without ceremony — they walk on frozen water like it's nothing. I couldn't. I kept stopping, listening to it creak, convinced I was about to fall through into something ancient.",
-    ratio: "16/9" as const,
+    src: "/images/finland/finland-13.jpg",
+    body: "By January the lake is solid enough to walk on. The Finns do this without ceremony — they cross frozen water like it's nothing. I couldn't. I kept stopping, following someone else's footprints out into the white, listening to the ice creak, convinced I was about to fall through into something ancient.",
+    ratio: "4/3" as const,
   },
 ];
 
@@ -103,7 +106,7 @@ export function StoriesSection() {
               {/* Photo — left on even, right on odd */}
               {isEven && (
                 <div style={{ position: "relative" }}>
-                  <PhotoPlaceholder ratio={story.ratio} />
+                  <PhotoPlaceholder ratio={story.ratio} src={story.src} alt={story.title} />
                   <span style={{
                     position: "absolute", top: "10px", left: "10px",
                     fontSize: "8px", letterSpacing: "0.2em",
@@ -175,7 +178,7 @@ export function StoriesSection() {
               {/* Photo — right on odd */}
               {!isEven && (
                 <div style={{ position: "relative" }}>
-                  <PhotoPlaceholder ratio={story.ratio} />
+                  <PhotoPlaceholder ratio={story.ratio} src={story.src} alt={story.title} />
                   <span style={{
                     position: "absolute", top: "10px", left: "10px",
                     fontSize: "8px", letterSpacing: "0.2em",

@@ -8,13 +8,14 @@ export interface Photo {
   alt?:   string;
 }
 
-// "best of all" — hero masonry grid (7 picks, mix of orientations)
+// Selected Work — the masonry grid. Order matches the SPANS layout in
+// MasonryGrid (wide / tall / small / small / full-wide / small / wide).
 export const PHOTOS: Photo[] = [
-  { slug: "frame-01", src: "/images/best-of-all/best-07.jpg", ratio: "4/3",  label: "Frame 01", type: "Landscape",  series: "Best Of",  alt: "Photo 01" },
-  { slug: "frame-02", src: "/images/best-of-all/best-01.jpg", ratio: "3/4",  label: "Frame 02", type: "Portrait",   series: "Best Of",  alt: "Photo 02" },
-  { slug: "frame-03", src: "/images/best-of-all/best-09.jpg", ratio: "3/4",  label: "Frame 03", type: "Portrait",   series: "Best Of",  alt: "Photo 03" },
-  { slug: "frame-04", src: "/images/best-of-all/best-21.jpg", ratio: "4/3",  label: "Frame 04", type: "Landscape",  series: "Best Of",  alt: "Photo 04" },
-  { slug: "frame-05", src: "/images/best-of-all/best-10.jpg", ratio: "3/4",  label: "Frame 05", type: "Portrait",   series: "Best Of",  alt: "Photo 05" },
-  { slug: "frame-06", src: "/images/best-of-all/best-22.jpg", ratio: "4/3",  label: "Frame 06", type: "Landscape",  series: "Best Of",  alt: "Photo 06" },
-  { slug: "frame-07", src: "/images/best-of-all/best-05.jpg", ratio: "3/4",  label: "Frame 07", type: "Portrait",   series: "Best Of",  alt: "Photo 07" },
+  { slug: "frame-01", src: "/images/finland/finland-04.jpg",   ratio: "4/3", label: "Tammerkoski", type: "Architecture", series: "Tampere",   alt: "Red-brick factory chimney rising over the Tammerkoski rapids" },
+  { slug: "frame-02", src: "/images/best-of-all/best-09.jpg",  ratio: "3/4", label: "Northern Lights", type: "Landscape", series: "Nordic",    alt: "Aurora borealis glowing pink and green over a dark lake" },
+  { slug: "frame-03", src: "/images/spain/spain-30.jpg",       ratio: "3/4", label: "Barri Gòtic", type: "Architecture", series: "Barcelona", alt: "Gothic spires of the Barcelona Cathedral" },
+  { slug: "frame-04", src: "/images/best-of-all/best-16.jpg",  ratio: "3/4", label: "On the Ridge", type: "Figure",       series: "Field",     alt: "A lone figure standing on a green hillside ridge" },
+  { slug: "frame-05", src: "/images/spain/spain-40.jpg",       ratio: "4/3", label: "Barceloneta Dusk", type: "Landscape", series: "Barcelona", alt: "Palm trees in silhouette against a sunset over the bay" },
+  { slug: "frame-06", src: "/images/best-of-all/best-14.jpg",  ratio: "3/4", label: "Hanami", type: "Nature",            series: "In Bloom",  alt: "Pink cherry blossom in full bloom" },
+  { slug: "frame-07", src: "/images/best-of-all/best-22.jpg",  ratio: "4/3", label: "Kauppatori", type: "Street",         series: "Helsinki",  alt: "Boats moored along the Helsinki harbour canal" },
 ];

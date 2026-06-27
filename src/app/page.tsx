@@ -17,12 +17,12 @@ export default function Home() {
       <Nav />
       <HeroSection />
       <Marquee
-        text="SELECTED WORKS — PHOTOGRAPHY — GARV MALIK — 2024 — ARCHITECTURE — STREET — LANDSCAPE — FIGURE — "
+        text="SELECTED WORKS — AURORA — BARCELONA — TAMPERE — HIMALAYAS — ARCHITECTURE — STREET — LANDSCAPE — "
       />
       <MasonryGrid photos={PHOTOS} />
       <StatementSection />
       <Marquee
-        text="SHOT FOR THE LOVE OF IT — GARV MALIK — TAMPERE — FINLAND — STREET — LANDSCAPE — NATURE — "
+        text="SHOT FOR THE LOVE OF IT — GARV MALIK — TAMPERE · FINLAND — FROST — GOLDEN HOUR — IN BLOOM — "
         direction="right"
         speed="slow"
       />

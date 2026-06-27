@@ -7,11 +7,11 @@ import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 gsap.registerPlugin(ScrollTrigger);
 
 const SERIES = [
-  { n: "01", title: "Urban Geometries",    frames: "14", year: "2024", ratio: "2/3"  as const },
-  { n: "02", title: "Light & Shadow",      frames: "09", year: "2024", ratio: "3/4"  as const },
-  { n: "03", title: "Night Studies",       frames: "11", year: "2023", ratio: "2/3"  as const },
-  { n: "04", title: "Architectural Forms", frames: "08", year: "2023", ratio: "3/4"  as const },
-  { n: "05", title: "Documentary",         frames: "21", year: "2022", ratio: "1/1"  as const },
+  { n: "01", title: "Aurora & Frost",  frames: "12", year: "2024", ratio: "3/4" as const, src: "/images/finland/finland-11.jpg" },
+  { n: "02", title: "Modernisme",      frames: "09", year: "2024", ratio: "3/4" as const, src: "/images/spain/spain-29.jpg" },
+  { n: "03", title: "Golden Hour",     frames: "11", year: "2024", ratio: "4/3" as const, src: "/images/spain/spain-40.jpg" },
+  { n: "04", title: "In Bloom",        frames: "08", year: "2024", ratio: "3/4" as const, src: "/images/best-of-all/best-14.jpg" },
+  { n: "05", title: "The Crew",        frames: "14", year: "2023", ratio: "4/3" as const, src: "/images/bml-life/bml-13.jpg" },
 ];
 
 export function SeriesSection() {
@@ -107,7 +107,7 @@ export function SeriesSection() {
             ref={el => { imgInnerRef.current[i] = el; }}
             style={{ display: "none" }}
           >
-            <PhotoPlaceholder ratio={s.ratio} />
+            <PhotoPlaceholder ratio={s.ratio} src={s.src} alt={s.title} />
           </div>
         ))}
       </div>

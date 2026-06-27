@@ -117,12 +117,12 @@ export default function PhotoPage() {
           // Slight blur for the overexposed glow look
           filter: "blur(1.5px) brightness(1.6)",
         }}>
-          <PhotoPlaceholder ratio={photo.ratio} />
+          <PhotoPlaceholder ratio={photo.ratio} src={photo.src} alt={photo.alt} />
         </div>
 
         {/* Main photo */}
         <div ref={frameRef} style={{ position: "absolute", inset: 0, zIndex: 1 }}>
-          <PhotoPlaceholder ratio={photo.ratio} />
+          <PhotoPlaceholder ratio={photo.ratio} src={photo.src} alt={photo.alt} />
           {/* Frame number */}
           <span style={{
             position: "absolute", top: "12px", left: "14px",
@@ -162,7 +162,7 @@ export default function PhotoPage() {
           <div style={{ fontSize: "clamp(11px, 1.5vw, 14px)", letterSpacing: "0.04em",
                         color: "rgba(255,255,255,0.6)", textTransform: "uppercase",
                         fontWeight: 500 }}>
-            {photo.type}
+            {photo.label} · {photo.type}
           </div>
         </div>
 

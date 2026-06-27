@@ -16,18 +16,18 @@ const COLLECTIONS: Collection[] = [
     year: "2024",
     frames: "43",
     photos: [
-      { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-07.jpg",  ratio: "2/3"  },
-      { src: "/images/spain/spain-11.jpg",  ratio: "4/3"  },
-      { src: "/images/spain/spain-16.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-18.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-22.jpg",  ratio: "4/3"  },
-      { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-05.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-31.jpg",  ratio: "4/3"  },
-      { src: "/images/spain/spain-36.jpg",  ratio: "4/3"  },
-      { src: "/images/spain/spain-39.jpg",  ratio: "3/4"  },
-      { src: "/images/spain/spain-43.jpg",  ratio: "4/3"  },
+      { src: "/images/spain/spain-01.jpg",  ratio: "4/3"  }, // city from above
+      { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  }, // Park Güell
+      { src: "/images/spain/spain-29.jpg",  ratio: "3/4"  }, // Casa Batlló
+      { src: "/images/spain/spain-30.jpg",  ratio: "3/4"  }, // Cathedral
+      { src: "/images/spain/spain-28.jpg",  ratio: "3/4"  }, // Gothic portal
+      { src: "/images/spain/spain-33.jpg",  ratio: "4/3"  }, // ornate dome
+      { src: "/images/spain/spain-34.jpg",  ratio: "3/4"  }, // Plaça Reial lamp
+      { src: "/images/spain/spain-14.jpg",  ratio: "4/3"  }, // beach + cliffs
+      { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  }, // harbour at night
+      { src: "/images/spain/spain-38.jpg",  ratio: "4/3"  }, // Montjuïc palace lit
+      { src: "/images/spain/spain-40.jpg",  ratio: "4/3"  }, // palm sunset
+      { src: "/images/spain/spain-43.jpg",  ratio: "4/3"  }, // sunset over water
     ],
   },
   {
@@ -56,39 +56,38 @@ const COLLECTIONS: Collection[] = [
     ],
   },
   {
-    id: "india",
-    title: "India",
+    id: "himalayas",
+    title: "Himalayas",
     country: "India",
     year: "2023",
     frames: "13",
     photos: [
-      { src: "/images/india/india-01.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-02.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-03.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-04.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-05.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-06.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-07.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-08.jpg", ratio: "2/3"  },
-      { src: "/images/india/india-09.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-10.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-11.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-12.jpg", ratio: "4/3"  },
-      { src: "/images/india/india-13.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-04.jpg", ratio: "4/3"  }, // mountain ridge
+      { src: "/images/india/india-02.jpg", ratio: "4/3"  }, // barren valley
+      { src: "/images/india/india-03.jpg", ratio: "4/3"  }, // rock crag
+      { src: "/images/india/india-08.jpg", ratio: "2/3"  }, // hill town + snow peaks
+      { src: "/images/india/india-01.jpg", ratio: "4/3"  }, // green hills
+      { src: "/images/india/india-09.jpg", ratio: "4/3"  }, // deodar forest
+      { src: "/images/india/india-10.jpg", ratio: "4/3"  }, // forested valley
+      { src: "/images/india/india-05.jpg", ratio: "4/3"  }, // heritage interior
+      { src: "/images/india/india-07.jpg", ratio: "4/3"  }, // sunflower
+      { src: "/images/india/india-11.jpg", ratio: "4/3"  }, // full moon
+      { src: "/images/india/india-12.jpg", ratio: "4/3"  }, // night road
+      { src: "/images/india/india-13.jpg", ratio: "4/3"  }, // night travel
     ],
   },
 ];
 
 const TAGS: Record<string, string[]> = {
-  barcelona: ["Street", "Architecture", "Light"],
-  finland:   ["Landscape", "Nature", "Winter"],
-  india:     ["Colour", "Culture", "Heat"],
+  barcelona: ["Gaudí", "Gothic", "Coast"],
+  finland:   ["Tampere", "Seasons", "Lakes"],
+  himalayas: ["Mountains", "Forest", "Altitude"],
 };
 
 const DESCRIPTIONS: Record<string, string> = {
-  barcelona: "The city never stops moving. Every alley an act, every shadow a stage. Gaudí's bones bent into skyline, and strangers walking through golden hour like they owned it.",
-  finland:   "Six months of silence. The lake freezes over and the forest goes white and you begin to understand why the Finns don't need to speak. The light here is different — low, long, and patient.",
-  india:     "Colour that hits you before sound does. Dust and marigolds and a sun that stays too long. Every frame already full before you press the shutter.",
+  barcelona: "The city never stops moving. Gaudí's bones bent into the skyline, the Gothic quarter folding in on itself, and the harbour going gold every evening while strangers walked through it like they owned the light.",
+  finland:   "One city, every season. Tampere sits on the rapids between two lakes — green and loud in autumn, white and silent by January. You begin to understand why the Finns don't need to speak. The light here is low, long, and patient.",
+  himalayas: "The air thins and the noise drops away. Deodar forests, snow on the far peaks, a town stacked up a hillside. You drive through the night to get there and the mountains don't even notice you arrived.",
 };
 
 export function TripsSection() {

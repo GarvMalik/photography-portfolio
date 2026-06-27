@@ -4,10 +4,10 @@ import gsap from "gsap";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 
 const NAV_ITEMS = [
-  { label: "Work",       href: "#work",      n: "01", ratio: "2/3"  as const },
-  { label: "Stories",    href: "#stories",   n: "02", ratio: "3/4"  as const },
-  { label: "Dispatches", href: "#dispatches", n: "03", ratio: "1/1"  as const },
-  { label: "Series",     href: "#series",    n: "04", ratio: "2/3"  as const },
+  { label: "Work",       href: "#work",      n: "01", ratio: "3/4" as const, src: "/images/best-of-all/best-09.jpg" },
+  { label: "Stories",    href: "#stories",   n: "02", ratio: "3/4" as const, src: "/images/spain/spain-29.jpg" },
+  { label: "Dispatches", href: "#dispatches", n: "03", ratio: "3/4" as const, src: "/images/india/india-04.jpg" },
+  { label: "Series",     href: "#series",    n: "04", ratio: "3/4" as const, src: "/images/best-of-all/best-14.jpg" },
 ];
 
 export function Nav() {
@@ -212,7 +212,7 @@ export function Nav() {
           >
             {NAV_ITEMS.map((item, i) => (
               <div key={item.label} ref={el => { imgInners.current[i] = el; }} style={{ display: "none" }}>
-                <PhotoPlaceholder ratio={item.ratio} />
+                <PhotoPlaceholder ratio={item.ratio} src={item.src} alt={item.label} />
               </div>
             ))}
           </div>
