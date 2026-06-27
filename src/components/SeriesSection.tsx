@@ -11,7 +11,7 @@ const SERIES = [
   { n: "02", title: "Modernisme",      frames: "09", year: "2024", ratio: "3/4" as const, src: "/images/spain/spain-29.jpg" },
   { n: "03", title: "Golden Hour",     frames: "11", year: "2024", ratio: "4/3" as const, src: "/images/spain/spain-40.jpg" },
   { n: "04", title: "In Bloom",        frames: "08", year: "2024", ratio: "3/4" as const, src: "/images/best-of-all/best-14.jpg" },
-  { n: "05", title: "The Crew",        frames: "14", year: "2023", ratio: "4/3" as const, src: "/images/bml-life/bml-13.jpg" },
+  { n: "05", title: "The BML Years",   frames: "14", year: "2019–23", ratio: "4/3" as const, src: "/images/bml-life/bml-13.jpg" },
 ];
 
 export function SeriesSection() {
