@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    background: var(--c-bg);
+    color: var(--c-fg);
+    font-family: var(--font-display);
+    scroll-behavior: auto;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * { cursor: none !important; }
+
+  ::selection {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .caps          { text-transform: uppercase; }
+  .tracked       { letter-spacing: var(--tracking-ui); }
+  .tracked-nav   { letter-spacing: var(--tracking-nav); }
+  .tracked-caps  { letter-spacing: var(--tracking-caps); }
+  .text-dim      { color: var(--c-fg-2); }
+  .text-dimmer   { color: var(--c-fg-3); }
+  .text-dimmest  { color: var(--c-fg-4); }
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
