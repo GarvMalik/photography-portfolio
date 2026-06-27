@@ -14,10 +14,20 @@ const COLLECTIONS: Collection[] = [
     title: "Barcelona",
     country: "Spain",
     year: "2024",
-    frames: "34",
+    frames: "43",
     photos: [
-      { ratio: "2/3" }, { ratio: "16/9" }, { ratio: "3/4" },
-      { ratio: "1/1" }, { ratio: "2/3" }, { ratio: "4/3" },
+      { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-07.jpg",  ratio: "2/3"  },
+      { src: "/images/spain/spain-11.jpg",  ratio: "4/3"  },
+      { src: "/images/spain/spain-16.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-18.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-22.jpg",  ratio: "4/3"  },
+      { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-05.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-31.jpg",  ratio: "4/3"  },
+      { src: "/images/spain/spain-36.jpg",  ratio: "4/3"  },
+      { src: "/images/spain/spain-39.jpg",  ratio: "3/4"  },
+      { src: "/images/spain/spain-43.jpg",  ratio: "4/3"  },
     ],
   },
   {
@@ -25,20 +35,46 @@ const COLLECTIONS: Collection[] = [
     title: "Finland",
     country: "Suomi",
     year: "2023–24",
-    frames: "51",
+    frames: "16",
     photos: [
-      { ratio: "16/9" }, { ratio: "3/4" }, { ratio: "1/1" },
-      { ratio: "2/3" }, { ratio: "16/9" }, { ratio: "3/4" }, { ratio: "1/1" },
+      { src: "/images/finland/finland-01.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-02.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-03.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-04.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-05.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-06.jpg", ratio: "16/9" },
+      { src: "/images/finland/finland-07.jpg", ratio: "2/3"  },
+      { src: "/images/finland/finland-08.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-09.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-10.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-11.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-12.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-13.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-14.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-15.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-16.jpg", ratio: "3/4"  },
     ],
   },
   {
-    id: "future",
-    title: "Next",
-    country: "Unknown",
-    year: "2025 →",
-    frames: "—",
+    id: "india",
+    title: "India",
+    country: "India",
+    year: "2023",
+    frames: "13",
     photos: [
-      { ratio: "1/1" }, { ratio: "2/3" }, { ratio: "3/4" },
+      { src: "/images/india/india-01.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-02.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-03.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-04.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-05.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-06.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-07.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-08.jpg", ratio: "2/3"  },
+      { src: "/images/india/india-09.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-10.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-11.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-12.jpg", ratio: "4/3"  },
+      { src: "/images/india/india-13.jpg", ratio: "4/3"  },
     ],
   },
 ];
@@ -46,13 +82,13 @@ const COLLECTIONS: Collection[] = [
 const TAGS: Record<string, string[]> = {
   barcelona: ["Street", "Architecture", "Light"],
   finland:   ["Landscape", "Nature", "Winter"],
-  future:    ["TBD", "Open"],
+  india:     ["Colour", "Culture", "Heat"],
 };
 
 const DESCRIPTIONS: Record<string, string> = {
   barcelona: "The city never stops moving. Every alley an act, every shadow a stage. Gaudí's bones bent into skyline, and strangers walking through golden hour like they owned it.",
   finland:   "Six months of silence. The lake freezes over and the forest goes white and you begin to understand why the Finns don't need to speak. The light here is different — low, long, and patient.",
-  future:    "The camera goes everywhere now. Next: Japan, Morocco, maybe Norway. Always looking for the picture that doesn't announce itself.",
+  india:     "Colour that hits you before sound does. Dust and marigolds and a sun that stays too long. Every frame already full before you press the shutter.",
 };
 
 export function TripsSection() {
@@ -128,7 +164,7 @@ export function TripsSection() {
                 ref={el => { photoRefs.current[i] = el; }}
                 style={{ position: "relative" }}
               >
-                <PhotoPlaceholder ratio={col.photos[0].ratio} />
+                <PhotoPlaceholder ratio={col.photos[0].ratio} src={col.photos[0].src} />
 
                 {/* Location badge */}
                 <div style={{

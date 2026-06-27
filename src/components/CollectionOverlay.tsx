@@ -9,7 +9,7 @@ export interface Collection {
   country: string;
   year:    string;
   frames:  string;
-  photos:  { ratio: "2/3" | "3/4" | "1/1" | "16/9" | "4/3" }[];
+  photos:  { ratio: "2/3" | "3/4" | "1/1" | "16/9" | "4/3"; src?: string }[];
 }
 
 interface Props {
@@ -206,12 +206,12 @@ export function CollectionOverlay({ collection, onClose }: Props) {
                 willChange: "transform, opacity",
               }}
             >
-              <PhotoPlaceholder ratio={photo.ratio} />
+              <PhotoPlaceholder ratio={photo.ratio} src={photo.src} />
             </div>
 
             {/* Main photo */}
             <div style={{ position: "relative", zIndex: 1 }}>
-              <PhotoPlaceholder ratio={photo.ratio} />
+              <PhotoPlaceholder ratio={photo.ratio} src={photo.src} />
             </div>
 
             {/* Frame number */}

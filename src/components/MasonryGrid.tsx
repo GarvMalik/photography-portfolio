@@ -76,6 +76,8 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
               <ParticleBlast onDoubleClick={() => router.push(`/photo/${photo.slug}`)}>
                 <PhotoPlaceholder
                   ratio={photo.ratio}
+                  src={photo.src}
+                  alt={photo.alt}
                   label={`${photo.label} — ${photo.type}`}
                   sub={photo.series}
                 />

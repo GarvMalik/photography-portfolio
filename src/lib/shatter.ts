@@ -14,13 +14,19 @@ export function shatter(
   const tw = rect.width  / cols;
   const th = rect.height / rows;
 
-  // Snapshot the background of the first child with a background
-  const photoEl =
-    (sourceEl.querySelector("[data-photo-bg]") as HTMLElement) ??
-    (sourceEl.firstElementChild as HTMLElement) ??
-    sourceEl;
-  const bg = window.getComputedStyle(photoEl).background ||
-             "linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%)";
+  // Prefer a real <img> src for accurate tile rendering
+  const imgEl = sourceEl.querySelector("img") as HTMLImageElement | null;
+  let bg: string;
+  if (imgEl?.src) {
+    bg = `url("${imgEl.src}") center/cover no-repeat`;
+  } else {
+    const photoEl =
+      (sourceEl.querySelector("[data-photo-bg]") as HTMLElement) ??
+      (sourceEl.firstElementChild as HTMLElement) ??
+      sourceEl;
+    bg = window.getComputedStyle(photoEl).background ||
+         "linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%)";
+  }
 
   // Container for all shards
   const container = document.createElement("div");

@@ -3,15 +3,18 @@ import { useEffect, useRef } from "react";
 
 interface Props {
   ratio: string;
+  src?: string;
+  alt?: string;
   label?: string;
   sub?: string;
   className?: string;
 }
 
-export function PhotoPlaceholder({ ratio, label, sub, className }: Props) {
+export function PhotoPlaceholder({ ratio, src, alt, label, sub, className }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (src) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -43,20 +46,32 @@ export function PhotoPlaceholder({ ratio, label, sub, className }: Props) {
     const vig = ctx.createRadialGradient(W/2, H/2, W*.08, W/2, H/2, W*1.05);
     vig.addColorStop(0, "rgba(0,0,0,0)"); vig.addColorStop(1, "rgba(0,0,0,.80)");
     ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
-  }, []);
+  }, [src]);
 
   return (
     <div className={className}
          style={{ position: "relative", aspectRatio: ratio, width: "100%",
                   overflow: "hidden", background: "#0a0a0a" }}>
-      <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt={alt ?? ""}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
+                   objectFit: "cover", display: "block" }}
+        />
+      ) : (
+        <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
+      )}
 
-      {/* Shimmer sweep */}
-      <div aria-hidden style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,.018) 50%, transparent 60%)",
-        backgroundSize: "200% 100%", animation: "shimmer 8s linear infinite",
-      }} />
+      {/* Shimmer sweep — only on placeholders */}
+      {!src && (
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,.018) 50%, transparent 60%)",
+          backgroundSize: "200% 100%", animation: "shimmer 8s linear infinite",
+        }} />
+      )}
 
       {/* Viewfinder corner marks */}
       {[

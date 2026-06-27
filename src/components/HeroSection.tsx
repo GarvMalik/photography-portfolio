@@ -6,15 +6,15 @@ import { PhotoTilt } from "@/components/ui/PhotoTilt";
 
 // Scattered photo positions — (x%, y%) from top-left of section, rotation, size, parallax depth
 const SCATTERED = [
-  { x:  6,  y: 10, rot: -5,  w: "clamp(90px,10vw,150px)",  ratio: "2/3"  as const, depth: 0.8, delay: 0.0 },
-  { x: 18,  y: 52, rot:  3,  w: "clamp(110px,12vw,170px)", ratio: "3/4"  as const, depth: 0.5, delay: 0.08 },
-  { x: 30,  y: 18, rot: -2,  w: "clamp(70px,8vw,120px)",   ratio: "1/1"  as const, depth: 1.0, delay: 0.14 },
-  { x: 62,  y:  8, rot:  4,  w: "clamp(100px,11vw,160px)", ratio: "16/9" as const, depth: 0.6, delay: 0.05 },
-  { x: 76,  y: 22, rot: -3,  w: "clamp(80px,9vw,130px)",   ratio: "3/4"  as const, depth: 0.9, delay: 0.18 },
-  { x: 82,  y: 58, rot:  2,  w: "clamp(120px,13vw,190px)", ratio: "2/3"  as const, depth: 0.4, delay: 0.1  },
-  { x: 48,  y: 68, rot: -4,  w: "clamp(80px,9vw,130px)",   ratio: "1/1"  as const, depth: 0.7, delay: 0.22 },
-  { x: 10,  y: 74, rot:  5,  w: "clamp(90px,10vw,150px)",  ratio: "4/3"  as const, depth: 0.6, delay: 0.16 },
-  { x: 55,  y: 38, rot: -1,  w: "clamp(70px,8vw,110px)",   ratio: "2/3"  as const, depth: 1.1, delay: 0.25 },
+  { x:  6,  y: 10, rot: -5,  w: "clamp(90px,10vw,150px)",  ratio: "2/3"  as const, depth: 0.8, delay: 0.0,  src: "/images/best-of-all/best-06.jpg"  },
+  { x: 18,  y: 52, rot:  3,  w: "clamp(110px,12vw,170px)", ratio: "3/4"  as const, depth: 0.5, delay: 0.08, src: "/images/best-of-all/best-02.jpg"  },
+  { x: 30,  y: 18, rot: -2,  w: "clamp(70px,8vw,120px)",   ratio: "1/1"  as const, depth: 1.0, delay: 0.14, src: "/images/best-of-all/best-04.jpg"  },
+  { x: 62,  y:  8, rot:  4,  w: "clamp(100px,11vw,160px)", ratio: "16/9" as const, depth: 0.6, delay: 0.05, src: "/images/best-of-all/best-07.jpg"  },
+  { x: 76,  y: 22, rot: -3,  w: "clamp(80px,9vw,130px)",   ratio: "3/4"  as const, depth: 0.9, delay: 0.18, src: "/images/best-of-all/best-09.jpg"  },
+  { x: 82,  y: 58, rot:  2,  w: "clamp(120px,13vw,190px)", ratio: "2/3"  as const, depth: 0.4, delay: 0.1,  src: "/images/best-of-all/best-13.jpg"  },
+  { x: 48,  y: 68, rot: -4,  w: "clamp(80px,9vw,130px)",   ratio: "1/1"  as const, depth: 0.7, delay: 0.22, src: "/images/best-of-all/best-15.jpg"  },
+  { x: 10,  y: 74, rot:  5,  w: "clamp(90px,10vw,150px)",  ratio: "4/3"  as const, depth: 0.6, delay: 0.16, src: "/images/best-of-all/best-08.jpg"  },
+  { x: 55,  y: 38, rot: -1,  w: "clamp(70px,8vw,110px)",   ratio: "2/3"  as const, depth: 1.1, delay: 0.25, src: "/images/best-of-all/best-17.jpg"  },
 ];
 
 // Fly-in origin for each photo (which edge it comes from)
@@ -140,8 +140,8 @@ export function HeroSection() {
           }}
         >
           <PhotoTilt strength={8}>
-          <PhotoPlaceholder ratio={p.ratio} />
-        </PhotoTilt>
+            <PhotoPlaceholder ratio={p.ratio} src={p.src} />
+          </PhotoTilt>
         </div>
       ))}
 
