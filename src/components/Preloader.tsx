@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
-import { LogoMark } from "@/components/ui/LogoMark";
+import { GMLogo } from "@/components/ui/GMLogo";
 
 export function Preloader() {
   const rootRef    = useRef<HTMLDivElement>(null);
@@ -21,8 +21,8 @@ export function Preloader() {
       if (n >= 100) clearInterval(countInt);
     }, 28);
 
-    const strokes = rootRef.current?.querySelectorAll(".lm-stroke") ?? [];
-    const words   = rootRef.current?.querySelectorAll(".lm-word") ?? [];
+    const strokes = rootRef.current?.querySelectorAll(".gm-stroke") ?? [];
+    const words   = rootRef.current?.querySelectorAll(".gm-word") ?? [];
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -73,8 +73,8 @@ export function Preloader() {
     >
       <div style={glow} />
 
-      <div ref={logoRef} style={{ position: "relative", zIndex: 2 }}>
-        <LogoMark size="clamp(150px, 18vw, 240px)" />
+      <div ref={logoRef} style={{ position: "relative", zIndex: 2, color: "#fff" }}>
+        <GMLogo size="clamp(90px, 12vw, 140px)" />
       </div>
 
       {/* Progress line + counter */}

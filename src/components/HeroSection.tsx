@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 import { PhotoTilt } from "@/components/ui/PhotoTilt";
-import { LogoMark } from "@/components/ui/LogoMark";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,7 +30,7 @@ export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const layerRef   = useRef<HTMLDivElement>(null);
   const photoRefs  = useRef<(HTMLDivElement | null)[]>([]);
-  const logoRef    = useRef<HTMLDivElement>(null);
+  const textRef    = useRef<HTMLDivElement>(null);
   const metaRef    = useRef<HTMLDivElement>(null);
 
   // ── Entrance ────────────────────────────────────────────────────
@@ -48,21 +47,13 @@ export function HeroSection() {
       );
     });
 
-    // Logo emblem draws itself in, then the wordmark fades up (scoped to this logo)
-    const strokes = logoRef.current?.querySelectorAll(".lm-stroke") ?? [];
-    const words   = logoRef.current?.querySelectorAll(".lm-word") ?? [];
-    gsap.set(strokes, { strokeDasharray: 1, strokeDashoffset: 1 });
-    gsap.to(strokes, {
-      strokeDashoffset: 0, duration: 1.5, stagger: 0.04,
-      delay: PRELOADER_DELAY + 0.2, ease: "power2.inOut",
-    });
-    gsap.fromTo(words,
-      { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: 1.0, stagger: 0.12, delay: PRELOADER_DELAY + 1.0, ease: "power3.out" }
+    gsap.fromTo(textRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1.2, delay: PRELOADER_DELAY + 0.1, ease: "power3.out" }
     );
     gsap.fromTo(metaRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 0.9, delay: PRELOADER_DELAY + 1.3, ease: "power2.out" }
+      { opacity: 1, duration: 0.9, delay: PRELOADER_DELAY + 0.5, ease: "power2.out" }
     );
 
     // Gentle continuous float per photo
@@ -92,27 +83,23 @@ export function HeroSection() {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  // ── Scroll choreography: pin, race the photos up, then release ──
+  // ── Scroll: pin, drift the photos up slowly while the text holds ──
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=130%",
+          end: "+=185%",        // long distance → gentle, steady pace
           pin: true,
-          scrub: 1,
+          scrub: 1.2,
           anticipatePin: 1,
         },
       });
-      // Photos race upward fast and clear the viewport first…
+      // Only the photos move — up and slightly back — at a measured pace.
+      // The PHOTOGRAPHY text stays put (it scrolls away naturally when the pin releases).
       tl.to(layerRef.current,
-        { yPercent: -135, ease: "power2.in" }, 0);
-      // …then, only later, the logo + meta drift up and fade as the page leaves
-      tl.to(logoRef.current,
-        { yPercent: -30, opacity: 0, ease: "power2.in" }, 0.55);
-      tl.to(metaRef.current,
-        { y: -30, opacity: 0, ease: "power2.in" }, 0.55);
+        { yPercent: -118, scale: 0.96, ease: "none" }, 0);
     }, sectionRef);
     return () => ctx.revert();
   }, []);
@@ -126,9 +113,11 @@ export function HeroSection() {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "flex-end",
+        padding: "0 var(--page-px) 3rem",
       }}
     >
-      {/* Floating photos layer (moves up on scroll, behind everything) */}
+      {/* Floating photos layer (drifts up on scroll, behind everything) */}
       <div ref={layerRef} style={{ position: "absolute", inset: 0, zIndex: 1, willChange: "transform" }}>
         {SCATTERED.map((p, i) => (
           <div
@@ -150,21 +139,26 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Centered logo */}
-      <div ref={logoRef} style={{
-        position: "relative", zIndex: 3, flex: 1,
-        display: "grid", placeItems: "center",
-        pointerEvents: "none",
-        padding: "8svh var(--page-px) 0",
-      }}>
-        <LogoMark />
+      {/* Large PHOTOGRAPHY title — in front of the photos */}
+      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none" }}>
+        <h1 style={{
+          fontSize: "clamp(3.5rem, 13vw, 13rem)",
+          fontWeight: 500,
+          letterSpacing: "-0.03em",
+          color: "var(--c-fg)",
+          margin: 0,
+          lineHeight: 0.9,
+          textTransform: "uppercase",
+        }}>
+          Photo&shy;graphy
+        </h1>
       </div>
 
       {/* Meta bar */}
       <div ref={metaRef} style={{
         position: "relative", zIndex: 3,
         display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-        padding: "1.5rem var(--page-px)",
+        paddingTop: "1.5rem", marginTop: "1.5rem",
         borderTop: "0.5px solid var(--c-border)",
       }}>
         <p style={{
@@ -181,10 +175,10 @@ export function HeroSection() {
 
         <div style={{ textAlign: "right" }}>
           <span className="caps tracked text-dimmer" style={{ fontSize: "9px", display: "block" }}>
-            Tampere · Finland
+            Garv Malik
           </span>
           <span className="caps tracked text-dimmest" style={{ fontSize: "9px", display: "block", marginTop: "4px" }}>
-            MMXXV
+            Tampere · MMXXV
           </span>
         </div>
       </div>
