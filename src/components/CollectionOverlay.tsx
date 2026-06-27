@@ -165,7 +165,7 @@ export function CollectionOverlay({ collection, onClose }: Props) {
           onClick={handleClose}
           data-cursor data-cursor-label="CLOSE"
           style={{
-            background: "none", border: "none", padding: 0, cursor: "none",
+            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
             fontSize: "9px", letterSpacing: "0.28em",
             color: "var(--c-fg-3)", textTransform: "uppercase",
             fontFamily: "var(--font-display)",
@@ -242,7 +242,7 @@ export function CollectionOverlay({ collection, onClose }: Props) {
           disabled={current === 0}
           data-cursor data-cursor-label="PREV"
           style={{
-            background: "none", border: "none", padding: 0, cursor: "none",
+            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
             fontSize: "9px", letterSpacing: "0.22em",
             color: current > 0 ? "var(--c-fg-2)" : "var(--c-fg-4)",
             textTransform: "uppercase",
@@ -266,7 +266,7 @@ export function CollectionOverlay({ collection, onClose }: Props) {
           disabled={current === collection.photos.length - 1}
           data-cursor data-cursor-label="NEXT"
           style={{
-            background: "none", border: "none", padding: 0, cursor: "none",
+            background: "none", border: "none", padding: "10px 6px", margin: "-10px -6px", cursor: "none",
             fontSize: "9px", letterSpacing: "0.22em",
             color: current < collection.photos.length - 1 ? "var(--c-fg-2)" : "var(--c-fg-4)",
             textTransform: "uppercase",

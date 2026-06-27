@@ -34,7 +34,7 @@ const COLLECTIONS: Collection[] = [
     id: "finland",
     title: "Finland",
     country: "Suomi",
-    year: "2023–24",
+    year: "2025 – present",
     frames: "16",
     photos: [
       { src: "/images/finland/finland-01.jpg", ratio: "4/3"  },
@@ -80,7 +80,7 @@ const COLLECTIONS: Collection[] = [
     id: "bml",
     title: "BML Munjal",
     country: "Gurgaon, India",
-    year: "2019–23",
+    year: "2020–24",
     frames: "14",
     photos: [
       { src: "/images/bml-life/bml-11.jpg", ratio: "3/4"  },
@@ -157,12 +157,13 @@ export function TripsSection() {
           marginBottom: "clamp(2rem, 5vw, 4rem)",
           borderBottom: "0.5px solid var(--c-border)", paddingBottom: "1.25rem",
         }}>
-          <span style={{
+          <h2 style={{
+            margin: 0,
             fontSize: "clamp(1.8rem, 4vw, 3.5rem)", fontWeight: 500,
             letterSpacing: "-0.02em", textTransform: "uppercase", color: "var(--c-fg)",
           }}>
             Dispatches
-          </span>
+          </h2>
           <span className="caps tracked text-dimmest" style={{ fontSize: "9px" }}>
             Locations · {COLLECTIONS.length.toString().padStart(2, "0")}
           </span>
@@ -179,6 +180,15 @@ export function TripsSection() {
               key={col.id}
               ref={el => { cardRefs.current[i] = el; }}
               onClick={() => handleCardClick(col, i)}
+              onKeyDown={e => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleCardClick(col, i);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${col.title} collection, ${col.frames} frames. Open`}
               data-cursor
               data-cursor-label="OPEN"
               style={{ cursor: "none", background: "var(--c-fg-4)" }}
@@ -190,6 +200,19 @@ export function TripsSection() {
               >
                 <PhotoPlaceholder ratio={col.photos[0].ratio} src={col.photos[0].src} />
 
+                {/* Top scrim — keeps the title legible over bright photos */}
+                <div aria-hidden style={{
+                  position: "absolute", top: 0, left: 0, right: 0, height: "42%",
+                  background: "linear-gradient(180deg, rgba(0,0,0,0.55), transparent)",
+                  pointerEvents: "none",
+                }} />
+                {/* Bottom scrim — for the frame count */}
+                <div aria-hidden style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0, height: "28%",
+                  background: "linear-gradient(0deg, rgba(0,0,0,0.5), transparent)",
+                  pointerEvents: "none",
+                }} />
+
                 {/* Location badge */}
                 <div style={{
                   position: "absolute", top: "12px", left: "12px",
@@ -197,15 +220,16 @@ export function TripsSection() {
                   <span style={{
                     fontSize: "clamp(1.1rem, 3vw, 2rem)", fontWeight: 500,
                     color: "#fff", letterSpacing: "-0.02em", textTransform: "uppercase",
-                    lineHeight: 1, textShadow: "0 1px 8px rgba(0,0,0,0.6)",
+                    lineHeight: 1, textShadow: "0 1px 10px rgba(0,0,0,0.85)",
                     display: "block",
                   }}>
                     {col.title}
                   </span>
                   <span style={{
-                    fontSize: "8px", letterSpacing: "0.2em",
-                    color: "rgba(255,255,255,0.55)", textTransform: "uppercase",
-                    display: "block", marginTop: "3px",
+                    fontSize: "8.5px", letterSpacing: "0.2em",
+                    color: "rgba(255,255,255,0.82)", textTransform: "uppercase",
+                    textShadow: "0 1px 8px rgba(0,0,0,0.9)",
+                    display: "block", marginTop: "4px",
                   }}>
                     {col.country} · {col.year}
                   </span>
@@ -214,8 +238,9 @@ export function TripsSection() {
                 {/* Frame count */}
                 <span style={{
                   position: "absolute", bottom: "10px", right: "10px",
-                  fontSize: "8px", letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.4)", textTransform: "uppercase",
+                  fontSize: "8.5px", letterSpacing: "0.18em",
+                  color: "rgba(255,255,255,0.78)", textTransform: "uppercase",
+                  textShadow: "0 1px 8px rgba(0,0,0,0.9)",
                 }}>
                   {col.frames} frames
                 </span>

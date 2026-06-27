@@ -169,7 +169,7 @@ export function SeriesSection() {
         display: "flex", justifyContent: "space-between", alignItems: "baseline",
         padding: "2.5rem var(--page-px) 0",
       }}>
-        <span className="caps tracked text-dimmer" style={{ fontSize: "9px" }}>Series</span>
+        <h2 className="caps tracked text-dimmer" style={{ fontSize: "9px", margin: 0, fontWeight: 400 }}>Series</h2>
         <span className="caps tracked text-dimmest" style={{ fontSize: "9px" }}>
           {SERIES.length.toString().padStart(2, "0")} collections
         </span>

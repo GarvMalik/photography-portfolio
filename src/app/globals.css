@@ -21,6 +21,14 @@
 
   * { cursor: none !important; }
 
+  /* Visible keyboard focus (custom cursor hides the mouse pointer, so
+     keyboard users need a clear, high-contrast focus ring) */
+  :where(a, button, [role="button"], [role="link"], [tabindex]):focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
   ::selection {
     background: rgba(255, 255, 255, 0.12);
     color: #fff;

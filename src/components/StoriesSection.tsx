@@ -74,7 +74,8 @@ export function StoriesSection() {
         borderBottom: "0.5px solid var(--c-border)",
         paddingBottom: "1.25rem",
       }}>
-        <span style={{
+        <h2 style={{
+          margin: 0,
           fontSize: "clamp(1.8rem, 4vw, 3.5rem)",
           fontWeight: 500,
           letterSpacing: "-0.02em",
@@ -82,7 +83,7 @@ export function StoriesSection() {
           color: "var(--c-fg)",
         }}>
           Stories
-        </span>
+        </h2>
         <span className="caps tracked text-dimmest" style={{ fontSize: "9px" }}>
           Field notes
         </span>

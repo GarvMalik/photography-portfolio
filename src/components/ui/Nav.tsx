@@ -75,6 +75,14 @@ export function Nav() {
 
   const close = () => setOpen(false);
 
+  // Close the menu on Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <>
       {/* ── Persistent top nav bar ── */}
@@ -89,9 +97,10 @@ export function Nav() {
         }}
       >
         {/* Logo */}
-        <a href="/" data-cursor style={{
+        <a href="/" aria-label="Garv Malik — home" data-cursor style={{
           fontSize: "12px", letterSpacing: "0.15em", fontWeight: 600,
           color: "#fff", textDecoration: "none", textTransform: "uppercase",
+          padding: "12px 10px", margin: "-12px -10px",
         }}>
           GM
         </a>
@@ -99,9 +108,13 @@ export function Nav() {
         {/* MENU button */}
         <button
           onClick={() => setOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={open}
+          aria-haspopup="dialog"
           data-cursor
           style={{
-            background: "none", border: "none", padding: 0, cursor: "none",
+            background: "none", border: "none", padding: "12px 10px", margin: "-12px -10px",
+            cursor: "none",
             fontSize: "9.5px", letterSpacing: "0.28em", color: "#fff",
             textTransform: "uppercase", fontFamily: "var(--font-display)",
           }}
@@ -113,6 +126,9 @@ export function Nav() {
       {/* ── Full-screen overlay menu ── */}
       <div
         ref={overlayRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
         style={{
           display: "none",
           position: "fixed", inset: 0,

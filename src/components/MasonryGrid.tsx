@@ -40,7 +40,7 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
   }, []);
 
   return (
-    <section id="work">
+    <section id="work" aria-label="Selected work">
       {/* Section header */}
       <div style={{
         display: "flex", justifyContent: "space-between", alignItems: "baseline",
@@ -65,8 +65,19 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
             <div key={photo.slug}
                  ref={el => { itemRefs.current[i] = el; }}
                  className="grid-item-wrap"
+                 role="link"
+                 tabIndex={0}
+                 aria-label={`${photo.label}, ${photo.type}. View photo`}
+                 data-cursor
+                 data-cursor-label="VIEW"
+                 onKeyDown={e => {
+                   if (e.key === "Enter" || e.key === " ") {
+                     e.preventDefault();
+                     router.push(`/photo/${photo.slug}`);
+                   }
+                 }}
                  style={{ gridColumn: span.col, gridRow: span.row,
-                          position: "relative", overflow: "hidden" }}>
+                          position: "relative", overflow: "hidden", cursor: "none" }}>
 
               <ParticleBlast onDoubleClick={() => router.push(`/photo/${photo.slug}`)}>
                 <PhotoPlaceholder
