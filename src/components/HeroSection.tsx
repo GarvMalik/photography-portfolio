@@ -4,23 +4,32 @@ import gsap from "gsap";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 
 export function HeroSection() {
-  const headRef  = useRef<HTMLHeadingElement>(null);
-  const eyeRef   = useRef<HTMLParagraphElement>(null);
-  const photoRef = useRef<HTMLDivElement>(null);
-  const countRef = useRef<HTMLSpanElement>(null);
+  const photoRef  = useRef<HTMLDivElement>(null);
+  const topRef    = useRef<HTMLDivElement>(null);
+  const btmRef    = useRef<HTMLDivElement>(null);
+  const metaRef   = useRef<HTMLDivElement>(null);
+  const tagRef    = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-    tl.fromTo(eyeRef.current,  { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.9, delay: 0.5 })
-      .fromTo(headRef.current,  { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2 }, "-=0.5")
-      .fromTo(photoRef.current, { opacity: 0, scale: 0.93, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1.3 }, "-=0.8")
-      .fromTo(countRef.current, { opacity: 0 }, { opacity: 1, duration: 0.7 }, "-=0.4");
+    const tl = gsap.timeline({ delay: 2.0, defaults: { ease: "power4.out" } });
 
+    tl.fromTo(topRef.current,
+        { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 })
+      .fromTo(btmRef.current,
+        { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, "-=1.0")
+      .fromTo(photoRef.current,
+        { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1.3 }, "-=0.9")
+      .fromTo(tagRef.current,
+        { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.9 }, "-=0.6")
+      .fromTo(metaRef.current,
+        { opacity: 0 }, { opacity: 1, duration: 0.7 }, "-=0.5");
+
+    // Ambient parallax — photo drifts opposite to cursor
     const onMove = (e: MouseEvent) => {
       gsap.to(photoRef.current, {
-        x: (e.clientX / window.innerWidth  - 0.5) * -22,
-        y: (e.clientY / window.innerHeight - 0.5) * -14,
-        duration: 2.0, ease: "power2.out",
+        x: (e.clientX / window.innerWidth  - 0.5) * -28,
+        y: (e.clientY / window.innerHeight - 0.5) * -18,
+        duration: 2.2, ease: "power2.out",
       });
     };
     window.addEventListener("mousemove", onMove);
@@ -28,33 +37,108 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative flex flex-col items-center justify-center overflow-hidden"
-             style={{ minHeight: "100svh", paddingTop: "80px" }}>
-      <p ref={eyeRef} className="caps tracked-caps text-dimmest mb-3" style={{ fontSize: "9px" }}>
-        Selected works — 2024
-      </p>
-      <h1 ref={headRef} className="caps text-center"
-          style={{ fontSize: "clamp(3rem, 10vw, 9rem)", fontWeight: 500,
-                   letterSpacing: "0.1em", color: "var(--c-fg)", lineHeight: 1,
-                   mixBlendMode: "difference", zIndex: 2, position: "relative" }}>
-        Photography
-      </h1>
+    <section style={{
+      position: "relative",
+      height: "100svh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      overflow: "hidden",
+      padding: "0 var(--page-px)",
+      paddingTop: "clamp(5rem, 12vh, 9rem)",
+      paddingBottom: "3rem",
+    }}>
 
-      {/* Single drifting hero photo */}
-      <div ref={photoRef} className="absolute" style={{ width: "min(280px, 38vw)", zIndex: 1, willChange: "transform" }}>
+      {/* TOP: "PHOTO" — oversized, left-aligned */}
+      <div ref={topRef} style={{ lineHeight: 0.88 }}>
+        <h1 style={{
+          fontSize: "clamp(5rem, 18vw, 18rem)",
+          fontWeight: 500,
+          letterSpacing: "-0.02em",
+          color: "var(--c-fg)",
+          margin: 0,
+          textTransform: "uppercase",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+        }}>
+          PHOTO
+        </h1>
+      </div>
+
+      {/* CENTER: floating photo — absolute, behind type via z-index */}
+      <div ref={photoRef} style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "clamp(180px, 24vw, 340px)",
+        zIndex: 2,
+        willChange: "transform",
+        pointerEvents: "none",
+      }}>
         <PhotoPlaceholder ratio="2/3" />
       </div>
 
-      <span ref={countRef} className="absolute caps tracked text-dimmest"
-            style={{ bottom: "2rem", right: "var(--page-px)", fontSize: "9px" }}>
-        07 / frames
-      </span>
-
-      <div className="absolute flex flex-col items-center gap-2"
-           style={{ bottom: "2rem", left: "50%", transform: "translateX(-50%)" }} aria-hidden>
-        <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>Scroll</span>
-        <div style={{ width: 1, height: 32, background: "var(--c-fg-4)" }} />
+      {/* BOTTOM: "GRAPHY" — oversized, right-aligned */}
+      <div ref={btmRef} style={{ lineHeight: 0.88, textAlign: "right" }}>
+        <h1 style={{
+          fontSize: "clamp(5rem, 18vw, 18rem)",
+          fontWeight: 500,
+          letterSpacing: "-0.02em",
+          color: "var(--c-fg)",
+          margin: 0,
+          textTransform: "uppercase",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+        }}>
+          GRAPHY
+        </h1>
       </div>
+
+      {/* META BAR: bottom, three columns */}
+      <div ref={metaRef} style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-end",
+        paddingTop: "1.5rem",
+      }}>
+        <p ref={tagRef} style={{
+          fontSize: "clamp(10px, 1.5vw, 14px)",
+          letterSpacing: "0.04em",
+          color: "var(--c-fg-2)",
+          margin: 0,
+          maxWidth: "260px",
+          lineHeight: 1.4,
+        }}>
+          Between light<br />and shadow.
+        </p>
+
+        {/* Scroll cue */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+          <div style={{ width: "0.5px", height: "40px", background: "var(--c-fg-4)" }} />
+          <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>Scroll</span>
+        </div>
+
+        <div style={{ textAlign: "right" }}>
+          <span className="caps tracked text-dimmest" style={{ fontSize: "9px", display: "block" }}>
+            Garv Malik
+          </span>
+          <span className="caps tracked text-dimmest" style={{ fontSize: "9px", display: "block", marginTop: "4px" }}>
+            07 Frames · 2024
+          </span>
+        </div>
+      </div>
+
+      {/* Horizontal rule across center — behind the photo */}
+      <div style={{
+        position: "absolute",
+        top: "50%",
+        left: 0, right: 0,
+        height: "0.5px",
+        background: "var(--c-border)",
+        zIndex: 1,
+        pointerEvents: "none",
+      }} />
     </section>
   );
 }

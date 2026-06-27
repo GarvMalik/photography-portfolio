@@ -27,20 +27,84 @@
 }
 
 @layer utilities {
-  .caps          { text-transform: uppercase; }
-  .tracked       { letter-spacing: var(--tracking-ui); }
-  .tracked-nav   { letter-spacing: var(--tracking-nav); }
-  .tracked-caps  { letter-spacing: var(--tracking-caps); }
-  .text-dim      { color: var(--c-fg-2); }
-  .text-dimmer   { color: var(--c-fg-3); }
-  .text-dimmest  { color: var(--c-fg-4); }
+  .caps         { text-transform: uppercase; }
+  .tracked      { letter-spacing: var(--tracking-ui); }
+  .tracked-nav  { letter-spacing: var(--tracking-nav); }
+  .tracked-caps { letter-spacing: var(--tracking-caps); }
+  .text-dim     { color: var(--c-fg-2); }
+  .text-dimmer  { color: var(--c-fg-3); }
+  .text-dimmest { color: var(--c-fg-4); }
 }
 
+/* ── Marquee ───────────────────────────────────────── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-25%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── Shimmer (placeholders) ────────────────────────── */
 @keyframes shimmer {
   0%   { background-position:  200% 0; }
   100% { background-position: -200% 0; }
 }
 
+/* ── Preloader clip wipe ───────────────────────────── */
+@keyframes wipe-up {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(100% 0 0 0); }
+}
+
+/* ── Series row invert hover ───────────────────────── */
+.series-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem var(--page-px);
+  border-bottom: 0.5px solid var(--c-border);
+  transition: background 0.35s var(--ease-out-expo), color 0.35s var(--ease-out-expo);
+  text-decoration: none;
+  color: var(--c-fg);
+}
+.series-row:hover {
+  background: var(--c-fg);
+  color: var(--c-bg);
+}
+.series-row:hover .series-dim {
+  color: var(--c-bg);
+  opacity: 0.5;
+}
+.series-row:hover .series-arrow {
+  transform: translateX(6px);
+}
+.series-arrow {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+/* ── Grid item hover overlay ───────────────────────── */
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.38s var(--ease-out-expo), transform 0.38s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 2;
+}
+.grid-item-wrap:hover .grid-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Particle canvas ───────────────────────────────── */
 .particle-canvas {
   position: absolute;
   inset: 0;
