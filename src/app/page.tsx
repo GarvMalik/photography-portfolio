@@ -22,7 +22,7 @@ export default function Home() {
       <MasonryGrid photos={PHOTOS} />
       <StatementSection />
       <Marquee
-        text="AVAILABLE FOR COMMISSIONS — GARV MALIK — TAMPERE — FINLAND — OPEN TO PROJECTS — "
+        text="SHOT FOR THE LOVE OF IT — GARV MALIK — TAMPERE — FINLAND — STREET — LANDSCAPE — NATURE — "
         direction="right"
         speed="slow"
       />

@@ -12,7 +12,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: { default: "GM — Photography", template: "%s — GM" },
-  description: "Photography by Garv Malik",
+  description: "Photography — a hobby and a way of seeing. By Garv Malik.",
   openGraph: { title: "GM — Photography", type: "website" },
 };
 

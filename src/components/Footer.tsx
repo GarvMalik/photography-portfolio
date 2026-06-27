@@ -66,7 +66,7 @@ export function Footer() {
       }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
           <span className="caps tracked text-dimmest" style={{ fontSize: "9px" }}>
-            Photography · Tampere, Finland
+            Hobby · Tampere, Finland
           </span>
           <a href="mailto:thegarvmalik@gmail.com" data-cursor
              style={{ fontSize: "9px", letterSpacing: "0.12em", color: "var(--c-fg-2)",
