@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
-import { GMLogo } from "@/components/ui/GMLogo";
+import { EyeLogo } from "@/components/ui/EyeLogo";
 
 const NAV_ITEMS = [
   { label: "Work",       href: "#work",      n: "01", ratio: "3/4" as const, src: "/images/best-of-all/best-09.jpg" },
@@ -97,22 +97,17 @@ export function Nav() {
           mixBlendMode: "difference",
         }}
       >
-        {/* Left eyebrow (balances the masthead) */}
-        <span style={{
-          fontSize: "9px", letterSpacing: "0.24em", fontWeight: 400,
-          color: "#fff", textTransform: "uppercase",
-        }}>
-          Tampere, FI
-        </span>
+        {/* Spacer for balance */}
+        <span aria-hidden style={{ width: "60px" }} />
 
-        {/* Centered GM logo */}
+        {/* Centered eye logo */}
         <a href="/" aria-label="Garv Malik — home" data-cursor style={{
           position: "absolute", left: "50%", top: "50%",
           transform: "translate(-50%, -50%)",
           color: "#fff", textDecoration: "none",
           display: "block",
         }}>
-          <GMLogo />
+          <EyeLogo />
         </a>
 
         {/* MENU button */}

@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { PHOTOS } from "@/lib/photos";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
@@ -9,10 +9,8 @@ export default function PhotoPage() {
   const { slug }    = useParams<{ slug: string }>();
   const router      = useRouter();
   const frameRef    = useRef<HTMLDivElement>(null);
-  const ghostRef    = useRef<HTMLDivElement>(null);
   const wrapRef     = useRef<HTMLDivElement>(null);
   const navRef      = useRef<HTMLDivElement>(null);
-  const ghostPos    = useRef({ x: 0, y: 0 });
 
   const photo = PHOTOS.find(p => p.slug === slug) ?? PHOTOS[0];
 
@@ -22,43 +20,6 @@ export default function PhotoPage() {
       { opacity: 0, y: 24 },
       { opacity: 1, y: 0, duration: 1.0, stagger: 0.1, ease: "power4.out" }
     );
-    // Ghost starts hidden
-    gsap.set(ghostRef.current, { opacity: 0, scale: 0.96 });
-  }, []);
-
-  // Ghost double-exposure follows cursor
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const wrap = wrapRef.current!;
-    const ghost = ghostRef.current!;
-    const { left, top, width, height } = wrap.getBoundingClientRect();
-
-    const relX = e.clientX - left;
-    const relY = e.clientY - top;
-
-    // Ghost lags behind cursor — different offset per axis for asymmetry
-    ghostPos.current.x = (relX / width  - 0.5) * 40;
-    ghostPos.current.y = (relY / height - 0.5) * 30;
-
-    gsap.to(ghost, {
-      x: ghostPos.current.x,
-      y: ghostPos.current.y,
-      opacity: 0.35,
-      scale: 1.04,
-      duration: 0.9,
-      ease: "power2.out",
-      overwrite: true,
-    });
-  }, []);
-
-  const onMouseLeave = useCallback(() => {
-    gsap.to(ghostRef.current, {
-      opacity: 0,
-      scale: 0.96,
-      x: 0,
-      y: 0,
-      duration: 0.6,
-      ease: "power3.out",
-    });
   }, []);
 
   // Keyboard nav
@@ -94,11 +55,9 @@ export default function PhotoPage() {
       alignItems: "center", justifyContent: "center",
       zIndex: 50,
     }}>
-      {/* Photo frame with ghost */}
+      {/* Photo frame */}
       <div
         ref={wrapRef}
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
         style={{
           position: "relative",
           height: "80svh",
@@ -106,20 +65,6 @@ export default function PhotoPage() {
           cursor: "none",
         }}
       >
-        {/* Ghost — double exposure layer, blends over the main */}
-        <div ref={ghostRef} style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 2,
-          mixBlendMode: "screen",
-          pointerEvents: "none",
-          willChange: "transform, opacity",
-          // Slight blur for the overexposed glow look
-          filter: "blur(1.5px) brightness(1.6)",
-        }}>
-          <PhotoPlaceholder ratio={photo.ratio} src={photo.src} alt={photo.alt} />
-        </div>
-
         {/* Main photo */}
         <div ref={frameRef} style={{ position: "absolute", inset: 0, zIndex: 1 }}>
           <PhotoPlaceholder ratio={photo.ratio} src={photo.src} alt={photo.alt} />

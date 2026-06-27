@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
-import { GMLogo } from "@/components/ui/GMLogo";
+import { EyeLogo } from "@/components/ui/EyeLogo";
 
 export function Preloader() {
   const rootRef    = useRef<HTMLDivElement>(null);
@@ -21,8 +21,8 @@ export function Preloader() {
       if (n >= 100) clearInterval(countInt);
     }, 28);
 
-    const strokes = rootRef.current?.querySelectorAll(".gm-stroke") ?? [];
-    const words   = rootRef.current?.querySelectorAll(".gm-word") ?? [];
+    const strokes = rootRef.current?.querySelectorAll(".eye-stroke") ?? [];
+    const words   = rootRef.current?.querySelectorAll(".eye-fill") ?? [];
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -74,7 +74,7 @@ export function Preloader() {
       <div style={glow} />
 
       <div ref={logoRef} style={{ position: "relative", zIndex: 2, color: "#fff" }}>
-        <GMLogo size="clamp(90px, 12vw, 140px)" />
+        <EyeLogo size="clamp(120px, 16vw, 190px)" />
       </div>
 
       {/* Progress line + counter */}

@@ -198,7 +198,7 @@ export function TripsSection() {
                 ref={el => { photoRefs.current[i] = el; }}
                 style={{ position: "relative" }}
               >
-                <PhotoPlaceholder ratio={col.photos[0].ratio} src={col.photos[0].src} />
+                <PhotoPlaceholder ratio="4/3" src={col.photos[0].src} />
 
                 {/* Top scrim — keeps the title legible over bright photos */}
                 <div aria-hidden style={{

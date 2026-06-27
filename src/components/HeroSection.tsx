@@ -31,7 +31,6 @@ export function HeroSection() {
   const layerRef   = useRef<HTMLDivElement>(null);
   const photoRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const textRef    = useRef<HTMLDivElement>(null);
-  const metaRef    = useRef<HTMLDivElement>(null);
 
   // ── Entrance ────────────────────────────────────────────────────
   useEffect(() => {
@@ -50,10 +49,6 @@ export function HeroSection() {
     gsap.fromTo(textRef.current,
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 1.2, delay: PRELOADER_DELAY + 0.1, ease: "power3.out" }
-    );
-    gsap.fromTo(metaRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.9, delay: PRELOADER_DELAY + 0.5, ease: "power2.out" }
     );
 
     // Gentle continuous float per photo
@@ -90,16 +85,18 @@ export function HeroSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=185%",        // long distance → gentle, steady pace
+          end: "+=110%",        // moderate distance → gentle, and the photos
+                                // are still partly on screen when the pin releases
           pin: true,
           scrub: 1.2,
           anticipatePin: 1,
         },
       });
       // Only the photos move — up and slightly back — at a measured pace.
-      // The PHOTOGRAPHY text stays put (it scrolls away naturally when the pin releases).
+      // They DON'T fully clear: the next section scrolls over them while they're
+      // still partly visible. The PHOTOGRAPHY text stays put (pin releases naturally).
       tl.to(layerRef.current,
-        { yPercent: -118, scale: 0.96, ease: "none" }, 0);
+        { yPercent: -58, scale: 0.97, ease: "none" }, 0);
     }, sectionRef);
     return () => ctx.revert();
   }, []);
@@ -152,35 +149,6 @@ export function HeroSection() {
         }}>
           Photo&shy;graphy
         </h1>
-      </div>
-
-      {/* Meta bar */}
-      <div ref={metaRef} style={{
-        position: "relative", zIndex: 3,
-        display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-        paddingTop: "1.5rem", marginTop: "1.5rem",
-        borderTop: "0.5px solid var(--c-border)",
-      }}>
-        <p style={{
-          fontSize: "clamp(10px, 1.3vw, 13px)", color: "var(--c-fg-2)",
-          margin: 0, lineHeight: 1.5, fontStyle: "italic",
-        }}>
-          Between light and shadow.
-        </p>
-
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-          <div style={{ width: "0.5px", height: "36px", background: "var(--c-fg-4)" }} />
-          <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>Scroll</span>
-        </div>
-
-        <div style={{ textAlign: "right" }}>
-          <span className="caps tracked text-dimmer" style={{ fontSize: "9px", display: "block" }}>
-            Garv Malik
-          </span>
-          <span className="caps tracked text-dimmest" style={{ fontSize: "9px", display: "block", marginTop: "4px" }}>
-            Tampere · MMXXV
-          </span>
-        </div>
       </div>
     </section>
   );
