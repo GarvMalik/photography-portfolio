@@ -40,11 +40,7 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
     return () => { ScrollTrigger.getAll().forEach(t => t.kill()); };
   }, []);
 
-  const handleNavigate = (slug: string, i: number) => {
-    const el = itemRefs.current[i];
-    if (!el) return;
-    const state = Flip.getState(el);
-    sessionStorage.setItem("flipState", JSON.stringify(state));
+  const handleNavigate = (slug: string) => {
     router.push(`/photo/${slug}`);
   };
 
@@ -63,7 +59,7 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                ref={el => { itemRefs.current[i] = el; }}
                style={{ gridColumn: span.col, gridRow: span.row,
                         position: "relative", overflow: "hidden" }}>
-            <ParticleBlast onDoubleClick={() => handleNavigate(photo.slug, i)}>
+            <ParticleBlast onDoubleClick={() => handleNavigate(photo.slug)}>
               <PhotoPlaceholder
                 ratio={photo.ratio}
                 label={`${photo.label} — ${photo.type}`}

@@ -2,9 +2,6 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { Flip } from "gsap/Flip";
-
-gsap.registerPlugin(Flip);
 
 export default function PhotoPage() {
   const { slug }  = useParams<{ slug: string }>();
@@ -12,17 +9,12 @@ export default function PhotoPage() {
   const frameRef  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem("flipState");
-    if (saved && frameRef.current) {
-      const state = Flip.parseState(saved);
-      Flip.from(state, { targets: frameRef.current, duration: 0.9, ease: "power3.inOut", absolute: true });
-    } else {
-      gsap.fromTo(frameRef.current,
-        { opacity: 0, scale: 0.97 },
-        { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }
-      );
-    }
-    sessionStorage.removeItem("flipState");
+    // Cinematic entrance — scales up from slightly below center
+    // Full GSAP FLIP cross-route transition wired in Phase 6
+    gsap.fromTo(frameRef.current,
+      { opacity: 0, scale: 0.94, y: 30 },
+      { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "power4.out" }
+    );
   }, []);
 
   const handleBack = () => {
