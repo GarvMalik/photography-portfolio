@@ -1,25 +1,28 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
+import { LogoMark } from "@/components/ui/LogoMark";
 
 export function Preloader() {
-  const topPanelRef = useRef<HTMLDivElement>(null);
-  const btmPanelRef = useRef<HTMLDivElement>(null);
-  const gmRef       = useRef<HTMLDivElement>(null);
-  const subRef      = useRef<HTMLDivElement>(null);
-  const counterRef  = useRef<HTMLSpanElement>(null);
+  const rootRef    = useRef<HTMLDivElement>(null);
+  const logoRef    = useRef<HTMLDivElement>(null);
+  const barRef     = useRef<HTMLDivElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
-    // Organic counter
+    // Organic counter 00 → 100
     let n = 0;
     const countInt = setInterval(() => {
-      n = Math.min(n + Math.ceil(Math.random() * 5 + 1), 100);
-      if (counterRef.current) counterRef.current.textContent = String(n).padStart(2, "0");
+      n = Math.min(n + Math.ceil(Math.random() * 4 + 1), 100);
+      if (counterRef.current) counterRef.current.textContent = String(n).padStart(3, "0");
       if (n >= 100) clearInterval(countInt);
-    }, 22);
+    }, 28);
+
+    const strokes = rootRef.current?.querySelectorAll(".lm-stroke") ?? [];
+    const words   = rootRef.current?.querySelectorAll(".lm-word") ?? [];
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -28,36 +31,18 @@ export function Preloader() {
       },
     });
 
-    // 1. GM slams in from top
-    tl.fromTo(gmRef.current,
-      { y: -60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: "power4.out" },
-      0.1
-    )
-    // 2. Sub fades in
-    .fromTo(subRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.5 },
-      0.5
-    )
-    // 3. Counter fades in
-    .fromTo(counterRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.4 },
-      0.4
-    )
-    // 4. Hold, then split panels apart — top slides up, bottom slides down
-    .to(topPanelRef.current, {
-      yPercent: -100,
-      duration: 0.85,
-      ease: "power4.inOut",
-      delay: 0.6,
-    })
-    .to(btmPanelRef.current, {
-      yPercent: 100,
-      duration: 0.85,
-      ease: "power4.inOut",
-    }, "<"); // same time as top panel
+    // Emblem draws itself in
+    gsap.set(strokes, { strokeDasharray: 1, strokeDashoffset: 1 });
+    tl.to(strokes, { strokeDashoffset: 0, duration: 1.3, stagger: 0.035, ease: "power2.inOut" }, 0.15)
+      .fromTo(words, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, 0.8)
+      // Progress line fills
+      .fromTo(barRef.current, { scaleX: 0 }, { scaleX: 1, duration: 1.7, ease: "power1.inOut" }, 0.2)
+      // Hold, then a soft lift + wipe reveals the page
+      .to(logoRef.current, { y: -22, scale: 1.05, opacity: 0, duration: 0.7, ease: "power3.in" }, 2.0)
+      .to(rootRef.current, {
+        clipPath: "inset(0% 0% 100% 0%)",
+        duration: 0.9, ease: "power4.inOut",
+      }, 2.05);
 
     return () => {
       tl.kill();
@@ -68,90 +53,50 @@ export function Preloader() {
 
   if (done) return null;
 
-  const panelStyle: React.CSSProperties = {
-    position: "fixed",
-    left: 0, right: 0,
-    background: "#050505",
-    zIndex: 400,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
+  const glow: CSSProperties = {
+    position: "absolute", inset: 0, pointerEvents: "none",
+    background: "radial-gradient(58% 50% at 50% 64%, rgba(255,255,255,0.06), transparent 72%)",
   };
 
   return (
-    <>
-      {/* Top half */}
-      <div ref={topPanelRef} style={{ ...panelStyle, top: 0, height: "50svh", alignItems: "flex-end", paddingBottom: "clamp(1rem, 3vw, 2rem)" }}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          {/* GM — massive */}
-          <div ref={gmRef} style={{
-            fontSize: "clamp(6rem, 22vw, 22rem)",
-            fontWeight: 600,
-            letterSpacing: "-0.04em",
-            color: "#fff",
-            lineHeight: 1,
-            fontFamily: "var(--font-display)",
-          }}>
-            GM
-          </div>
-        </div>
+    <div
+      ref={rootRef}
+      style={{
+        position: "fixed", inset: 0,
+        background: "#050505",
+        zIndex: 400,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        clipPath: "inset(0% 0% 0% 0%)",
+        overflow: "hidden",
+      }}
+    >
+      <div style={glow} />
+
+      <div ref={logoRef} style={{ position: "relative", zIndex: 2 }}>
+        <LogoMark size="clamp(150px, 18vw, 240px)" />
       </div>
 
-      {/* Bottom half */}
-      <div ref={btmPanelRef} style={{ ...panelStyle, bottom: 0, height: "50svh", alignItems: "flex-start", paddingTop: "clamp(1rem, 3vw, 2rem)", flexDirection: "column", gap: "2rem" }}>
-        {/* Subtitle */}
-        <div ref={subRef} style={{
-          fontSize: "9px",
-          letterSpacing: "0.3em",
-          color: "rgba(255,255,255,0.3)",
-          textTransform: "uppercase",
-          fontFamily: "var(--font-display)",
-        }}>
-          Photography · Garv Malik
-        </div>
-
-        {/* Counter — bottom of screen */}
-        <div style={{
-          position: "absolute",
-          bottom: "clamp(1.5rem, 4vw, 2.5rem)",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          alignItems: "baseline",
-          gap: "5px",
-        }}>
-          <span ref={counterRef} style={{
-            fontSize: "clamp(1rem, 2vw, 1.4rem)",
-            letterSpacing: "0.08em",
-            color: "rgba(255,255,255,0.5)",
-            fontFamily: "var(--font-display)",
-            fontVariantNumeric: "tabular-nums",
-          }}>
-            00
-          </span>
-          <span style={{
-            fontSize: "9px",
-            letterSpacing: "0.18em",
-            color: "rgba(255,255,255,0.2)",
-            fontFamily: "var(--font-display)",
-          }}>
-            / 100
-          </span>
-        </div>
-      </div>
-
-      {/* Thin dividing line between panels */}
+      {/* Progress line + counter */}
       <div style={{
-        position: "fixed",
-        top: "50%",
-        left: 0, right: 0,
-        height: "0.5px",
-        background: "rgba(255,255,255,0.06)",
-        zIndex: 401,
-        transform: "translateY(-0.5px)",
-        pointerEvents: "none",
-      }} />
-    </>
+        position: "absolute", bottom: "clamp(2rem, 6vh, 4rem)",
+        left: "50%", transform: "translateX(-50%)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "12px",
+        width: "min(72vw, 320px)",
+      }}>
+        <div style={{ width: "100%", height: "1px", background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
+          <div ref={barRef} style={{
+            width: "100%", height: "100%", background: "rgba(255,255,255,0.7)",
+            transformOrigin: "left center",
+          }} />
+        </div>
+        <span ref={counterRef} style={{
+          fontSize: "10px", letterSpacing: "0.3em", color: "var(--c-fg-3)",
+          fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)",
+        }}>
+          000
+        </span>
+      </div>
+    </div>
   );
 }
