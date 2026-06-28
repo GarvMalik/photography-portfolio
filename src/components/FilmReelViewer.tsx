@@ -289,30 +289,47 @@ export function FilmReelViewer({
           height: 0, opacity: 0, zIndex: 35,
         }}
       >
-        <div style={{ padding: "18px 22px", height: "100%", overflowY: "auto" }}>
-          <div style={{ fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", marginBottom: "12px" }}>
+        {/* isolated scroll container — Lenis ignores it, no scroll chaining */}
+        <div
+          data-lenis-prevent
+          style={{
+            padding: "16px 14px 12px", height: "100%", overflowY: "auto",
+            overscrollBehavior: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-y",
+          }}
+        >
+          <div style={{ fontSize: "8px", letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", margin: "2px 8px 12px" }}>
             {contextLabel} · {total} frames
           </div>
-          {frames.map((f, i) => (
-            <button
-              key={i}
-              onClick={() => { animateTo(i); setPanelOpen(false); }}
-              data-cursor
-              style={{
-                display: "flex", gap: "16px", alignItems: "baseline", width: "100%",
-                background: "none", border: "none", padding: "10px 0", cursor: "none", textAlign: "left",
-                borderBottom: "0.5px solid rgba(255,255,255,0.08)",
-                color: i === current ? "#fff" : "rgba(255,255,255,0.6)", transition: "color 0.2s",
-              }}
-            >
-              <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span style={{ fontSize: "12px", letterSpacing: "0.02em" }}>
-                {f.caption ?? f.title ?? `Frame ${i + 1}`}
-              </span>
-            </button>
-          ))}
+          {frames.map((f, i) => {
+            const active = i === current;
+            return (
+              <button
+                key={i}
+                onClick={() => { animateTo(i); setPanelOpen(false); }}
+                data-cursor
+                style={{
+                  display: "flex", gap: "16px", alignItems: "baseline", width: "100%",
+                  border: "none", padding: "11px 10px", cursor: "none", textAlign: "left",
+                  borderRadius: "7px",
+                  background: active ? "rgba(255,255,255,0.09)" : "transparent",
+                  transition: "background 0.25s",
+                }}
+              >
+                {/* lowest emphasis — frame number */}
+                <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {/* highest emphasis — frame title */}
+                <span style={{
+                  fontSize: "13px", letterSpacing: "0.01em",
+                  fontWeight: active ? 500 : 400,
+                  color: active ? "#fff" : "rgba(255,255,255,0.62)",
+                }}>
+                  {f.caption ?? f.title ?? `Frame ${i + 1}`}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
