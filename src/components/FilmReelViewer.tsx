@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, type CSSProperties } from "react";
 import gsap from "gsap";
 import type { ReelFrame } from "@/lib/reel";
 
@@ -32,6 +32,10 @@ export function FilmReelViewer({
 
   const [current, setCurrent] = useState(startIndex);
   const [expanded, setExpanded] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const contextLabel = collectionTitle ?? "Selected Works";
 
   // Frame geometry (responsive)
   const geomRef = useRef({ w: 460, h: 307, spacing: 300 });
@@ -109,14 +113,18 @@ export function FilmReelViewer({
   // ── Keyboard ───────────────────────────────────────────────────────
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { expanded ? setExpanded(false) : handleClose(); }
-      else if (e.key === "ArrowRight") { expanded || next(); }
-      else if (e.key === "ArrowLeft")  { expanded || prev(); }
+      if (e.key === "Escape") {
+        if (expanded) setExpanded(false);
+        else if (panelOpen) setPanelOpen(false);
+        else handleClose();
+      }
+      else if (e.key === "ArrowRight") { if (!expanded) next(); }
+      else if (e.key === "ArrowLeft")  { if (!expanded) prev(); }
       else if (e.key === "Enter")      { if (!expanded) setExpanded(true); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev, expanded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [next, prev, expanded, panelOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClose = useCallback(() => {
     gsap.to(rootRef.current, { opacity: 0, duration: 0.4, ease: "power2.in", onComplete: onClose });
@@ -151,6 +159,18 @@ export function FilmReelViewer({
     }
   };
 
+  // Index panel — morph the dock up into a glass list
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    if (panelOpen) {
+      gsap.fromTo(panel, { height: 0, opacity: 0 },
+        { height: "min(330px, 46vh)", opacity: 1, duration: 0.5, ease: "power3.out" });
+    } else {
+      gsap.to(panel, { height: 0, opacity: 0, duration: 0.35, ease: "power2.in" });
+    }
+  }, [panelOpen]);
+
   const cur = frames[current];
 
   return (
@@ -165,39 +185,30 @@ export function FilmReelViewer({
         overflow: "hidden",
       }}
     >
-      {/* ── Header ── */}
+      {/* ── Context labels (orientation, top-left) ── */}
       <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, zIndex: 30,
-        display: "flex", justifyContent: "space-between", alignItems: "flex-start",
-        padding: "26px var(--page-px)", pointerEvents: "none",
+        position: "absolute", top: "26px", left: "var(--page-px)", zIndex: 30, pointerEvents: "none",
       }}>
-        <div>
-          {collectionTitle && (
-            <div style={{
-              fontSize: "clamp(1.2rem, 3.4vw, 2.4rem)", fontWeight: 500,
-              letterSpacing: "-0.03em", textTransform: "uppercase", lineHeight: 1, color: "#fff",
-            }}>
-              {collectionTitle}
-            </div>
-          )}
-          <div style={{
-            fontSize: "9px", letterSpacing: "0.24em", color: "rgba(255,255,255,0.5)",
-            textTransform: "uppercase", marginTop: collectionTitle ? "8px" : 0,
-          }}>
-            {variant === "rich" && cur?.location ? `${cur.location} · ${cur.date}` : "Selected Frame"}
-          </div>
+        <div style={{
+          fontSize: "9px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.42)",
+          textTransform: "uppercase", fontVariantNumeric: "tabular-nums",
+        }}>
+          Frame {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </div>
-        <button
-          onClick={handleClose}
-          data-cursor data-cursor-label="CLOSE"
-          style={{
-            pointerEvents: "auto", background: "none", border: "none", cursor: "none",
-            fontSize: "9px", letterSpacing: "0.26em", color: "rgba(255,255,255,0.65)",
-            textTransform: "uppercase", fontFamily: "var(--font-display)", padding: "10px",
-          }}
-        >
-          Close ✕
-        </button>
+        <div style={{
+          fontSize: "clamp(0.95rem, 2.4vw, 1.5rem)", fontWeight: 500, letterSpacing: "-0.01em",
+          textTransform: "uppercase", color: "#fff", lineHeight: 1, marginTop: "8px",
+        }}>
+          {contextLabel}
+        </div>
+        {variant === "rich" && cur?.location && (
+          <div style={{
+            fontSize: "8px", letterSpacing: "0.24em", color: "rgba(255,255,255,0.4)",
+            textTransform: "uppercase", marginTop: "7px",
+          }}>
+            {cur.location} · {cur.date}
+          </div>
+        )}
       </div>
 
       {/* ── Reel stage (display only — interaction handled by the zone layer) ── */}
@@ -232,34 +243,26 @@ export function FilmReelViewer({
         </div>
       </div>
 
-      {/* ── Footer metadata ── */}
+      {/* ── Current-frame label (above the dock) ── */}
       <div style={{
-        position: "absolute", bottom: "30px", left: 0, right: 0, zIndex: 30,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
-        pointerEvents: "none", padding: "0 var(--page-px)",
+        position: "absolute", bottom: "104px", left: 0, right: 0, zIndex: 30,
+        textAlign: "center", pointerEvents: "none", padding: "0 var(--page-px)",
       }}>
         {variant === "rich" && cur?.caption && (
           <div style={{
             fontSize: "clamp(11px, 1.4vw, 13px)", color: "rgba(255,255,255,0.72)",
-            fontStyle: "italic", textAlign: "center", maxWidth: "560px", lineHeight: 1.5,
+            fontStyle: "italic", maxWidth: "560px", margin: "0 auto", lineHeight: 1.5,
           }}>
             {cur.caption}
           </div>
         )}
         {variant === "minimal" && cur?.title && (
           <div style={{
-            fontSize: "11px", letterSpacing: "0.12em", color: "rgba(255,255,255,0.78)",
-            textTransform: "uppercase",
+            fontSize: "11px", letterSpacing: "0.12em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase",
           }}>
             {cur.title}{cur.type ? ` — ${cur.type}` : ""}
           </div>
         )}
-        <div style={{
-          fontSize: "10px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.45)",
-          fontVariantNumeric: "tabular-nums",
-        }}>
-          {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-        </div>
       </div>
 
       {/* ── Interaction + cursor zones (Previous / Expand / Next) — also carries
@@ -276,13 +279,88 @@ export function FilmReelViewer({
         <div data-cursor data-cursor-label="NEXT"   style={{ flex: "0 0 32%" }} />
       </div>
 
-      {/* ── Bottom controls (mobile-friendly tap targets) ── */}
+      {/* ── Frame index panel — morphs up out of the dock ── */}
+      <div
+        ref={panelRef}
+        className="glass"
+        style={{
+          position: "absolute", bottom: "94px", left: "50%", transform: "translateX(-50%)",
+          width: "min(460px, 88vw)", borderRadius: "18px", overflow: "hidden",
+          height: 0, opacity: 0, zIndex: 35,
+        }}
+      >
+        <div style={{ padding: "18px 22px", height: "100%", overflowY: "auto" }}>
+          <div style={{ fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", marginBottom: "12px" }}>
+            {contextLabel} · {total} frames
+          </div>
+          {frames.map((f, i) => (
+            <button
+              key={i}
+              onClick={() => { animateTo(i); setPanelOpen(false); }}
+              data-cursor
+              style={{
+                display: "flex", gap: "16px", alignItems: "baseline", width: "100%",
+                background: "none", border: "none", padding: "10px 0", cursor: "none", textAlign: "left",
+                borderBottom: "0.5px solid rgba(255,255,255,0.08)",
+                color: i === current ? "#fff" : "rgba(255,255,255,0.6)", transition: "color 0.2s",
+              }}
+            >
+              <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span style={{ fontSize: "12px", letterSpacing: "0.02em" }}>
+                {f.caption ?? f.title ?? `Frame ${i + 1}`}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Bottom glass navigation dock ── */}
       <div style={{
-        position: "absolute", bottom: "78px", left: "50%", transform: "translateX(-50%)",
-        zIndex: 30, display: "flex", gap: "12px", alignItems: "center",
+        position: "absolute", bottom: "30px", left: "50%", transform: "translateX(-50%)",
+        zIndex: 40, display: "flex", gap: "10px", alignItems: "center",
       }}>
-        <NavBtn label="Previous" onClick={prev} disabled={current === 0} dir="prev" />
-        <NavBtn label="Next" onClick={next} disabled={current === total - 1} dir="next" />
+        <div className="glass" style={{ display: "flex", alignItems: "center", gap: "4px", borderRadius: "100px", padding: "6px" }}>
+          {/* mobile-only arrows (desktop uses cursor zones / keys / drag) */}
+          <button className="reel-arrow" onClick={prev} disabled={current === 0} aria-label="Previous" data-cursor data-cursor-label="PREV"
+                  style={dockBtn(current === 0)}>
+            <Chevron dir="prev" />
+          </button>
+
+          {/* index button + counter */}
+          <button
+            onClick={() => setPanelOpen(o => !o)}
+            aria-label="Frame index" aria-expanded={panelOpen}
+            data-cursor data-cursor-label="INDEX"
+            style={{
+              display: "flex", alignItems: "center", gap: "9px", padding: "8px 16px",
+              background: panelOpen ? "rgba(255,255,255,0.16)" : "transparent",
+              border: "none", borderRadius: "100px", cursor: "none", color: "#fff",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+            <span style={{ fontSize: "12px", letterSpacing: "0.1em", fontVariantNumeric: "tabular-nums" }}>
+              {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
+          </button>
+
+          <button className="reel-arrow" onClick={next} disabled={current === total - 1} aria-label="Next" data-cursor data-cursor-label="NEXT"
+                  style={dockBtn(current === total - 1)}>
+            <Chevron dir="next" />
+          </button>
+        </div>
+
+        {/* Close */}
+        <button
+          onClick={handleClose}
+          aria-label="Close gallery"
+          data-cursor data-cursor-label="CLOSE"
+          className="glass"
+          style={{ width: 46, height: 46, borderRadius: "50%", display: "grid", placeItems: "center", cursor: "none", color: "#fff" }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+        </button>
       </div>
 
       {/* ── Expanded image mode — the photograph escapes the reel ── */}
@@ -357,24 +435,17 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
   );
 }
 
-/* ── A minimal navigation control ── */
-function NavBtn({ label, onClick, disabled, dir }: { label: string; onClick: () => void; disabled: boolean; dir: "prev" | "next" }) {
+/* ── Dock arrow (mobile) ── */
+const dockBtn = (disabled: boolean): CSSProperties => ({
+  width: 38, height: 38, borderRadius: "50%", display: "grid", placeItems: "center",
+  background: "rgba(255,255,255,0.06)", border: "none", cursor: "none", color: "#fff",
+  opacity: disabled ? 0.3 : 1, transition: "opacity 0.2s",
+});
+function Chevron({ dir }: { dir: "prev" | "next" }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={label}
-      data-cursor data-cursor-label={dir === "prev" ? "PREV" : "NEXT"}
-      className="glass"
-      style={{
-        width: 44, height: 44, borderRadius: "50%", display: "grid", placeItems: "center",
-        cursor: "none", color: "#fff", opacity: disabled ? 0.3 : 1, transition: "opacity 0.2s",
-      }}
-    >
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-           style={{ transform: dir === "prev" ? "none" : "rotate(180deg)" }}>
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
-    </button>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+         style={{ transform: dir === "prev" ? "none" : "rotate(180deg)" }}>
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
   );
 }

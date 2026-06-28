@@ -117,6 +117,36 @@
   .hero-photo.hide-sm { display: none; }
 }
 
+/* ── Reel dock arrows — mobile only (desktop uses zones/keys/drag) ── */
+.reel-arrow { display: none; }
+@media (max-width: 720px) { .reel-arrow { display: grid; } }
+
+/* ── Editorial text link / CTA ─────────────────────── */
+.story-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-fg);
+  text-decoration: none;
+  cursor: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 4px;
+  transition: background-size 0.45s var(--ease-out-expo);
+}
+.story-link::after {
+  content: "→";
+  font-size: 1.1em;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.story-link:hover { background-size: 100% 1px; }
+.story-link:hover::after { transform: translateX(5px); }
+
 /* ── Framed prints (museum matting) ────────────────── */
 .art-frame {
   position: relative;
