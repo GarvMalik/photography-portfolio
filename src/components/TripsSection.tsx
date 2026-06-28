@@ -35,7 +35,7 @@ const COLLECTIONS: Collection[] = [
         { src: "/images/spain/spain-28.jpg",  ratio: "3/4"  }, // Gothic portal
       { src: "/images/spain/spain-29.webp",  ratio: "3/4"  }, // Casa Batlló
       { src: "/images/spain/spain-30.jpg",  ratio: "3/4"  }, // Cathedral
-      { src: "/images/spain/spain-33.jpg",  ratio: "4/3"  }, // ornate dome
+      { src: "/images/spain/spain-33.webp",  ratio: "3/4"  }, // ornate dome
       { src: "/images/spain/spain-34.jpg",  ratio: "3/4"  }, // Plaça Reial lamp
       { src: "/images/spain/spain-38.webp",  ratio: "4/3"  }, // Montjuïc palace lit
       { src: "/images/spain/spain-40.jpg",  ratio: "4/3"  }, // palm sunset
