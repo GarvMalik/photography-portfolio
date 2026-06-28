@@ -117,36 +117,15 @@
   .hero-photo.hide-sm { display: none; }
 }
 
-/* ── Grid item hover overlay ───────────────────────── */
-.grid-overlay {
-  position: absolute;
-  inset: 0;
-  /* Gradient — keep the photo visible on hover, just darken the lower third
-     so the caption stays legible (no full black-out) */
-  background: linear-gradient(to top,
-    rgba(0, 0, 0, 0.82) 0%,
-    rgba(0, 0, 0, 0.30) 36%,
-    rgba(0, 0, 0, 0) 64%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.25rem;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease-out-expo);
-  pointer-events: none;
-  z-index: 2;
+/* ── Framed prints (museum matting) ────────────────── */
+.art-frame {
+  position: relative;
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
 }
-.grid-item-wrap:hover .grid-overlay {
-  opacity: 1;
-}
-
-/* Subtle zoom on the photo itself while hovering */
-.grid-item-wrap img {
-  transition: transform 0.7s var(--ease-out-expo);
-  will-change: transform;
-}
-.grid-item-wrap:hover img {
-  transform: scale(1.045);
+.art-frame:hover {
+  /* clean, minimal: the frame lifts a touch — no overlays, no captions */
+  transform: translateY(-4px);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
 }
 
 /* ── Glass surfaces (frosted control bars / pills) ─── */

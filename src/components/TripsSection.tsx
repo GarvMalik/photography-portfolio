@@ -2,9 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { GlassCard } from "@/components/gl/GlassCard";
 import { FilmReelViewer } from "@/components/FilmReelViewer";
+import { OpenTransition } from "@/components/ui/OpenTransition";
 import { collectionToFrames, type Collection } from "@/lib/reel";
+
+const MAT = "#F7F4EE";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -119,9 +121,10 @@ export function TripsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headRef    = useRef<HTMLDivElement>(null);
   const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
-  const photoRefs  = useRef<(HTMLDivElement | null)[]>([]);
+  const frameRefs  = useRef<(HTMLDivElement | null)[]>([]);
 
   const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
+  const [pending, setPending] = useState<{ origin: { x: number; y: number }; col: Collection } | null>(null);
 
   useEffect(() => {
     gsap.fromTo(headRef.current,
@@ -138,8 +141,19 @@ export function TripsSection() {
     });
   }, []);
 
-  const handleCardClick = (col: Collection) => {
-    setActiveCollection(col);
+  // Phase 1 — press the framed print, then begin the staged transition
+  const openFrom = (e: { clientX: number; clientY: number }, col: Collection, i: number) => {
+    const fr = frameRefs.current[i];
+    if (fr) gsap.to(fr, { scale: 0.985, duration: 0.14, ease: "power2.out" });
+    setPending({ origin: { x: e.clientX, y: e.clientY }, col });
+  };
+  const openFromKey = (col: Collection, i: number) => {
+    const r = frameRefs.current[i]?.getBoundingClientRect();
+    openFrom({ clientX: r ? r.left + r.width / 2 : innerWidth / 2, clientY: r ? r.top + r.height / 2 : innerHeight / 2 }, col, i);
+  };
+  const closeViewer = () => {
+    setActiveCollection(null);
+    frameRefs.current.forEach(el => el && gsap.set(el, { clearProps: "transform" }));
   };
 
   return (
@@ -166,113 +180,62 @@ export function TripsSection() {
           </span>
         </div>
 
-        {/* Cards */}
+        {/* Cards — framed prints */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
-          gap: "var(--grid-gap)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
+          gap: "clamp(18px, 2.6vw, 40px)",
         }}>
           {COLLECTIONS.map((col, i) => (
-            <div
-              key={col.id}
-              ref={el => { cardRefs.current[i] = el; }}
-              onClick={() => handleCardClick(col)}
-              onKeyDown={e => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleCardClick(col);
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label={`${col.title} collection, ${col.frames} frames. Open`}
-              data-cursor
-              data-cursor-label="OPEN"
-              style={{ cursor: "none", background: "var(--c-fg-4)" }}
-            >
-              {/* Photo with shatter source */}
+            <div key={col.id} ref={el => { cardRefs.current[i] = el; }}>
+              {/* The framed print (museum mat) */}
               <div
-                ref={el => { photoRefs.current[i] = el; }}
-                style={{ position: "relative" }}
+                ref={el => { frameRefs.current[i] = el; }}
+                className="art-frame"
+                onClick={e => openFrom(e, col, i)}
+                onKeyDown={e => {
+                  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openFromKey(col, i); }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`${col.title} collection, ${col.frames} frames. Open`}
+                data-cursor
+                data-cursor-label="OPEN"
+                style={{
+                  background: MAT, borderRadius: "3px", cursor: "none",
+                  padding: "7% 7% 0", willChange: "transform",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
+                }}
               >
-                <GlassCard src={col.photos[0].src!} alt={col.title} />
-
-                {/* Top scrim — keeps the title legible over bright photos */}
-                <div aria-hidden style={{
-                  position: "absolute", top: 0, left: 0, right: 0, height: "42%",
-                  background: "linear-gradient(180deg, rgba(0,0,0,0.55), transparent)",
-                  pointerEvents: "none",
-                }} />
-                {/* Bottom scrim — for the frame count */}
-                <div aria-hidden style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0, height: "28%",
-                  background: "linear-gradient(0deg, rgba(0,0,0,0.5), transparent)",
-                  pointerEvents: "none",
-                }} />
-
-                {/* Location badge */}
-                <div style={{
-                  position: "absolute", top: "12px", left: "12px",
-                }}>
-                  {/* Primary — the collection title */}
-                  <span style={{
-                    fontSize: "clamp(1.35rem, 3.4vw, 2.5rem)", fontWeight: 500,
-                    color: "#fff", letterSpacing: "-0.025em", textTransform: "uppercase",
-                    lineHeight: 1, textShadow: "0 1px 12px rgba(0,0,0,0.85)",
-                    display: "block",
+                <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "#e9e6df" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={col.photos[0].src} alt={col.title} loading="lazy"
+                       style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                {/* Placard on the bottom mat */}
+                <div style={{ padding: "7% 4% 9%", textAlign: "center" }}>
+                  <div style={{
+                    fontSize: "clamp(0.95rem, 1.6vw, 1.3rem)", fontWeight: 500,
+                    letterSpacing: "0.02em", textTransform: "uppercase", color: "rgba(18,16,12,0.9)",
                   }}>
                     {col.title}
-                  </span>
-                  {/* Tertiary — location and year, recede */}
-                  <span style={{
-                    fontSize: "8px", letterSpacing: "0.24em",
-                    color: "rgba(255,255,255,0.58)", textTransform: "uppercase",
-                    textShadow: "0 1px 8px rgba(0,0,0,0.9)",
-                    display: "block", marginTop: "6px",
+                  </div>
+                  <div style={{
+                    fontSize: "8px", letterSpacing: "0.26em", textTransform: "uppercase",
+                    color: "rgba(18,16,12,0.5)", marginTop: "7px",
                   }}>
-                    {col.country} · {col.year}
-                  </span>
-                </div>
-
-                {/* Frame count — lowest emphasis */}
-                <span style={{
-                  position: "absolute", bottom: "10px", right: "10px",
-                  fontSize: "7.5px", letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.42)", textTransform: "uppercase",
-                  textShadow: "0 1px 8px rgba(0,0,0,0.9)",
-                }}>
-                  {col.frames} frames
-                </span>
-
-                {/* Tap hint */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  opacity: 0, transition: "opacity 0.3s",
-                }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = "0")}
-                >
-                  <span style={{
-                    fontSize: "9px", letterSpacing: "0.28em",
-                    color: "#fff", textTransform: "uppercase",
-                    border: "0.5px solid rgba(255,255,255,0.4)",
-                    padding: "8px 16px",
-                    background: "rgba(0,0,0,0.3)",
-                  }}>
-                    Open Collection
-                  </span>
+                    {col.country} · {col.year} · {col.frames} frames
+                  </div>
                 </div>
               </div>
 
-              {/* Text */}
-              <div style={{ padding: "1.25rem 1rem 1.5rem" }}>
-                <div style={{ display: "flex", gap: "8px", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+              {/* Narrative below the frame */}
+              <div style={{ padding: "1.1rem 0.25rem 0" }}>
+                <div style={{ display: "flex", gap: "8px", marginBottom: "0.7rem", flexWrap: "wrap" }}>
                   {TAGS[col.id].map(tag => (
                     <span key={tag} style={{
                       fontSize: "8px", letterSpacing: "0.18em", textTransform: "uppercase",
-                      color: "var(--c-fg-3)", border: "0.5px solid var(--c-border)",
-                      padding: "3px 8px",
+                      color: "var(--c-fg-3)", border: "0.5px solid var(--c-border)", padding: "3px 8px",
                     }}>
                       {tag}
                     </span>
@@ -290,6 +253,15 @@ export function TripsSection() {
         </div>
       </section>
 
+      {/* Staged opening transition → then the reel emerges from the dark */}
+      {pending && (
+        <OpenTransition
+          origin={pending.origin}
+          onReveal={() => setActiveCollection(pending.col)}
+          onDone={() => setPending(null)}
+        />
+      )}
+
       {/* Film-reel viewer — rich metadata (location · date · caption) */}
       {activeCollection && (
         <FilmReelViewer
@@ -297,7 +269,7 @@ export function TripsSection() {
           startIndex={0}
           variant="rich"
           collectionTitle={activeCollection.title}
-          onClose={() => setActiveCollection(null)}
+          onClose={closeViewer}
         />
       )}
     </>
