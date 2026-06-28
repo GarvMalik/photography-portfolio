@@ -45,7 +45,7 @@ const COLLECTIONS: Collection[] = [
     title: "Finland",
     country: "Suomi",
     year: "2025 – present",
-    frames: "16",
+    frames: "18",
     photos: [
       { src: "/images/finland/finland-01.webp", ratio: "3/4"  },
       { src: "/images/finland/finland-02.webp", ratio: "4/3"  },
