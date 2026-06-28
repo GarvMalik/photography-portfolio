@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 import { FilmReelViewer } from "@/components/FilmReelViewer";
 import { collectionToFrames, type Collection } from "@/lib/reel";
 
@@ -79,8 +78,9 @@ export function SeriesSection() {
   const sectionRef  = useRef<HTMLElement>(null);
   const headRef     = useRef<HTMLDivElement>(null);
   const rowRefs     = useRef<(HTMLDivElement | null)[]>([]);
+  const rowsWrapRef = useRef<HTMLDivElement>(null);
   const imgWrapRef  = useRef<HTMLDivElement>(null);
-  const imgInnerRef = useRef<(HTMLDivElement | null)[]>([]);
+  const imgInnerRef = useRef<(HTMLImageElement | null)[]>([]);
   const activeIdx   = useRef<number>(-1);
 
   const [active, setActive] = useState<Collection | null>(null);
@@ -113,56 +113,78 @@ export function SeriesSection() {
 
     rowRefs.current.forEach((row, i) => {
       if (!row) return;
-
       row.addEventListener("mouseenter", () => {
+        const wasInactive = activeIdx.current < 0;
         activeIdx.current = i;
+        // crossfade — previous preview fades out, next fades in + settles
         imgInnerRef.current.forEach((el, j) => {
           if (!el) return;
-          gsap.set(el, { display: j === i ? "block" : "none" });
+          gsap.to(el, { opacity: j === i ? 1 : 0, scale: j === i ? 1 : 1.03,
+            duration: 0.5, ease: "power2.out", overwrite: true });
         });
-        gsap.fromTo(wrap,
-          { clipPath: "inset(0% 100% 0% 0%)", x: 30, opacity: 1 },
-          { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.55, ease: "power4.out" }
-        );
-      });
-
-      row.addEventListener("mouseleave", () => {
-        activeIdx.current = -1;
-        gsap.to(wrap, { clipPath: "inset(0% 0% 0% 100%)", duration: 0.4, ease: "power3.in" });
+        // reveal the panel only when entering the list from outside (no jitter)
+        if (wasInactive) {
+          gsap.fromTo(wrap,
+            { clipPath: "inset(0% 100% 0% 0%)", x: 26 },
+            { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.55, ease: "power4.out" }
+          );
+        }
       });
     });
 
+    // hide only when the pointer leaves the whole list
+    const onLeave = () => {
+      activeIdx.current = -1;
+      gsap.to(wrap, { clipPath: "inset(0% 0% 0% 100%)", duration: 0.4, ease: "power3.in" });
+    };
+    rowsWrapRef.current?.addEventListener("mouseleave", onLeave);
+
     return () => {
       sectionRef.current?.removeEventListener("mousemove", onMouseMove);
+      rowsWrapRef.current?.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
   return (
     <section id="series" ref={sectionRef} style={{ borderTop: "0.5px solid var(--c-border)", position: "relative" }}>
 
-      {/* Floating hover image — absolutely positioned, right side */}
+      {/* Floating hover preview — ONE fixed-size matted frame for all series,
+          so dimensions never shift between rows. Images crossfade inside it. */}
       <div
         ref={imgWrapRef}
         style={{
           position: "absolute",
           right: "var(--page-px)",
           top: 0,
-          width: "clamp(140px, 16vw, 240px)",
+          width: "clamp(200px, 23vw, 340px)",
           pointerEvents: "none",
           zIndex: 10,
           clipPath: "inset(0% 100% 0% 0%)",
           willChange: "transform, clip-path",
         }}
       >
-        {SERIES.map((s, i) => (
-          <div
-            key={s.id}
-            ref={el => { imgInnerRef.current[i] = el; }}
-            style={{ display: "none" }}
-          >
-            <PhotoPlaceholder ratio={s.coverRatio} src={s.cover} alt={s.title} />
+        <div style={{
+          background: "#F7F4EE", borderRadius: "3px", padding: "7%",
+          boxShadow: "0 18px 50px rgba(0,0,0,0.42)",
+        }}>
+          <div style={{ position: "relative", aspectRatio: "3 / 4", overflow: "hidden", background: "#e9e6df" }}>
+            {SERIES.map((s, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={s.id}
+                ref={el => { imgInnerRef.current[i] = el; }}
+                src={s.cover}
+                alt={s.title}
+                loading="lazy"
+                style={{
+                  position: "absolute", inset: 0, width: "100%", height: "100%",
+                  objectFit: "cover", display: "block",
+                  opacity: 0, transform: "scale(1.03)", willChange: "opacity, transform",
+                }}
+              />
+            ))}
           </div>
-        ))}
+        </div>
       </div>
 
       {/* Header */}
@@ -177,7 +199,7 @@ export function SeriesSection() {
       </div>
 
       {/* Rows */}
-      <div style={{ marginTop: "1.5rem" }}>
+      <div ref={rowsWrapRef} style={{ marginTop: "1.5rem" }}>
         {SERIES.map((s, i) => {
           const n = String(i + 1).padStart(2, "0");
           return (
