@@ -217,29 +217,31 @@ export function TripsSection() {
                 <div style={{
                   position: "absolute", top: "12px", left: "12px",
                 }}>
+                  {/* Primary — the collection title */}
                   <span style={{
-                    fontSize: "clamp(1.1rem, 3vw, 2rem)", fontWeight: 500,
-                    color: "#fff", letterSpacing: "-0.02em", textTransform: "uppercase",
-                    lineHeight: 1, textShadow: "0 1px 10px rgba(0,0,0,0.85)",
+                    fontSize: "clamp(1.35rem, 3.4vw, 2.5rem)", fontWeight: 500,
+                    color: "#fff", letterSpacing: "-0.025em", textTransform: "uppercase",
+                    lineHeight: 1, textShadow: "0 1px 12px rgba(0,0,0,0.85)",
                     display: "block",
                   }}>
                     {col.title}
                   </span>
+                  {/* Tertiary — location and year, recede */}
                   <span style={{
-                    fontSize: "8.5px", letterSpacing: "0.2em",
-                    color: "rgba(255,255,255,0.82)", textTransform: "uppercase",
+                    fontSize: "8px", letterSpacing: "0.24em",
+                    color: "rgba(255,255,255,0.58)", textTransform: "uppercase",
                     textShadow: "0 1px 8px rgba(0,0,0,0.9)",
-                    display: "block", marginTop: "4px",
+                    display: "block", marginTop: "6px",
                   }}>
                     {col.country} · {col.year}
                   </span>
                 </div>
 
-                {/* Frame count */}
+                {/* Frame count — lowest emphasis */}
                 <span style={{
                   position: "absolute", bottom: "10px", right: "10px",
-                  fontSize: "8.5px", letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.78)", textTransform: "uppercase",
+                  fontSize: "7.5px", letterSpacing: "0.18em",
+                  color: "rgba(255,255,255,0.42)", textTransform: "uppercase",
                   textShadow: "0 1px 8px rgba(0,0,0,0.9)",
                 }}>
                   {col.frames} frames

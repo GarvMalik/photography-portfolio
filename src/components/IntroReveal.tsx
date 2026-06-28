@@ -60,18 +60,23 @@ export function IntroReveal() {
       stagger: { each: 0.035, from: "random" }, ease: "power2.out",
     }, 0.2);
 
-    // Phase 2 — it starts cracking open (panels drift outward → gaps)
+    // Phase 2 — it cracks open: panels drift outward, more visibly than before
     tl.to(cards, {
-      z: 70, duration: 1.0,
-      stagger: { each: 0.015, from: "random" }, ease: "power2.inOut",
-    }, 1.7);
+      z: 104, duration: 1.1,
+      stagger: { each: 0.018, from: "random" }, ease: "power2.inOut",
+    }, 1.6);
 
-    // Phase 3 — the whole ring tilts up, revealing it's made of photos
+    // Phase 3 — the whole ring tilts up, revealing it's made of photos.
+    // Hero easing personality: slow, luxurious, with a faint elastic settle.
     tl.to(tiltRef.current, {
-      rotateX: 11, duration: 1.6, ease: "power3.inOut",
+      rotateX: 11, duration: 1.7, ease: "back.out(1.25)",
     }, 2.5);
+    // Camera dolly-in — push ~7% closer as it reveals (stronger 3D presence)
+    tl.fromTo(tiltRef.current,
+      { scale: 1 },
+      { scale: 1.07, duration: 1.9, ease: "power2.inOut" }, 2.5);
     // spin speeds up a touch as it tilts
-    tl.to(spinTween, { timeScale: 2.2, duration: 1.2, ease: "power2.in" }, 2.6);
+    tl.to(spinTween, { timeScale: 2.4, duration: 1.2, ease: "power2.in" }, 2.6);
 
     // Phase 4 — panels detach and float out across the screen
     tl.to(cards, {
@@ -142,6 +147,7 @@ export function IntroReveal() {
                   <div
                     ref={el => { cardRefs.current[i] = el; }}
                     style={{
+                      position: "relative",
                       width: "100%", height: "100%",
                       backgroundImage: `url("${src}")`,
                       backgroundSize: "cover",
@@ -150,7 +156,17 @@ export function IntroReveal() {
                       boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
                       willChange: "transform, opacity",
                     }}
-                  />
+                  >
+                    {/* Per-slice lighting: a glass highlight top-left, shadow bottom-right,
+                        varied per panel so the 3D facets read with contrast */}
+                    <div aria-hidden style={{
+                      position: "absolute", inset: 0, borderRadius: "2px", pointerEvents: "none",
+                      background: `linear-gradient(135deg,
+                        rgba(255,255,255,${(0.05 + 0.12 * Math.abs(Math.sin(i * 1.3))).toFixed(3)}) 0%,
+                        rgba(255,255,255,0) 40%,
+                        rgba(0,0,0,${(0.10 + 0.24 * Math.abs(Math.cos(i * 0.9))).toFixed(3)}) 100%)`,
+                    }} />
+                  </div>
                 </div>
               );
             })}

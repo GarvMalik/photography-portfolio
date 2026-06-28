@@ -15,7 +15,22 @@ const TILE_RATIO = "4/5";
 export function MasonryGrid({ photos }: { photos: Photo[] }) {
   const gridRef  = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const capRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const router   = useRouter();
+
+  // Magnetic caption — the "View →" label gently follows the cursor (Level 1)
+  const onMag = (e: React.PointerEvent<HTMLDivElement>, i: number) => {
+    const el = capRefs.current[i];
+    if (!el) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+    const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+    gsap.to(el, { x: dx * 30, y: dy * 30, duration: 0.5, ease: "power2.out" });
+  };
+  const onMagLeave = (i: number) => {
+    const el = capRefs.current[i];
+    if (el) gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "power3.out" });
+  };
 
   useEffect(() => {
     const items = itemRefs.current.filter(Boolean);
@@ -67,6 +82,8 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                  data-cursor
                  data-cursor-label="VIEW"
                  onClick={() => open(photo, itemRefs.current[i])}
+                 onPointerMove={e => onMag(e, i)}
+                 onPointerLeave={() => onMagLeave(i)}
                  onKeyDown={e => {
                    if (e.key === "Enter" || e.key === " ") {
                      e.preventDefault();
@@ -83,9 +100,12 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                 sub={photo.series}
               />
 
-              {/* Hover affordance */}
+              {/* Hover affordance — magnetic caption */}
               <div className="grid-overlay">
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px" }}>
+                <div
+                  ref={el => { capRefs.current[i] = el; }}
+                  style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px", willChange: "transform" }}
+                >
                   <span style={{ fontSize: "9px", letterSpacing: "0.22em", color: "#fff", textTransform: "uppercase" }}>View</span>
                   <span style={{ fontSize: "15px", color: "#fff", lineHeight: 1 }}>→</span>
                 </div>
