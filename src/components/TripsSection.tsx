@@ -16,7 +16,7 @@ const COLLECTIONS: Collection[] = [
     title: "Barcelona",
     country: "Spain",
     year: "2025",
-    frames: "20",
+    frames: "23",
     photos: [
       { src: "/images/spain/spain-01.jpg",  ratio: "4/3"  }, // city from above
       { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  }, // Park Güell
@@ -96,7 +96,7 @@ const COLLECTIONS: Collection[] = [
     title: "BML Munjal",
     country: "Gurgaon, India",
     year: "2020–24",
-    frames: "14",
+    frames: "12",
     photos: [
       { src: "/images/bml-life/bml-11.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-13.jpg", ratio: "4/3"  },
@@ -108,7 +108,6 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/bml-life/bml-09.jpg", ratio: "4/3"  },
       { src: "/images/bml-life/bml-04.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-07.jpg", ratio: "3/4"  },
-      
       { src: "/images/bml-life/bml-03.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-10.jpg", ratio: "3/4"  },
     ],
