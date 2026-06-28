@@ -40,7 +40,7 @@ const SERIES: (Collection & { cover: string; coverRatio: "2/3" | "3/4" | "4/3" }
     id: "golden-hour", title: "Golden Hour", country: "Last Light",
     year: "2024", frames: "08", cover: "/images/spain/spain-40.jpg", coverRatio: "4/3",
     photos: [
-      { src: "/images/spain/spain-43.jpg",     ratio: "4/3" },
+      { src: "/images/spain/spain-43.webp",     ratio: "4/3" },
       { src: "/images/spain/spain-40.jpg",     ratio: "4/3" },
       { src: "/images/best-of-all/best-25.webp", ratio: "4/3" }, // palm sunset
       { src: "/images/spain/spain-41.jpg",     ratio: "4/3" },

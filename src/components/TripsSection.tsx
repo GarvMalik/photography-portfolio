@@ -20,24 +20,27 @@ const COLLECTIONS: Collection[] = [
     photos: [
       { src: "/images/spain/spain-01.jpg",  ratio: "4/3"  }, // city from above
       { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  }, // Park Güell
-      { src: "/images/spain/spain-29.jpg",  ratio: "3/4"  }, // Casa Batlló
-      { src: "/images/spain/spain-30.jpg",  ratio: "3/4"  }, // Cathedral
-      { src: "/images/spain/spain-28.jpg",  ratio: "3/4"  }, // Gothic portal
-      { src: "/images/spain/spain-33.jpg",  ratio: "4/3"  }, // ornate dome
-      { src: "/images/spain/spain-34.jpg",  ratio: "3/4"  }, // Plaça Reial lamp
-      { src: "/images/spain/spain-14.webp",  ratio: "4/3"  }, // beach + cliffs
-      { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  }, // harbour at night
-      { src: "/images/spain/spain-38.webp",  ratio: "4/3"  }, // Montjuïc palace lit
-      { src: "/images/spain/spain-40.jpg",  ratio: "4/3"  }, // palm sunset
-      { src: "/images/spain/spain-43.jpg",  ratio: "4/3"  }, // sunset over water
-      { src: "/images/spain/spain-06.webp",  ratio: "3/4"  }, // sunset over water
+       { src: "/images/spain/spain-06.webp",  ratio: "3/4"  }, // sunset over water
+       { src: "/images/spain/spain-07.jpg",  ratio: "3/4"  }, // old city photos
+       { src: "/images/spain/spain-08.jpg",  ratio: "3/4"  }, // city old map
       { src: "/images/spain/spain-09.webp",  ratio: "3/4"  }, // sunset over water
-      { src: "/images/spain/spain-10.webp",  ratio: "4/3"  }, // sunset over water
+       { src: "/images/spain/spain-10.webp",  ratio: "4/3"  }, // sunset over water
       { src: "/images/spain/spain-11.webp",  ratio: "4/3"  }, // sunset over water
        { src: "/images/spain/spain-12.webp",  ratio: "3/4"  }, // sunset over water
-        { src: "/images/spain/spain-16.webp",  ratio: "3/4"  }, // sunset over water
+      { src: "/images/spain/spain-14.webp",  ratio: "4/3"  }, // beach + cliffs
+      { src: "/images/spain/spain-16.webp",  ratio: "3/4"  }, // sunset over water
         { src: "/images/spain/spain-19.webp",  ratio: "3/4"  }, // sunset over water
         { src: "/images/spain/spain-22.webp",  ratio: "3/4"  }, // sunset over water
+        { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  }, // harbour at night
+        { src: "/images/spain/spain-28.jpg",  ratio: "3/4"  }, // Gothic portal
+      { src: "/images/spain/spain-29.webp",  ratio: "3/4"  }, // Casa Batlló
+      { src: "/images/spain/spain-30.jpg",  ratio: "3/4"  }, // Cathedral
+      { src: "/images/spain/spain-33.jpg",  ratio: "4/3"  }, // ornate dome
+      { src: "/images/spain/spain-34.jpg",  ratio: "3/4"  }, // Plaça Reial lamp
+      { src: "/images/spain/spain-38.webp",  ratio: "4/3"  }, // Montjuïc palace lit
+      { src: "/images/spain/spain-40.jpg",  ratio: "4/3"  }, // palm sunset
+      { src: "/images/spain/spain-43.webp",  ratio: "4/3"  }, // sunset over water
+      { src: "/images/spain/spain-44.webp",  ratio: "4/3"  }, // sunset over water
     ],
   },
   {
