@@ -25,6 +25,22 @@ export function shatter(
     "position:fixed;inset:0;z-index:500;pointer-events:none;overflow:hidden;perspective:1200px;";
   document.body.appendChild(container);
 
+  // ── Impact pulse — a white flash + ring at the centre, like glass struck ──
+  const cx0 = rect.left + rect.width / 2;
+  const cy0 = rect.top  + rect.height / 2;
+  const flash = document.createElement("div");
+  flash.style.cssText =
+    `position:absolute;left:${cx0}px;top:${cy0}px;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;` +
+    "background:radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.2) 35%, transparent 70%);";
+  const ring = document.createElement("div");
+  ring.style.cssText =
+    `position:absolute;left:${cx0}px;top:${cy0}px;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;` +
+    "border:2px solid rgba(255,255,255,0.85);";
+  container.appendChild(flash);
+  container.appendChild(ring);
+  gsap.fromTo(flash, { scale: 0.2, opacity: 1 }, { scale: 4, opacity: 0, duration: 0.45, ease: "power3.out" });
+  gsap.fromTo(ring,  { scale: 0.2, opacity: 0.9 }, { scale: 7, opacity: 0, duration: 0.6, ease: "power2.out" });
+
   // Two triangles per cell → glass-like angular shards
   const TRIS = [
     "polygon(0 0, 100% 0, 0 100%)",

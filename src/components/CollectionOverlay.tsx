@@ -19,28 +19,61 @@ interface Props {
 export function CollectionOverlay({ collection, onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const scrollRef  = useRef<HTMLDivElement>(null);
+  const titleRef   = useRef<HTMLDivElement>(null);
+  const panelRef   = useRef<HTMLDivElement>(null);
   const figureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [current, setCurrent] = useState(0);
+  const [listOpen, setListOpen] = useState(false);
 
   const total = collection.photos.length;
 
-  // ── Entrance — wipe up, then stagger the photos in ──────────────
+  // ── Entrance — wipe up, the title flies in from centre, photos stagger ──
   useEffect(() => {
     const tl = gsap.timeline();
     tl.fromTo(overlayRef.current,
       { clipPath: "inset(100% 0% 0% 0%)" },
       { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power4.inOut" }
     );
+
+    // Title persistence — the name "survives the glass": appears big at centre,
+    // holds, then settles into the top-left header.
+    const title = titleRef.current;
+    if (title) {
+      const r = title.getBoundingClientRect();
+      const dx = window.innerWidth  / 2 - (r.left + r.width  / 2);
+      const dy = window.innerHeight / 2 - (r.top  + r.height / 2);
+      tl.fromTo(title,
+        { x: dx, y: dy, scale: 2.3, opacity: 0, transformOrigin: "center center" },
+        { opacity: 1, duration: 0.3, ease: "power1.out" }, 0.15
+      ).to(title,
+        { x: 0, y: 0, scale: 1, duration: 1.1, ease: "power3.inOut" }, 0.75
+      );
+    }
+
     figureRefs.current.forEach((el, i) => {
       gsap.fromTo(el,
         { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1.0, delay: 0.45 + i * 0.06, ease: "power3.out" }
+        { opacity: 1, y: 0, duration: 1.0, delay: 1.1 + i * 0.06, ease: "power3.out" }
       );
     });
 
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  // ── Metadata list expand / collapse ─────────────────────────────
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    if (listOpen) {
+      gsap.fromTo(panel,
+        { height: 0, opacity: 0 },
+        { height: "min(320px, 46vh)", opacity: 1, duration: 0.5, ease: "power3.out" }
+      );
+    } else {
+      gsap.to(panel, { height: 0, opacity: 0, duration: 0.35, ease: "power2.in" });
+    }
+  }, [listOpen]);
 
   // ── Track which photo is centered (drives counter + avatar) ─────
   useEffect(() => {
@@ -115,7 +148,7 @@ export function CollectionOverlay({ collection, onClose }: Props) {
         pointerEvents: "none",
         background: "linear-gradient(to bottom, rgba(0,0,0,0.6), transparent)",
       }}>
-        <div>
+        <div ref={titleRef} style={{ willChange: "transform" }}>
           <div style={{
             fontSize: "clamp(1.4rem, 4vw, 3rem)", fontWeight: 500,
             letterSpacing: "-0.03em", textTransform: "uppercase", lineHeight: 1, color: "#fff",
@@ -184,12 +217,54 @@ export function CollectionOverlay({ collection, onClose }: Props) {
         ))}
       </div>
 
+      {/* ── Expandable metadata list (grows up out of the dock) ── */}
+      <div
+        ref={panelRef}
+        className="glass"
+        style={{
+          position: "absolute", bottom: "96px", left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(440px, 88vw)", borderRadius: "18px",
+          height: 0, opacity: 0, overflow: "hidden", zIndex: 5,
+        }}
+      >
+        <div style={{ padding: "18px 22px", height: "100%", overflowY: "auto" }}>
+          <div style={{
+            fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.5)",
+            textTransform: "uppercase", marginBottom: "12px",
+          }}>
+            {collection.title} · {collection.country} · {total} frames
+          </div>
+          {collection.photos.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { goTo(i); setListOpen(false); }}
+              data-cursor
+              style={{
+                display: "flex", gap: "16px", alignItems: "baseline", width: "100%",
+                background: "none", border: "none", padding: "10px 0", cursor: "none", textAlign: "left",
+                borderBottom: "0.5px solid rgba(255,255,255,0.08)",
+                color: i === current ? "#fff" : "rgba(255,255,255,0.6)",
+                transition: "color 0.2s",
+              }}
+            >
+              <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span style={{ fontSize: "12px", letterSpacing: "0.02em" }}>
+                {collection.title} — No. {i + 1}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── Floating glass control bar ── */}
       <div style={{
         position: "absolute", bottom: "26px", left: "50%",
         transform: "translateX(-50%)",
         display: "flex", alignItems: "center", gap: "10px",
-        zIndex: 5,
+        zIndex: 6,
       }}>
         <div className="glass" style={{
           ...glassPill,
@@ -239,6 +314,18 @@ export function CollectionOverlay({ collection, onClose }: Props) {
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
             </button>
           </div>
+
+          {/* Collection list toggle */}
+          <button
+            onClick={() => setListOpen(o => !o)}
+            aria-label="Collection list"
+            aria-expanded={listOpen}
+            data-cursor
+            data-cursor-label="LIST"
+            style={{ ...ctrlBtn, background: listOpen ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.08)" }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><line x1="8" y1="7" x2="20" y2="7"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="17" x2="20" y2="17"/><circle cx="4" cy="7" r="0.6" fill="#fff"/><circle cx="4" cy="12" r="0.6" fill="#fff"/><circle cx="4" cy="17" r="0.6" fill="#fff"/></svg>
+          </button>
         </div>
 
         {/* Close — separate glass circle */}
