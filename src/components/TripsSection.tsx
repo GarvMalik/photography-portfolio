@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GlassCard } from "@/components/gl/GlassCard";
-import { CollectionOverlay, type Collection } from "@/components/CollectionOverlay";
-import { shatter } from "@/lib/shatter";
+import { FilmReelViewer } from "@/components/FilmReelViewer";
+import { collectionToFrames, type Collection } from "@/lib/reel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,8 +57,8 @@ const COLLECTIONS: Collection[] = [
   },
   {
     id: "himalayas",
-    title: "Himalayas",
-    country: "India",
+    title: "India",
+    country: "Himachal Pradesh",
     year: "2023",
     frames: "13",
     photos: [
@@ -138,11 +138,8 @@ export function TripsSection() {
     });
   }, []);
 
-  const handleCardClick = (col: Collection, idx: number) => {
-    const photoEl = photoRefs.current[idx];
-    if (!photoEl) { setActiveCollection(col); return; }
-
-    shatter(photoEl, () => setActiveCollection(col));
+  const handleCardClick = (col: Collection) => {
+    setActiveCollection(col);
   };
 
   return (
@@ -179,11 +176,11 @@ export function TripsSection() {
             <div
               key={col.id}
               ref={el => { cardRefs.current[i] = el; }}
-              onClick={() => handleCardClick(col, i)}
+              onClick={() => handleCardClick(col)}
               onKeyDown={e => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleCardClick(col, i);
+                  handleCardClick(col);
                 }
               }}
               role="button"
@@ -293,10 +290,13 @@ export function TripsSection() {
         </div>
       </section>
 
-      {/* Collection overlay */}
+      {/* Film-reel viewer — rich metadata (location · date · caption) */}
       {activeCollection && (
-        <CollectionOverlay
-          collection={activeCollection}
+        <FilmReelViewer
+          frames={collectionToFrames(activeCollection)}
+          startIndex={0}
+          variant="rich"
+          collectionTitle={activeCollection.title}
           onClose={() => setActiveCollection(null)}
         />
       )}

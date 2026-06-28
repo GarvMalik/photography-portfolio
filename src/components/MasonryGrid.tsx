@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
-import { shatter } from "@/lib/shatter";
+import { FilmReelViewer } from "@/components/FilmReelViewer";
+import type { ReelFrame } from "@/lib/reel";
 import type { Photo } from "@/lib/photos";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +16,10 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
   const gridRef  = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const capRefs  = useRef<(HTMLDivElement | null)[]>([]);
-  const router   = useRouter();
+  const [viewerStart, setViewerStart] = useState<number | null>(null);
+
+  // Selected Works → minimal reel frames (frame number + title only)
+  const reelFrames: ReelFrame[] = photos.map(p => ({ src: p.src, title: p.label, type: p.type }));
 
   // Magnetic caption — the "View →" label gently follows the cursor (Level 1)
   const onMag = (e: React.PointerEvent<HTMLDivElement>, i: number) => {
@@ -47,11 +50,6 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
     return () => ScrollTrigger.getAll().forEach(t => t.kill());
   }, []);
 
-  const open = (photo: Photo, el: HTMLDivElement | null) => {
-    if (!el) { router.push(`/photo/${photo.slug}`); return; }
-    shatter(el, () => router.push(`/photo/${photo.slug}`));
-  };
-
   return (
     <section id="work" aria-label="Selected work">
       {/* Section header */}
@@ -81,13 +79,13 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                  aria-label={`${photo.label}, ${photo.type}. View photo`}
                  data-cursor
                  data-cursor-label="VIEW"
-                 onClick={() => open(photo, itemRefs.current[i])}
+                 onClick={() => setViewerStart(i)}
                  onPointerMove={e => onMag(e, i)}
                  onPointerLeave={() => onMagLeave(i)}
                  onKeyDown={e => {
                    if (e.key === "Enter" || e.key === " ") {
                      e.preventDefault();
-                     open(photo, itemRefs.current[i]);
+                     setViewerStart(i);
                    }
                  }}
                  style={{ position: "relative", overflow: "hidden", cursor: "none" }}>
@@ -125,6 +123,15 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
           );
         })}
       </div>
+
+      {viewerStart !== null && (
+        <FilmReelViewer
+          frames={reelFrames}
+          startIndex={viewerStart}
+          variant="minimal"
+          onClose={() => setViewerStart(null)}
+        />
+      )}
     </section>
   );
 }

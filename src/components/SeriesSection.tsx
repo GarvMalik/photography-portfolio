@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
-import { CollectionOverlay, type Collection } from "@/components/CollectionOverlay";
+import { FilmReelViewer } from "@/components/FilmReelViewer";
+import { collectionToFrames, type Collection } from "@/lib/reel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -220,7 +221,13 @@ export function SeriesSection() {
 
       {/* Gallery overlay */}
       {active && (
-        <CollectionOverlay collection={active} onClose={() => setActive(null)} />
+        <FilmReelViewer
+          frames={collectionToFrames(active)}
+          startIndex={0}
+          variant="rich"
+          collectionTitle={active.title}
+          onClose={() => setActive(null)}
+        />
       )}
     </section>
   );
