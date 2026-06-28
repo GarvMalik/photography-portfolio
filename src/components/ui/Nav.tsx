@@ -23,7 +23,7 @@ export function Nav() {
   useEffect(() => {
     gsap.fromTo(navRef.current,
       { opacity: 0, y: -14 },
-      { opacity: 1, y: 0, duration: 1.0, delay: 2.6, ease: "power3.out" }
+      { opacity: 1, y: 0, duration: 1.0, delay: 4.9, ease: "power3.out" }
     );
   }, []);
 

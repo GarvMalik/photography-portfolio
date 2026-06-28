@@ -24,7 +24,7 @@ const SCATTERED = [
   { x: 26, y: 83, rot: -2, w: "clamp(90px,9vw,140px)",  ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-15.jpg" },
 ];
 
-const PRELOADER_DELAY = 2.4;
+const PRELOADER_DELAY = 4.6; // the 3D intro runs first; hero enters as it bursts
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -46,9 +46,11 @@ export function HeroSection() {
       );
     });
 
+    // Hero text resolves softly out of a blur (Phase 5)
     gsap.fromTo(textRef.current,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 1.2, delay: PRELOADER_DELAY + 0.1, ease: "power3.out" }
+      { opacity: 0, y: 24, scale: 1.06, filter: "blur(16px)" },
+      { opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
+        duration: 1.4, delay: PRELOADER_DELAY + 0.15, ease: "power3.out" }
     );
 
     // Gentle continuous float per photo
