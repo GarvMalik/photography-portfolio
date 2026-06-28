@@ -18,11 +18,11 @@ gsap.registerPlugin(ScrollTrigger);
 const FIELD = [
   // hidden upper field
   { x:  8, y: -22, rot: -4, w: "clamp(96px,9vw,150px)",  ratio: "3/4"  as const, depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
-  { x: 34, y: -15, rot:  3, w: "clamp(80px,8vw,124px)",  ratio: "1/1"  as const, depth: 0.8, src: "/images/best-of-all/best-10.jpg" },
+  { x: 34, y: -15, rot:  3, w: "clamp(80px,8vw,124px)",  ratio: "1/1"  as const, depth: 0.8, src: "/images/best-of-all/best-10.webp" },
   { x: 66, y: -17, rot: -2, w: "clamp(86px,9vw,134px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
-  { x: 90, y: -20, rot:  4, w: "clamp(100px,10vw,156px)", ratio: "4/3" as const, depth: 0.5, src: "/images/best-of-all/best-08.jpg" },
+  { x: 90, y: -20, rot:  4, w: "clamp(100px,10vw,156px)", ratio: "4/3" as const, depth: 0.5, src: "/images/best-of-all/best-08.webp" },
   // top edges / corners (visible)
-  { x:  2, y:  9,  rot:  3, w: "clamp(108px,11vw,168px)", ratio: "4/3" as const, depth: 0.6, src: "/images/best-of-all/best-07.jpg" },
+  { x:  2, y:  9,  rot:  3, w: "clamp(108px,11vw,168px)", ratio: "4/3" as const, depth: 0.6, src: "/images/best-of-all/best-07.webp" },
   { x: 91, y:  6,  rot: -3, w: "clamp(88px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-14.jpg" },
   { x: 19, y: 19,  rot: -2, w: "clamp(78px,8vw,118px)",  ratio: "2/3"  as const, depth: 1.1, src: "/images/best-of-all/best-09.jpg" },
   { x: 79, y: 16,  rot:  2, w: "clamp(74px,8vw,112px)",  ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-19.jpg" },

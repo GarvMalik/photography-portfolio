@@ -20,16 +20,17 @@ const COLLECTIONS: Collection[] = [
     photos: [
       { src: "/images/spain/spain-01.jpg",  ratio: "4/3"  }, // city from above
       { src: "/images/spain/spain-03.jpg",  ratio: "3/4"  }, // Park Güell
-      { src: "/images/spain/spain-29.jpg",  ratio: "3/4"  }, // Casa Batlló
-      { src: "/images/spain/spain-30.jpg",  ratio: "3/4"  }, // Cathedral
+      { src: "/images/spain/spain-29.webp",  ratio: "3/4"  }, // Casa Batlló
+      { src: "/images/spain/spain-30.webp",  ratio: "3/4"  }, // Cathedral
       { src: "/images/spain/spain-28.jpg",  ratio: "3/4"  }, // Gothic portal
-      { src: "/images/spain/spain-33.jpg",  ratio: "4/3"  }, // ornate dome
+      { src: "/images/spain/spain-33.webp",  ratio: "4/3"  }, // ornate dome
       { src: "/images/spain/spain-34.jpg",  ratio: "3/4"  }, // Plaça Reial lamp
-      { src: "/images/spain/spain-14.jpg",  ratio: "4/3"  }, // beach + cliffs
+      { src: "/images/spain/spain-14.webp",  ratio: "4/3"  }, // beach + cliffs
       { src: "/images/spain/spain-24.jpg",  ratio: "3/4"  }, // harbour at night
-      { src: "/images/spain/spain-38.jpg",  ratio: "4/3"  }, // Montjuïc palace lit
+      { src: "/images/spain/spain-38.webp",  ratio: "4/3"  }, // Montjuïc palace lit
       { src: "/images/spain/spain-40.jpg",  ratio: "4/3"  }, // palm sunset
       { src: "/images/spain/spain-43.jpg",  ratio: "4/3"  }, // sunset over water
+      { src: "/images/best-of-all/best-24.webp", ratio: "3/4" }, // stone monument, Montjuïc
     ],
   },
   {
@@ -37,45 +38,51 @@ const COLLECTIONS: Collection[] = [
     title: "Finland",
     country: "Suomi",
     year: "2025 – present",
-    frames: "16",
+    frames: "19",
     photos: [
-      { src: "/images/finland/finland-01.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-02.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-03.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-01.webp", ratio: "4/3"  },
+      { src: "/images/finland/finland-02.webp", ratio: "4/3"  },
+      { src: "/images/finland/finland-03.webp", ratio: "3/4"  },
       { src: "/images/finland/finland-04.jpg", ratio: "3/4"  },
       { src: "/images/finland/finland-05.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-06.jpg", ratio: "16/9" },
-      { src: "/images/finland/finland-07.jpg", ratio: "2/3"  },
-      { src: "/images/finland/finland-08.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-09.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-06.webp", ratio: "16/9" },
+      { src: "/images/finland/finland-07.webp", ratio: "2/3"  },
+      { src: "/images/finland/finland-08.webp", ratio: "4/3"  },
+      { src: "/images/finland/finland-09.webp", ratio: "4/3"  },
       { src: "/images/finland/finland-10.jpg", ratio: "3/4"  },
       { src: "/images/finland/finland-11.jpg", ratio: "4/3"  },
       { src: "/images/finland/finland-12.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-13.jpg", ratio: "4/3"  },
-      { src: "/images/finland/finland-14.jpg", ratio: "4/3"  },
+      { src: "/images/finland/finland-13.webp", ratio: "4/3"  },
+      { src: "/images/finland/finland-14.webp", ratio: "4/3"  },
       { src: "/images/finland/finland-15.jpg", ratio: "3/4"  },
       { src: "/images/finland/finland-16.jpg", ratio: "3/4"  },
+      { src: "/images/finland/finland-17.webp", ratio: "3/4" },
+      { src: "/images/finland/finland-18.webp", ratio: "4/3" },
+      { src: "/images/finland/finland-19.webp", ratio: "3/4" },
     ],
   },
   {
-    id: "himalayas",
+    id: "india",
     title: "India",
-    country: "Himachal Pradesh",
+    country: "India",
     year: "2023",
-    frames: "13",
+    frames: "15",
     photos: [
       { src: "/images/india/india-04.jpg", ratio: "4/3"  }, // mountain ridge
       { src: "/images/india/india-02.jpg", ratio: "4/3"  }, // barren valley
-      { src: "/images/india/india-03.jpg", ratio: "4/3"  }, // rock crag
-      { src: "/images/india/india-08.jpg", ratio: "2/3"  }, // hill town + snow peaks
-      { src: "/images/india/india-01.jpg", ratio: "4/3"  }, // green hills
+      { src: "/images/india/india-03.webp", ratio: "4/3"  }, // rock crag
+      { src: "/images/india/india-08.webp", ratio: "2/3"  }, // hill town + snow peaks
+      { src: "/images/india/india-01.webp", ratio: "4/3"  }, // green hills
       { src: "/images/india/india-09.jpg", ratio: "4/3"  }, // deodar forest
-      { src: "/images/india/india-10.jpg", ratio: "4/3"  }, // forested valley
-      { src: "/images/india/india-05.jpg", ratio: "4/3"  }, // heritage interior
+      { src: "/images/india/india-10.webp", ratio: "4/3"  }, // forested valley
+      { src: "/images/india/india-05.webp", ratio: "4/3"  }, // heritage interior
       { src: "/images/india/india-07.jpg", ratio: "4/3"  }, // sunflower
-      { src: "/images/india/india-11.jpg", ratio: "4/3"  }, // full moon
-      { src: "/images/india/india-12.jpg", ratio: "4/3"  }, // night road
-      { src: "/images/india/india-13.jpg", ratio: "4/3"  }, // night travel
+      { src: "/images/india/india-11.webp", ratio: "4/3"  }, // full moon
+      { src: "/images/india/india-12.webp", ratio: "4/3"  }, // night road
+      { src: "/images/india/india-13.webp", ratio: "4/3"  }, // night travel
+      { src: "/images/india/india-14.jpg", ratio: "4/3"  },  // green hills
+      { src: "/images/india/india-15.jpg", ratio: "4/3"  },  // heritage garden
+      { src: "/images/best-of-all/best-26.webp", ratio: "3/4" }, // snow peaks
     ],
   },
   {
@@ -83,7 +90,7 @@ const COLLECTIONS: Collection[] = [
     title: "BML Munjal",
     country: "Gurgaon, India",
     year: "2020–24",
-    frames: "14",
+    frames: "13",
     photos: [
       { src: "/images/bml-life/bml-11.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-13.jpg", ratio: "4/3"  },
@@ -96,7 +103,6 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/bml-life/bml-04.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-07.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-06.jpg", ratio: "3/4"  },
-      { src: "/images/bml-life/bml-14.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-03.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-10.jpg", ratio: "3/4"  },
     ],
@@ -106,14 +112,14 @@ const COLLECTIONS: Collection[] = [
 const TAGS: Record<string, string[]> = {
   barcelona: ["Gaudí", "Gothic", "Coast"],
   finland:   ["Tampere", "Seasons", "Lakes"],
-  himalayas: ["Mountains", "Forest", "Altitude"],
+  india: ["Mountains", "Forest", "Altitude"],
   bml:       ["People", "Campus", "Friends"],
 };
 
 const DESCRIPTIONS: Record<string, string> = {
   barcelona: "The city never stops moving. Gaudí's bones bent into the skyline, the Gothic quarter folding in on itself, and the harbour going gold every evening while strangers walked through it like they owned the light.",
   finland:   "One city, every season. Tampere sits on the rapids between two lakes — green and loud in autumn, white and silent by January. You begin to understand why the Finns don't need to speak. The light here is low, long, and patient.",
-  himalayas: "The air thins and the noise drops away. Deodar forests, snow on the far peaks, a town stacked up a hillside. You drive through the night to get there and the mountains don't even notice you arrived.",
+  india: "The air thins and the noise drops away. Deodar forests, snow on the far peaks, a town stacked up a hillside. You drive through the night to get there and the mountains don't even notice you arrived.",
   bml:       "Four years at BML Munjal. The people more than the place — the late nights, the noise, the in-jokes you can't explain to anyone who wasn't there. Less composed than the rest of this, and that's the point.",
 };
 

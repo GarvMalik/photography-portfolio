@@ -6,7 +6,7 @@ import { EyeLogo } from "@/components/ui/EyeLogo";
 
 const NAV_ITEMS = [
   { label: "Work",       href: "#work",      n: "01", ratio: "3/4" as const, src: "/images/best-of-all/best-09.jpg" },
-  { label: "Stories",    href: "#stories",   n: "02", ratio: "3/4" as const, src: "/images/spain/spain-29.jpg" },
+  { label: "Stories",    href: "#stories",   n: "02", ratio: "3/4" as const, src: "/images/spain/spain-29.webp" },
   { label: "Dispatches", href: "#dispatches", n: "03", ratio: "3/4" as const, src: "/images/india/india-04.jpg" },
   { label: "Series",     href: "#series",    n: "04", ratio: "3/4" as const, src: "/images/best-of-all/best-14.jpg" },
 ];
