@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { GlassCard } from "@/components/gl/GlassCard";
 import { CollectionOverlay, type Collection } from "@/components/CollectionOverlay";
 import { shatter } from "@/lib/shatter";
 
@@ -198,7 +198,7 @@ export function TripsSection() {
                 ref={el => { photoRefs.current[i] = el; }}
                 style={{ position: "relative" }}
               >
-                <PhotoPlaceholder ratio="4/3" src={col.photos[0].src} />
+                <GlassCard src={col.photos[0].src!} alt={col.title} />
 
                 {/* Top scrim — keeps the title legible over bright photos */}
                 <div aria-hidden style={{
