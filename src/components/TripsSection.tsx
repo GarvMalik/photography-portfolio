@@ -61,7 +61,7 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/finland/finland-13.webp", ratio: "4/3"  },
       { src: "/images/finland/finland-14.webp", ratio: "4/3"  },
       { src: "/images/finland/finland-15.jpg", ratio: "3/4"  },
-      { src: "/images/finland/finland-16.webp", ratio: "3/4"  },
+      { src: "/images/finland/finland-16.jpg", ratio: "3/4"  },
       { src: "/images/finland/finland-17.webp", ratio: "3/4"  },
       { src: "/images/finland/finland-18.webp", ratio: "4/3"  },
       { src: "/images/finland/finland-19.webp", ratio: "3/4"  },
