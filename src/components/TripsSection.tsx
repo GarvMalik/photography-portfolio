@@ -75,18 +75,18 @@ const COLLECTIONS: Collection[] = [
     title: "India",
     country: "Himachal Pradesh",
     year: "2023",
-    frames: "13",
+    frames: "12",
     photos: [
       { src: "/images/india/india-04.jpg", ratio: "4/3"  }, // mountain ridge
       { src: "/images/india/india-02.jpg", ratio: "4/3"  }, // barren valley
-      { src: "/images/india/india-03.jpg", ratio: "4/3"  }, // rock crag
-      { src: "/images/india/india-08.jpg", ratio: "2/3"  }, // hill town + snow peaks
-      { src: "/images/india/india-01.jpg", ratio: "4/3"  }, // green hills
+      { src: "/images/india/india-03.webp", ratio: "4/3"  }, // rock crag
+      { src: "/images/india/india-08.webp", ratio: "2/3"  }, // hill town + snow peaks
+      { src: "/images/india/india-01.webp", ratio: "4/3"  }, // green hills
       { src: "/images/india/india-09.jpg", ratio: "4/3"  }, // deodar forest
-      { src: "/images/india/india-10.jpg", ratio: "4/3"  }, // forested valley
-      { src: "/images/india/india-05.jpg", ratio: "4/3"  }, // heritage interior
+      { src: "/images/india/india-10.webp", ratio: "4/3"  }, // forested valley
+      { src: "/images/india/india-05.webp", ratio: "4/3"  }, // heritage interior
       { src: "/images/india/india-07.jpg", ratio: "4/3"  }, // sunflower
-      { src: "/images/india/india-11.jpg", ratio: "4/3"  }, // full moon
+      { src: "/images/india/india-11.webp", ratio: "4/3"  }, // full moon
       { src: "/images/india/india-12.jpg", ratio: "4/3"  }, // night road
       { src: "/images/india/india-13.jpg", ratio: "4/3"  }, // night travel
     ],
@@ -108,7 +108,7 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/bml-life/bml-09.jpg", ratio: "4/3"  },
       { src: "/images/bml-life/bml-04.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-07.jpg", ratio: "3/4"  },
-      { src: "/images/bml-life/bml-03.jpg", ratio: "3/4"  },
+      // { src: "/images/bml-life/bml-03.jpg", ratio: "3/4"  },
       { src: "/images/bml-life/bml-10.jpg", ratio: "3/4"  },
     ],
   },
