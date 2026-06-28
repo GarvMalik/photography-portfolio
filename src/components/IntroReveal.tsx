@@ -4,11 +4,11 @@ import gsap from "gsap";
 
 // Photo panels that make up the ring (mix of the library)
 const PANELS = [
-  "/images/best-of-all/best-01.jpg", "/images/best-of-all/best-09.jpg",
+  "/images/best-of-all/best-01.jpg", "/images/best-of-all/best-09.webp",
   "/images/best-of-all/best-14.jpg", "/images/best-of-all/best-07.webp",
   "/images/best-of-all/best-16.jpg", "/images/best-of-all/best-21.jpg",
   "/images/best-of-all/best-10.webp", "/images/spain/spain-29.webp",
-  "/images/best-of-all/best-12.jpg", "/images/best-of-all/best-22.jpg",
+  "/images/best-of-all/best-12.jpg", "/images/best-of-all/best-22.webp",
   "/images/finland/finland-07.webp", "/images/best-of-all/best-18.jpg",
   "/images/india/india-04.jpg",      "/images/best-of-all/best-05.jpg",
   "/images/best-of-all/best-20.jpg", "/images/spain/spain-40.jpg",
