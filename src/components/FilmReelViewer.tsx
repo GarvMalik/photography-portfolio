@@ -417,37 +417,129 @@ function ReelFrameEl({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-/* ── Expanded viewer ── */
+/* ── Expanded viewer with zoom ── */
 function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref    = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [zoom, setZoom]     = useState(1);
+  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const pinch = useRef<{ dist: number; cx: number; cy: number } | null>(null);
+
   useEffect(() => {
     gsap.fromTo(ref.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" });
-    const img = ref.current?.querySelector("img");
-    if (img) gsap.fromTo(img, { scale: 0.92 }, { scale: 1, duration: 0.7, ease: "power3.out" });
+    gsap.fromTo(imgRef.current, { scale: 0.92 }, { scale: 1, duration: 0.7, ease: "power3.out" });
   }, []);
+
+  const onWheel = (e: React.WheelEvent) => {
+    e.stopPropagation();
+    const img = imgRef.current!;
+    const rect = img.getBoundingClientRect();
+    setOrigin({
+      x: ((e.clientX - rect.left) / rect.width)  * 100,
+      y: ((e.clientY - rect.top)  / rect.height) * 100,
+    });
+    setZoom(z => Math.min(4, Math.max(1, z - e.deltaY * 0.003)));
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinch.current = {
+        dist: Math.hypot(dx, dy),
+        cx: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        cy: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+      };
+    }
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && pinch.current) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      const img  = imgRef.current!;
+      const rect = img.getBoundingClientRect();
+      setOrigin({
+        x: ((pinch.current.cx - rect.left) / rect.width)  * 100,
+        y: ((pinch.current.cy - rect.top)  / rect.height) * 100,
+      });
+      setZoom(z => Math.min(4, Math.max(1, z * (dist / pinch.current!.dist))));
+      pinch.current.dist = dist;
+    }
+  };
+  const onTouchEnd = () => { pinch.current = null; };
+
+  const handleBackdrop = () => {
+    if (zoom > 1.1) setZoom(1);
+    else onClose();
+  };
+
   return (
     <div
       ref={ref}
-      onClick={onClose}
-      data-cursor data-cursor-label="CLOSE"
+      onClick={handleBackdrop}
+      data-cursor data-cursor-label={zoom > 1.1 ? "RESET" : "CLOSE"}
       style={{
         position: "absolute", inset: 0, zIndex: 50, background: "rgba(3,3,4,0.94)",
         display: "grid", placeItems: "center", cursor: "none",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={frame.src} alt={frame.title ?? ""} style={{
-        maxWidth: "86vw", maxHeight: "82vh", objectFit: "contain", display: "block",
-        boxShadow: "0 40px 120px rgba(0,0,0,0.7)",
-      }} />
+      <img
+        ref={imgRef}
+        src={frame.src}
+        alt={frame.title ?? ""}
+        onClick={e => e.stopPropagation()}
+        onWheel={onWheel}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{
+          maxWidth: "86vw", maxHeight: "82vh", objectFit: "contain", display: "block",
+          boxShadow: "0 40px 120px rgba(0,0,0,0.7)",
+          transform: `scale(${zoom})`,
+          transformOrigin: `${origin.x}% ${origin.y}%`,
+          transition: zoom === 1 ? "transform 0.35s cubic-bezier(0.16,1,0.3,1)" : "none",
+          touchAction: "none",
+        }}
+      />
       {frame.caption && (
         <div style={{
           position: "absolute", bottom: "32px", left: 0, right: 0, textAlign: "center",
           fontSize: "12px", letterSpacing: "0.04em", color: "rgba(255,255,255,0.7)", fontStyle: "italic",
+          opacity: zoom > 1.1 ? 0 : 1, transition: "opacity 0.3s",
+          pointerEvents: "none",
         }}>
           {frame.caption}
         </div>
       )}
+
+      {/* Close / reset button */}
+      <button
+        onClick={e => { e.stopPropagation(); zoom > 1 ? setZoom(1) : onClose(); }}
+        aria-label={zoom > 1 ? "Reset zoom" : "Close"}
+        data-cursor data-cursor-label={zoom > 1 ? "RESET" : "CLOSE"}
+        className="glass"
+        style={{
+          position: "absolute", top: "26px", right: "var(--page-px)",
+          border: "none", cursor: "none", color: "#fff",
+          padding: "8px 16px", borderRadius: "100px",
+          fontSize: "9px", letterSpacing: "0.26em", textTransform: "uppercase",
+          fontFamily: "var(--font-display)",
+        }}
+      >
+        {zoom > 1 ? "Reset ↺" : "Close ✕"}
+      </button>
+
+      <div style={{
+        position: "absolute", bottom: "32px", left: 0, right: 0, textAlign: "center",
+        fontSize: "8px", letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)",
+        textTransform: "uppercase", pointerEvents: "none",
+        opacity: zoom > 1.1 || frame.caption ? 0 : 1, transition: "opacity 0.3s",
+      }}>
+        scroll or pinch to zoom
+      </div>
     </div>
   );
 }

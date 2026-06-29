@@ -99,9 +99,6 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                 <div style={{ fontSize: "10.5px", letterSpacing: "0.14em", color: "rgba(20,18,14,0.78)", textTransform: "uppercase", marginTop: "5px" }}>
                   {photo.label}
                 </div>
-                <div style={{ fontSize: "6.5px", letterSpacing: "0.26em", color: "rgba(20,18,14,0.3)", textTransform: "uppercase", marginTop: "8px" }}>
-                  click to view →
-                </div>
               </div>
             </div>
           );
