@@ -167,7 +167,7 @@ export function HeroSection() {
       </div>
 
       {/* PHOTOGRAPHY — mix-blend-mode: difference makes white text go black over bright photos */}
-      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none", mixBlendMode: "difference" }}>
+      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none", mixBlendMode: "hard-light" }}>
         <h1 style={{
           fontSize: "clamp(3.5rem, 13vw, 13rem)", fontWeight: 500,
           letterSpacing: "-0.03em", color: "var(--c-fg)", margin: 0,
