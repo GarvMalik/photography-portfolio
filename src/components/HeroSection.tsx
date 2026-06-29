@@ -15,36 +15,43 @@ gsap.registerPlugin(ScrollTrigger);
  *   x, y are % of the viewport (y may be negative = above, or > 100 = below).
  *   depth drives the subtle cursor parallax (no direct following).
  */
+// y < 0 = hidden above; y > 100 = hidden below. All photos are square (1:1).
+// Brightness is computed from y in the JSX: higher up = darker.
 const FIELD = [
-  // hidden upper field
-  { x: 10, y: -22, rot: 0, w: "clamp(96px,9vw,150px)",   ratio: "3/4"  as const, depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
-  { x: 35, y: -16, rot: 0, w: "clamp(80px,8vw,124px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-10.webp" },
-  { x: 62, y: -18, rot: 0, w: "clamp(86px,9vw,134px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
-  { x: 86, y: -20, rot: 0, w: "clamp(100px,10vw,156px)", ratio: "4/3"  as const, depth: 0.5, src: "/images/best-of-all/best-08.webp" },
-  // row 1 — spread across full width
-  { x:  2, y:  8,  rot: 0, w: "clamp(100px,10vw,158px)", ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-07.webp" },
-  { x: 24, y: 11,  rot: 0, w: "clamp(82px,8vw,124px)",   ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-09.jpg" },
-  { x: 47, y:  7,  rot: 0, w: "clamp(88px,9vw,136px)",   ratio: "4/3"  as const, depth: 0.7, src: "/images/best-of-all/best-24.webp" },
-  { x: 70, y: 10,  rot: 0, w: "clamp(78px,8vw,118px)",   ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
-  { x: 89, y:  6,  rot: 0, w: "clamp(86px,9vw,132px)",   ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-14.jpg" },
-  // row 2 — mid screen
-  { x:  1, y: 36,  rot: 0, w: "clamp(90px,9vw,140px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-12.jpg" },
-  { x: 20, y: 38,  rot: 0, w: "clamp(84px,8vw,128px)",   ratio: "4/3"  as const, depth: 1.1, src: "/images/best-of-all/best-02.jpg" },
-  { x: 43, y: 34,  rot: 0, w: "clamp(78px,8vw,120px)",   ratio: "3/4"  as const, depth: 0.8, src: "/images/finland/finland-04.jpg" },
-  { x: 64, y: 37,  rot: 0, w: "clamp(86px,9vw,130px)",   ratio: "4/3"  as const, depth: 0.6, src: "/images/spain/spain-06.webp" },
-  { x: 86, y: 34,  rot: 0, w: "clamp(110px,11vw,168px)", ratio: "2/3"  as const, depth: 0.5, src: "/images/best-of-all/best-16.jpg" },
-  // row 3 — lower visible
-  { x:  3, y: 60,  rot: 0, w: "clamp(84px,9vw,128px)",   ratio: "4/3"  as const, depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
-  { x: 24, y: 62,  rot: 0, w: "clamp(80px,8vw,122px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-15.jpg" },
-  { x: 46, y: 58,  rot: 0, w: "clamp(88px,9vw,134px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/india/india-08.webp" },
-  { x: 68, y: 61,  rot: 0, w: "clamp(76px,8vw,116px)",   ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
-  { x: 88, y: 58,  rot: 0, w: "clamp(90px,9vw,138px)",   ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
-  // row 4 — just below fold, rises in on scroll
-  { x:  5, y: 86,  rot: 0, w: "clamp(92px,9vw,140px)",   ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
-  { x: 27, y: 88,  rot: 0, w: "clamp(84px,8vw,128px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-05.jpg" },
-  { x: 50, y: 84,  rot: 0, w: "clamp(86px,9vw,132px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-20.jpg" },
-  { x: 71, y: 87,  rot: 0, w: "clamp(96px,10vw,148px)",  ratio: "4/3"  as const, depth: 0.5, src: "/images/spain/spain-40.jpg" },
-  { x: 89, y: 84,  rot: 0, w: "clamp(80px,8vw,122px)",   ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-03.jpg" },
+  // above viewport (fully dark, appear as scroll lifts the field)
+  { x:  8, y: -24, w: "clamp(100px,10vw,154px)", depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
+  { x: 30, y: -18, w: "clamp(90px,9vw,138px)",   depth: 0.8, src: "/images/best-of-all/best-10.webp" },
+  { x: 55, y: -20, w: "clamp(96px,10vw,148px)",  depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
+  { x: 78, y: -22, w: "clamp(88px,9vw,136px)",   depth: 0.5, src: "/images/best-of-all/best-08.webp" },
+  // top band — very dark
+  { x:  2, y:  5,  w: "clamp(96px,10vw,150px)",  depth: 0.6, src: "/images/best-of-all/best-07.webp" },
+  { x: 23, y:  8,  w: "clamp(88px,9vw,136px)",   depth: 0.9, src: "/images/best-of-all/best-09.jpg" },
+  { x: 46, y:  4,  w: "clamp(92px,9vw,142px)",   depth: 0.7, src: "/images/best-of-all/best-24.webp" },
+  { x: 68, y:  7,  w: "clamp(86px,9vw,132px)",   depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
+  { x: 87, y:  3,  w: "clamp(94px,9vw,144px)",   depth: 0.8, src: "/images/best-of-all/best-14.jpg" },
+  // upper-mid — still dark
+  { x:  1, y: 26,  w: "clamp(92px,9vw,142px)",   depth: 0.7, src: "/images/best-of-all/best-12.jpg" },
+  { x: 22, y: 29,  w: "clamp(86px,9vw,134px)",   depth: 1.1, src: "/images/best-of-all/best-02.jpg" },
+  { x: 44, y: 24,  w: "clamp(90px,9vw,138px)",   depth: 0.8, src: "/images/finland/finland-04.jpg" },
+  { x: 65, y: 27,  w: "clamp(88px,9vw,136px)",   depth: 0.6, src: "/images/spain/spain-06.webp" },
+  { x: 86, y: 24,  w: "clamp(94px,9vw,144px)",   depth: 0.5, src: "/images/best-of-all/best-16.jpg" },
+  // mid — getting lighter
+  { x:  3, y: 48,  w: "clamp(94px,9vw,144px)",   depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
+  { x: 23, y: 51,  w: "clamp(88px,9vw,136px)",   depth: 0.7, src: "/images/best-of-all/best-15.jpg" },
+  { x: 46, y: 46,  w: "clamp(92px,9vw,142px)",   depth: 0.8, src: "/images/india/india-08.webp" },
+  { x: 67, y: 50,  w: "clamp(86px,9vw,132px)",   depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
+  { x: 87, y: 47,  w: "clamp(96px,10vw,148px)",  depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
+  // lower-mid — bright, mostly visible
+  { x:  2, y: 70,  w: "clamp(94px,9vw,144px)",   depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
+  { x: 23, y: 73,  w: "clamp(90px,9vw,140px)",   depth: 0.8, src: "/images/best-of-all/best-05.jpg" },
+  { x: 45, y: 68,  w: "clamp(94px,9vw,144px)",   depth: 0.7, src: "/images/best-of-all/best-20.jpg" },
+  { x: 67, y: 71,  w: "clamp(88px,9vw,136px)",   depth: 0.5, src: "/images/spain/spain-40.jpg" },
+  { x: 87, y: 68,  w: "clamp(92px,9vw,142px)",   depth: 0.9, src: "/images/best-of-all/best-03.jpg" },
+  // below viewport — scroll reveals
+  { x:  8, y: 94,  w: "clamp(90px,9vw,138px)",   depth: 0.7, src: "/images/best-of-all/best-11.jpg" },
+  { x: 30, y: 98,  w: "clamp(86px,9vw,132px)",   depth: 0.9, src: "/images/finland/finland-02.webp" },
+  { x: 55, y: 95,  w: "clamp(94px,9vw,144px)",   depth: 0.6, src: "/images/india/india-04.jpg" },
+  { x: 78, y: 99,  w: "clamp(90px,9vw,140px)",   depth: 0.8, src: "/images/best-of-all/best-23.jpg" },
 ];
 
 const PRELOADER_DELAY = 4.6; // the 3D intro runs first
@@ -57,11 +64,6 @@ export function HeroSection() {
 
   // ── Entrance + damped cursor parallax ──────────────────────────
   useEffect(() => {
-    // gsap owns each photo's transform (so cursor offsets keep the rotation)
-    FIELD.forEach((p, i) => {
-      const el = photoRefs.current[i];
-      if (el) gsap.set(el, { rotation: p.rot });
-    });
 
     // calm fade-in (no fly-from-edges chaos)
     photoRefs.current.forEach((el, i) => {
@@ -134,19 +136,23 @@ export function HeroSection() {
     >
       {/* Virtual photo field */}
       <div ref={scrollRef} style={{ position: "absolute", inset: 0, zIndex: 1, willChange: "transform" }}>
-        {FIELD.map((p, i) => (
-          <div
-            key={i}
-            ref={el => { photoRefs.current[i] = el; }}
-            style={{
-              position: "absolute", left: `${p.x}%`, top: `${p.y}%`,
-              width: p.w, willChange: "transform",
-              filter: "drop-shadow(0 6px 28px rgba(0,0,0,0.5))",
-            }}
-          >
-            <PhotoPlaceholder ratio={p.ratio} src={p.src} alt="" />
-          </div>
-        ))}
+        {FIELD.map((p, i) => {
+          // y=0 (top) → brightness 0.15 (nearly black); y=80+ → brightness 1.0 (full)
+          const brightness = Math.min(1, Math.max(0.12, (p.y + 20) / 90));
+          return (
+            <div
+              key={i}
+              ref={el => { photoRefs.current[i] = el; }}
+              style={{
+                position: "absolute", left: `${p.x}%`, top: `${p.y}%`,
+                width: p.w, willChange: "transform",
+                filter: `brightness(${brightness}) drop-shadow(0 4px 20px rgba(0,0,0,0.4))`,
+              }}
+            >
+              <PhotoPlaceholder ratio="1/1" src={p.src} alt="" />
+            </div>
+          );
+        })}
       </div>
 
       {/* PHOTOGRAPHY */}
