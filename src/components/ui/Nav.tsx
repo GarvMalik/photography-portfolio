@@ -58,7 +58,7 @@ export function Nav() {
     }
   }, [open]);
 
-  // Hover image reveal
+  // Hover image reveal + dim others
   const onItemEnter = (i: number) => {
     imgInners.current.forEach((el, j) => {
       if (el) el.style.display = j === i ? "block" : "none";
@@ -67,10 +67,18 @@ export function Nav() {
       { clipPath: "inset(0% 100% 0% 0%)", x: 20 },
       { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.5, ease: "power4.out" }
     );
+    // dim all items except the hovered one
+    itemRefs.current.forEach((el, j) => {
+      if (el) gsap.to(el, { opacity: j === i ? 1 : 0.25, duration: 0.25 });
+    });
   };
   const onItemLeave = () => {
     gsap.to(imgWrapRef.current, {
       clipPath: "inset(0% 0% 0% 100%)", duration: 0.35, ease: "power3.in",
+    });
+    // restore all items
+    itemRefs.current.forEach(el => {
+      if (el) gsap.to(el, { opacity: 1, duration: 0.25 });
     });
   };
 
@@ -193,10 +201,7 @@ export function Nav() {
                   padding: "clamp(0.6rem, 1.5vh, 1.1rem) 0",
                   borderBottom: "0.5px solid var(--c-border)",
                   color: "var(--c-fg)",
-                  transition: "color 0.2s",
                 }}
-                onMouseOver={e => (e.currentTarget.style.color = "var(--c-fg-2)")}
-                onMouseOut={e => (e.currentTarget.style.color = "var(--c-fg)")}
               >
                 <span style={{
                   fontSize: "9px", letterSpacing: "0.2em",
