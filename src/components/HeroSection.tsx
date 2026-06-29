@@ -15,44 +15,63 @@ gsap.registerPlugin(ScrollTrigger);
  *   x, y are % of the viewport (y may be negative = above, or > 100 = below).
  *   depth drives the subtle cursor parallax (no direct following).
  */
-// Organic scatter — no rows, no columns, intentionally asymmetric.
-// rot: small tilts (±1–4°). Brightness computed from y in JSX.
+// The scroll moves the field up by 112vh, so photos must span y: -20% → ~210%
+// to fill the canvas at every scroll position. Brightness computed from y in JSX.
 const FIELD = [
-  // hidden above — emerge as field scrolls up
-  { x: 12, y: -20, rot:  2, w: "clamp(80px,8vw,122px)",  depth: 0.6, src: "/images/best-of-all/best-01.jpg" },
-  { x: 52, y: -14, rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.8, src: "/images/best-of-all/best-10.webp" },
-  { x: 79, y: -18, rot:  3, w: "clamp(72px,7vw,108px)",  depth: 0.5, src: "/images/best-of-all/best-13.jpg" },
-  // top zone — very dark, fading in
-  { x:  3, y:  4,  rot: -2, w: "clamp(100px,9vw,148px)", depth: 0.5, src: "/images/best-of-all/best-07.webp" },
-  { x: 30, y:  2,  rot:  1, w: "clamp(76px,7vw,114px)",  depth: 0.9, src: "/images/best-of-all/best-24.webp" },
-  { x: 58, y:  6,  rot: -3, w: "clamp(88px,8vw,132px)",  depth: 0.7, src: "/images/best-of-all/best-14.jpg" },
-  { x: 82, y:  3,  rot:  2, w: "clamp(68px,6vw,100px)",  depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
-  // upper-mid — scattered, still dim
-  { x:  8, y: 18,  rot:  3, w: "clamp(84px,8vw,126px)",  depth: 0.7, src: "/images/best-of-all/best-09.jpg" },
-  { x: 40, y: 15,  rot: -2, w: "clamp(110px,10vw,162px)",depth: 0.6, src: "/images/best-of-all/best-02.jpg" },
-  { x: 68, y: 20,  rot:  1, w: "clamp(78px,7vw,116px)",  depth: 0.8, src: "/images/best-of-all/best-16.jpg" },
-  { x: 88, y: 16,  rot: -3, w: "clamp(92px,9vw,138px)",  depth: 0.5, src: "/images/best-of-all/best-12.jpg" },
-  // mid — organic cluster left, sparse right
-  { x:  1, y: 34,  rot: -1, w: "clamp(94px,9vw,140px)",  depth: 0.9, src: "/images/finland/finland-04.jpg" },
-  { x: 22, y: 38,  rot:  4, w: "clamp(72px,7vw,108px)",  depth: 1.1, src: "/images/best-of-all/best-15.jpg" },
-  { x: 50, y: 31,  rot: -2, w: "clamp(86px,8vw,130px)",  depth: 0.7, src: "/images/spain/spain-06.webp" },
-  { x: 74, y: 36,  rot:  3, w: "clamp(104px,10vw,156px)",depth: 0.6, src: "/images/best-of-all/best-21.jpg" },
-  // lower-mid — denser, getting brighter
-  { x:  6, y: 52,  rot:  2, w: "clamp(88px,8vw,134px)",  depth: 0.8, src: "/images/india/india-08.webp" },
-  { x: 28, y: 56,  rot: -3, w: "clamp(106px,10vw,158px)",depth: 0.6, src: "/images/best-of-all/best-17.jpg" },
-  { x: 56, y: 50,  rot:  1, w: "clamp(76px,7vw,114px)",  depth: 0.9, src: "/images/best-of-all/best-22.jpg" },
-  { x: 80, y: 54,  rot: -2, w: "clamp(90px,9vw,136px)",  depth: 0.7, src: "/images/best-of-all/best-05.jpg" },
-  // lower — bright, fully visible
-  { x:  2, y: 70,  rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
-  { x: 20, y: 74,  rot:  3, w: "clamp(80px,8vw,120px)",  depth: 1.0, src: "/images/best-of-all/best-20.jpg" },
-  { x: 44, y: 68,  rot: -2, w: "clamp(112px,11vw,168px)",depth: 0.5, src: "/images/spain/spain-40.jpg" },
-  { x: 70, y: 72,  rot:  2, w: "clamp(82px,8vw,124px)",  depth: 0.8, src: "/images/best-of-all/best-03.jpg" },
-  { x: 88, y: 68,  rot: -3, w: "clamp(98px,9vw,148px)",  depth: 0.7, src: "/images/best-of-all/best-08.webp" },
-  // below fold — scroll reveals
-  { x: 10, y: 88,  rot:  1, w: "clamp(86px,8vw,130px)",  depth: 0.9, src: "/images/finland/finland-02.webp" },
-  { x: 36, y: 92,  rot: -2, w: "clamp(76px,7vw,114px)",  depth: 0.6, src: "/images/india/india-04.jpg" },
-  { x: 62, y: 86,  rot:  3, w: "clamp(100px,9vw,150px)", depth: 0.8, src: "/images/best-of-all/best-11.jpg" },
-  { x: 84, y: 90,  rot: -1, w: "clamp(82px,8vw,124px)",  depth: 0.5, src: "/images/best-of-all/best-23.jpg" },
+  // above viewport
+  { x: 14, y: -18, rot:  2, w: "clamp(82px,8vw,124px)",  depth: 0.6, src: "/images/best-of-all/best-01.jpg" },
+  { x: 55, y: -12, rot: -1, w: "clamp(94px,9vw,140px)",  depth: 0.8, src: "/images/best-of-all/best-10.webp" },
+  { x: 80, y: -16, rot:  3, w: "clamp(74px,7vw,110px)",  depth: 0.5, src: "/images/best-of-all/best-13.jpg" },
+  // y 0–30
+  { x:  3, y:  3,  rot: -2, w: "clamp(98px,9vw,146px)",  depth: 0.5, src: "/images/best-of-all/best-07.webp" },
+  { x: 32, y:  1,  rot:  1, w: "clamp(78px,7vw,116px)",  depth: 0.9, src: "/images/best-of-all/best-24.webp" },
+  { x: 60, y:  5,  rot: -3, w: "clamp(90px,8vw,134px)",  depth: 0.7, src: "/images/best-of-all/best-14.jpg" },
+  { x: 84, y:  2,  rot:  2, w: "clamp(70px,6vw,102px)",  depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
+  { x:  9, y: 18,  rot:  3, w: "clamp(86px,8vw,128px)",  depth: 0.7, src: "/images/best-of-all/best-09.jpg" },
+  { x: 42, y: 14,  rot: -2, w: "clamp(108px,10vw,160px)",depth: 0.6, src: "/images/best-of-all/best-02.jpg" },
+  { x: 70, y: 19,  rot:  1, w: "clamp(80px,7vw,118px)",  depth: 0.8, src: "/images/best-of-all/best-16.jpg" },
+  // y 30–60
+  { x:  1, y: 32,  rot: -1, w: "clamp(92px,9vw,138px)",  depth: 0.9, src: "/images/finland/finland-04.jpg" },
+  { x: 24, y: 36,  rot:  4, w: "clamp(74px,7vw,110px)",  depth: 1.1, src: "/images/best-of-all/best-15.jpg" },
+  { x: 52, y: 30,  rot: -2, w: "clamp(88px,8vw,132px)",  depth: 0.7, src: "/images/spain/spain-06.webp" },
+  { x: 76, y: 34,  rot:  3, w: "clamp(102px,10vw,154px)",depth: 0.6, src: "/images/best-of-all/best-21.jpg" },
+  { x:  7, y: 50,  rot:  2, w: "clamp(90px,8vw,136px)",  depth: 0.8, src: "/images/india/india-08.webp" },
+  { x: 30, y: 54,  rot: -3, w: "clamp(104px,10vw,156px)",depth: 0.6, src: "/images/best-of-all/best-17.jpg" },
+  { x: 58, y: 48,  rot:  1, w: "clamp(78px,7vw,116px)",  depth: 0.9, src: "/images/best-of-all/best-22.jpg" },
+  { x: 82, y: 52,  rot: -2, w: "clamp(92px,9vw,138px)",  depth: 0.7, src: "/images/best-of-all/best-05.jpg" },
+  // y 60–90
+  { x:  2, y: 64,  rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
+  { x: 22, y: 70,  rot:  3, w: "clamp(82px,8vw,122px)",  depth: 1.0, src: "/images/best-of-all/best-20.jpg" },
+  { x: 46, y: 66,  rot: -2, w: "clamp(110px,10vw,164px)",depth: 0.5, src: "/images/spain/spain-40.jpg" },
+  { x: 72, y: 68,  rot:  2, w: "clamp(84px,8vw,126px)",  depth: 0.8, src: "/images/best-of-all/best-03.jpg" },
+  { x: 88, y: 64,  rot: -3, w: "clamp(96px,9vw,146px)",  depth: 0.7, src: "/images/best-of-all/best-08.webp" },
+  { x: 12, y: 84,  rot:  1, w: "clamp(88px,8vw,132px)",  depth: 0.9, src: "/images/finland/finland-02.webp" },
+  { x: 38, y: 88,  rot: -2, w: "clamp(78px,7vw,116px)",  depth: 0.6, src: "/images/india/india-04.jpg" },
+  { x: 64, y: 82,  rot:  3, w: "clamp(98px,9vw,148px)",  depth: 0.8, src: "/images/best-of-all/best-12.jpg" },
+  { x: 86, y: 86,  rot: -1, w: "clamp(84px,8vw,126px)",  depth: 0.5, src: "/images/best-of-all/best-11.jpg" },
+  // y 100–145 (scroll reveals these)
+  { x:  4, y: 100, rot:  2, w: "clamp(90px,9vw,136px)",  depth: 0.7, src: "/images/best-of-all/best-23.jpg" },
+  { x: 27, y: 106, rot: -3, w: "clamp(100px,9vw,150px)", depth: 0.6, src: "/images/spain/spain-06.webp" },
+  { x: 54, y: 102, rot:  1, w: "clamp(82px,8vw,124px)",  depth: 0.9, src: "/images/best-of-all/best-09.jpg" },
+  { x: 78, y: 108, rot: -2, w: "clamp(96px,9vw,144px)",  depth: 0.5, src: "/images/best-of-all/best-24.webp" },
+  { x: 14, y: 120, rot:  3, w: "clamp(86px,8vw,130px)",  depth: 0.8, src: "/images/finland/finland-04.jpg" },
+  { x: 42, y: 118, rot: -1, w: "clamp(104px,10vw,156px)",depth: 0.6, src: "/images/india/india-08.webp" },
+  { x: 68, y: 122, rot:  2, w: "clamp(80px,8vw,120px)",  depth: 0.9, src: "/images/best-of-all/best-17.jpg" },
+  { x:  6, y: 138, rot: -2, w: "clamp(94px,9vw,142px)",  depth: 0.7, src: "/images/best-of-all/best-15.jpg" },
+  { x: 32, y: 134, rot:  1, w: "clamp(88px,8vw,132px)",  depth: 0.5, src: "/images/best-of-all/best-22.jpg" },
+  { x: 60, y: 140, rot: -3, w: "clamp(96px,9vw,146px)",  depth: 0.8, src: "/images/best-of-all/best-02.jpg" },
+  { x: 84, y: 136, rot:  2, w: "clamp(82px,8vw,124px)",  depth: 0.6, src: "/images/best-of-all/best-21.jpg" },
+  // y 150–210 (deep scroll)
+  { x: 18, y: 154, rot:  3, w: "clamp(90px,9vw,138px)",  depth: 0.7, src: "/images/spain/spain-40.jpg" },
+  { x: 46, y: 158, rot: -2, w: "clamp(100px,9vw,150px)", depth: 0.9, src: "/images/best-of-all/best-07.webp" },
+  { x: 74, y: 152, rot:  1, w: "clamp(86px,8vw,130px)",  depth: 0.6, src: "/images/best-of-all/best-14.jpg" },
+  { x:  8, y: 172, rot: -1, w: "clamp(94px,9vw,142px)",  depth: 0.8, src: "/images/best-of-all/best-20.jpg" },
+  { x: 36, y: 176, rot:  4, w: "clamp(80px,8vw,122px)",  depth: 0.5, src: "/images/best-of-all/best-18.jpg" },
+  { x: 62, y: 170, rot: -3, w: "clamp(98px,9vw,148px)",  depth: 0.7, src: "/images/best-of-all/best-05.jpg" },
+  { x: 86, y: 174, rot:  2, w: "clamp(84px,8vw,126px)",  depth: 0.9, src: "/images/best-of-all/best-03.jpg" },
+  { x: 22, y: 192, rot: -2, w: "clamp(92px,9vw,140px)",  depth: 0.6, src: "/images/finland/finland-02.webp" },
+  { x: 50, y: 196, rot:  1, w: "clamp(86px,8vw,130px)",  depth: 0.8, src: "/images/best-of-all/best-08.webp" },
+  { x: 76, y: 190, rot: -2, w: "clamp(90px,9vw,136px)",  depth: 0.7, src: "/images/india/india-04.jpg" },
 ];
 
 const PRELOADER_DELAY = 4.6; // the 3D intro runs first
