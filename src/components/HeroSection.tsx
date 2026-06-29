@@ -166,12 +166,6 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Bottom vignette — darkens photos behind the PHOTOGRAPHY text */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
-        background: "linear-gradient(to top, var(--c-bg) 0%, rgba(0,0,0,0.7) 22%, transparent 48%)",
-      }} />
-
       {/* PHOTOGRAPHY — mix-blend-mode: difference makes white text go black over bright photos */}
       <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none", mixBlendMode: "difference" }}>
         <h1 style={{
