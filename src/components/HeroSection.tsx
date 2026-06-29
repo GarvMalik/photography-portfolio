@@ -31,22 +31,20 @@ const FIELD = [
   { x: 93, y: 36,  rot: -4, w: "clamp(120px,12vw,182px)", ratio: "2/3" as const, depth: 0.4, src: "/images/best-of-all/best-16.jpg" },
   { x:  5, y: 60,  rot: -3, w: "clamp(84px,9vw,128px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
   { x: 90, y: 62,  rot:  3, w: "clamp(80px,8vw,122px)",  ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-15.jpg" },
-  // centre field — scattered mid-screen (blend mode on text handles overlap)
-  { x: 35, y: 22,  rot:  2, w: "clamp(90px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-02.jpg" },
-  { x: 55, y: 18,  rot: -3, w: "clamp(78px,8vw,118px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-24.webp" },
-  { x: 42, y: 44,  rot:  3, w: "clamp(84px,8vw,126px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/finland/finland-04.jpg" },
-  { x: 62, y: 38,  rot: -2, w: "clamp(80px,8vw,122px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/spain/spain-06.webp" },
-  { x: 30, y: 55,  rot: -4, w: "clamp(76px,7vw,112px)",  ratio: "2/3"  as const, depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
-  { x: 68, y: 58,  rot:  3, w: "clamp(88px,9vw,132px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/india/india-08.webp" },
-  { x: 48, y: 68,  rot: -2, w: "clamp(82px,8vw,124px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/spain/spain-10.webp" },
+  // centre — just a couple to avoid crowding
+  { x: 40, y: 22,  rot:  2, w: "clamp(82px,8vw,124px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-02.jpg" },
+  { x: 60, y: 44,  rot: -2, w: "clamp(78px,8vw,118px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/spain/spain-06.webp" },
   // lower far corners (visible, clear of the centre text)
   { x:  3, y: 82,  rot:  4, w: "clamp(92px,9vw,140px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
   { x: 92, y: 84,  rot: -3, w: "clamp(98px,10vw,150px)", ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
-  // hidden lower field — rises into view as you scroll
-  { x: 15, y: 112, rot: -3, w: "clamp(96px,10vw,150px)", ratio: "4/3"  as const, depth: 0.5, src: "/images/best-of-all/best-05.jpg" },
-  { x: 83, y: 116, rot:  3, w: "clamp(86px,9vw,132px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-03.jpg" },
-  { x: 38, y: 126, rot:  2, w: "clamp(82px,8vw,126px)",  ratio: "1/1"  as const, depth: 0.9, src: "/images/best-of-all/best-20.jpg" },
-  { x: 64, y: 130, rot: -2, w: "clamp(100px,10vw,156px)", ratio: "4/3" as const, depth: 0.5, src: "/images/spain/spain-40.jpg" },
+  // hidden lower field — peeks up from below as you scroll
+  { x: 20, y: 108, rot: -3, w: "clamp(90px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-17.jpg" },
+  { x: 45, y: 114, rot:  2, w: "clamp(84px,8vw,128px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/finland/finland-04.jpg" },
+  { x: 68, y: 110, rot: -2, w: "clamp(88px,9vw,132px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/india/india-08.webp" },
+  { x: 30, y: 122, rot:  3, w: "clamp(82px,8vw,126px)",  ratio: "1/1"  as const, depth: 0.9, src: "/images/best-of-all/best-20.jpg" },
+  { x: 58, y: 126, rot: -3, w: "clamp(96px,10vw,148px)", ratio: "4/3"  as const, depth: 0.5, src: "/images/best-of-all/best-05.jpg" },
+  { x: 80, y: 118, rot:  4, w: "clamp(80px,8vw,120px)",  ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-03.jpg" },
+  { x: 10, y: 130, rot: -2, w: "clamp(86px,9vw,130px)",  ratio: "4/3"  as const, depth: 0.6, src: "/images/spain/spain-40.jpg" },
 ];
 
 const PRELOADER_DELAY = 4.6; // the 3D intro runs first
