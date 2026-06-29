@@ -172,8 +172,8 @@ export function HeroSection() {
         background: "linear-gradient(to top, var(--c-bg) 0%, rgba(0,0,0,0.7) 22%, transparent 48%)",
       }} />
 
-      {/* PHOTOGRAPHY */}
-      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none" }}>
+      {/* PHOTOGRAPHY — mix-blend-mode: difference makes white text go black over bright photos */}
+      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none", mixBlendMode: "difference" }}>
         <h1 style={{
           fontSize: "clamp(3.5rem, 13vw, 13rem)", fontWeight: 500,
           letterSpacing: "-0.03em", color: "var(--c-fg)", margin: 0,
