@@ -15,43 +15,44 @@ gsap.registerPlugin(ScrollTrigger);
  *   x, y are % of the viewport (y may be negative = above, or > 100 = below).
  *   depth drives the subtle cursor parallax (no direct following).
  */
-// y < 0 = hidden above; y > 100 = hidden below. All photos are square (1:1).
-// Brightness is computed from y in the JSX: higher up = darker.
+// Organic scatter — no rows, no columns, intentionally asymmetric.
+// rot: small tilts (±1–4°). Brightness computed from y in JSX.
 const FIELD = [
-  // above viewport (fully dark, appear as scroll lifts the field)
-  { x:  8, y: -24, w: "clamp(100px,10vw,154px)", depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
-  { x: 30, y: -18, w: "clamp(90px,9vw,138px)",   depth: 0.8, src: "/images/best-of-all/best-10.webp" },
-  { x: 55, y: -20, w: "clamp(96px,10vw,148px)",  depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
-  { x: 78, y: -22, w: "clamp(88px,9vw,136px)",   depth: 0.5, src: "/images/best-of-all/best-08.webp" },
-  // top band — very dark
-  { x:  2, y:  5,  w: "clamp(96px,10vw,150px)",  depth: 0.6, src: "/images/best-of-all/best-07.webp" },
-  { x: 23, y:  8,  w: "clamp(88px,9vw,136px)",   depth: 0.9, src: "/images/best-of-all/best-09.jpg" },
-  { x: 46, y:  4,  w: "clamp(92px,9vw,142px)",   depth: 0.7, src: "/images/best-of-all/best-24.webp" },
-  { x: 68, y:  7,  w: "clamp(86px,9vw,132px)",   depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
-  { x: 87, y:  3,  w: "clamp(94px,9vw,144px)",   depth: 0.8, src: "/images/best-of-all/best-14.jpg" },
-  // upper-mid — still dark
-  { x:  1, y: 26,  w: "clamp(92px,9vw,142px)",   depth: 0.7, src: "/images/best-of-all/best-12.jpg" },
-  { x: 22, y: 29,  w: "clamp(86px,9vw,134px)",   depth: 1.1, src: "/images/best-of-all/best-02.jpg" },
-  { x: 44, y: 24,  w: "clamp(90px,9vw,138px)",   depth: 0.8, src: "/images/finland/finland-04.jpg" },
-  { x: 65, y: 27,  w: "clamp(88px,9vw,136px)",   depth: 0.6, src: "/images/spain/spain-06.webp" },
-  { x: 86, y: 24,  w: "clamp(94px,9vw,144px)",   depth: 0.5, src: "/images/best-of-all/best-16.jpg" },
-  // mid — getting lighter
-  { x:  3, y: 48,  w: "clamp(94px,9vw,144px)",   depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
-  { x: 23, y: 51,  w: "clamp(88px,9vw,136px)",   depth: 0.7, src: "/images/best-of-all/best-15.jpg" },
-  { x: 46, y: 46,  w: "clamp(92px,9vw,142px)",   depth: 0.8, src: "/images/india/india-08.webp" },
-  { x: 67, y: 50,  w: "clamp(86px,9vw,132px)",   depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
-  { x: 87, y: 47,  w: "clamp(96px,10vw,148px)",  depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
-  // lower-mid — bright, mostly visible
-  { x:  2, y: 70,  w: "clamp(94px,9vw,144px)",   depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
-  { x: 23, y: 73,  w: "clamp(90px,9vw,140px)",   depth: 0.8, src: "/images/best-of-all/best-05.jpg" },
-  { x: 45, y: 68,  w: "clamp(94px,9vw,144px)",   depth: 0.7, src: "/images/best-of-all/best-20.jpg" },
-  { x: 67, y: 71,  w: "clamp(88px,9vw,136px)",   depth: 0.5, src: "/images/spain/spain-40.jpg" },
-  { x: 87, y: 68,  w: "clamp(92px,9vw,142px)",   depth: 0.9, src: "/images/best-of-all/best-03.jpg" },
-  // below viewport — scroll reveals
-  { x:  8, y: 94,  w: "clamp(90px,9vw,138px)",   depth: 0.7, src: "/images/best-of-all/best-11.jpg" },
-  { x: 30, y: 98,  w: "clamp(86px,9vw,132px)",   depth: 0.9, src: "/images/finland/finland-02.webp" },
-  { x: 55, y: 95,  w: "clamp(94px,9vw,144px)",   depth: 0.6, src: "/images/india/india-04.jpg" },
-  { x: 78, y: 99,  w: "clamp(90px,9vw,140px)",   depth: 0.8, src: "/images/best-of-all/best-23.jpg" },
+  // hidden above — emerge as field scrolls up
+  { x: 12, y: -20, rot:  2, w: "clamp(80px,8vw,122px)",  depth: 0.6, src: "/images/best-of-all/best-01.jpg" },
+  { x: 52, y: -14, rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.8, src: "/images/best-of-all/best-10.webp" },
+  { x: 79, y: -18, rot:  3, w: "clamp(72px,7vw,108px)",  depth: 0.5, src: "/images/best-of-all/best-13.jpg" },
+  // top zone — very dark, fading in
+  { x:  3, y:  4,  rot: -2, w: "clamp(100px,9vw,148px)", depth: 0.5, src: "/images/best-of-all/best-07.webp" },
+  { x: 30, y:  2,  rot:  1, w: "clamp(76px,7vw,114px)",  depth: 0.9, src: "/images/best-of-all/best-24.webp" },
+  { x: 58, y:  6,  rot: -3, w: "clamp(88px,8vw,132px)",  depth: 0.7, src: "/images/best-of-all/best-14.jpg" },
+  { x: 82, y:  3,  rot:  2, w: "clamp(68px,6vw,100px)",  depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
+  // upper-mid — scattered, still dim
+  { x:  8, y: 18,  rot:  3, w: "clamp(84px,8vw,126px)",  depth: 0.7, src: "/images/best-of-all/best-09.jpg" },
+  { x: 40, y: 15,  rot: -2, w: "clamp(110px,10vw,162px)",depth: 0.6, src: "/images/best-of-all/best-02.jpg" },
+  { x: 68, y: 20,  rot:  1, w: "clamp(78px,7vw,116px)",  depth: 0.8, src: "/images/best-of-all/best-16.jpg" },
+  { x: 88, y: 16,  rot: -3, w: "clamp(92px,9vw,138px)",  depth: 0.5, src: "/images/best-of-all/best-12.jpg" },
+  // mid — organic cluster left, sparse right
+  { x:  1, y: 34,  rot: -1, w: "clamp(94px,9vw,140px)",  depth: 0.9, src: "/images/finland/finland-04.jpg" },
+  { x: 22, y: 38,  rot:  4, w: "clamp(72px,7vw,108px)",  depth: 1.1, src: "/images/best-of-all/best-15.jpg" },
+  { x: 50, y: 31,  rot: -2, w: "clamp(86px,8vw,130px)",  depth: 0.7, src: "/images/spain/spain-06.webp" },
+  { x: 74, y: 36,  rot:  3, w: "clamp(104px,10vw,156px)",depth: 0.6, src: "/images/best-of-all/best-21.jpg" },
+  // lower-mid — denser, getting brighter
+  { x:  6, y: 52,  rot:  2, w: "clamp(88px,8vw,134px)",  depth: 0.8, src: "/images/india/india-08.webp" },
+  { x: 28, y: 56,  rot: -3, w: "clamp(106px,10vw,158px)",depth: 0.6, src: "/images/best-of-all/best-17.jpg" },
+  { x: 56, y: 50,  rot:  1, w: "clamp(76px,7vw,114px)",  depth: 0.9, src: "/images/best-of-all/best-22.jpg" },
+  { x: 80, y: 54,  rot: -2, w: "clamp(90px,9vw,136px)",  depth: 0.7, src: "/images/best-of-all/best-05.jpg" },
+  // lower — bright, fully visible
+  { x:  2, y: 70,  rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
+  { x: 20, y: 74,  rot:  3, w: "clamp(80px,8vw,120px)",  depth: 1.0, src: "/images/best-of-all/best-20.jpg" },
+  { x: 44, y: 68,  rot: -2, w: "clamp(112px,11vw,168px)",depth: 0.5, src: "/images/spain/spain-40.jpg" },
+  { x: 70, y: 72,  rot:  2, w: "clamp(82px,8vw,124px)",  depth: 0.8, src: "/images/best-of-all/best-03.jpg" },
+  { x: 88, y: 68,  rot: -3, w: "clamp(98px,9vw,148px)",  depth: 0.7, src: "/images/best-of-all/best-08.webp" },
+  // below fold — scroll reveals
+  { x: 10, y: 88,  rot:  1, w: "clamp(86px,8vw,130px)",  depth: 0.9, src: "/images/finland/finland-02.webp" },
+  { x: 36, y: 92,  rot: -2, w: "clamp(76px,7vw,114px)",  depth: 0.6, src: "/images/india/india-04.jpg" },
+  { x: 62, y: 86,  rot:  3, w: "clamp(100px,9vw,150px)", depth: 0.8, src: "/images/best-of-all/best-11.jpg" },
+  { x: 84, y: 90,  rot: -1, w: "clamp(82px,8vw,124px)",  depth: 0.5, src: "/images/best-of-all/best-23.jpg" },
 ];
 
 const PRELOADER_DELAY = 4.6; // the 3D intro runs first
@@ -64,6 +65,10 @@ export function HeroSection() {
 
   // ── Entrance + damped cursor parallax ──────────────────────────
   useEffect(() => {
+    FIELD.forEach((p, i) => {
+      const el = photoRefs.current[i];
+      if (el) gsap.set(el, { rotation: p.rot });
+    });
 
     // calm fade-in (no fly-from-edges chaos)
     photoRefs.current.forEach((el, i) => {
