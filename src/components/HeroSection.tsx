@@ -17,34 +17,34 @@ gsap.registerPlugin(ScrollTrigger);
  */
 const FIELD = [
   // hidden upper field
-  { x:  8, y: -22, rot: -4, w: "clamp(96px,9vw,150px)",  ratio: "3/4"  as const, depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
-  { x: 34, y: -15, rot:  3, w: "clamp(80px,8vw,124px)",  ratio: "1/1"  as const, depth: 0.8, src: "/images/best-of-all/best-10.webp" },
-  { x: 66, y: -17, rot: -2, w: "clamp(86px,9vw,134px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
-  { x: 90, y: -20, rot:  4, w: "clamp(100px,10vw,156px)", ratio: "4/3" as const, depth: 0.5, src: "/images/best-of-all/best-08.webp" },
-  // top edges / corners (visible)
-  { x:  2, y:  9,  rot:  3, w: "clamp(108px,11vw,168px)", ratio: "4/3" as const, depth: 0.6, src: "/images/best-of-all/best-07.webp" },
-  { x: 91, y:  6,  rot: -3, w: "clamp(88px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-14.jpg" },
-  { x: 19, y: 19,  rot: -2, w: "clamp(78px,8vw,118px)",  ratio: "2/3"  as const, depth: 1.1, src: "/images/best-of-all/best-09.jpg" },
-  { x: 79, y: 16,  rot:  2, w: "clamp(74px,8vw,112px)",  ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
-  // left / right framing edges (mid)
-  { x:  0, y: 40,  rot:  4, w: "clamp(90px,9vw,140px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-12.jpg" },
-  { x: 93, y: 36,  rot: -4, w: "clamp(120px,12vw,182px)", ratio: "2/3" as const, depth: 0.4, src: "/images/best-of-all/best-16.jpg" },
-  { x:  5, y: 60,  rot: -3, w: "clamp(84px,9vw,128px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
-  { x: 90, y: 62,  rot:  3, w: "clamp(80px,8vw,122px)",  ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-15.jpg" },
-  // centre — just a couple to avoid crowding
-  { x: 40, y: 22,  rot:  2, w: "clamp(82px,8vw,124px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-02.jpg" },
-  { x: 60, y: 44,  rot: -2, w: "clamp(78px,8vw,118px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/spain/spain-06.webp" },
-  // lower far corners (visible, clear of the centre text)
-  { x:  3, y: 82,  rot:  4, w: "clamp(92px,9vw,140px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
-  { x: 92, y: 84,  rot: -3, w: "clamp(98px,10vw,150px)", ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
-  // hidden lower field — peeks up from below as you scroll
-  { x: 20, y: 108, rot: -3, w: "clamp(90px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-17.jpg" },
-  { x: 45, y: 114, rot:  2, w: "clamp(84px,8vw,128px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/finland/finland-04.jpg" },
-  { x: 68, y: 110, rot: -2, w: "clamp(88px,9vw,132px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/india/india-08.webp" },
-  { x: 30, y: 122, rot:  3, w: "clamp(82px,8vw,126px)",  ratio: "1/1"  as const, depth: 0.9, src: "/images/best-of-all/best-20.jpg" },
-  { x: 58, y: 126, rot: -3, w: "clamp(96px,10vw,148px)", ratio: "4/3"  as const, depth: 0.5, src: "/images/best-of-all/best-05.jpg" },
-  { x: 80, y: 118, rot:  4, w: "clamp(80px,8vw,120px)",  ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-03.jpg" },
-  { x: 10, y: 130, rot: -2, w: "clamp(86px,9vw,130px)",  ratio: "4/3"  as const, depth: 0.6, src: "/images/spain/spain-40.jpg" },
+  { x: 10, y: -22, rot: 0, w: "clamp(96px,9vw,150px)",   ratio: "3/4"  as const, depth: 0.5, src: "/images/best-of-all/best-01.jpg" },
+  { x: 35, y: -16, rot: 0, w: "clamp(80px,8vw,124px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-10.webp" },
+  { x: 62, y: -18, rot: 0, w: "clamp(86px,9vw,134px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-13.jpg" },
+  { x: 86, y: -20, rot: 0, w: "clamp(100px,10vw,156px)", ratio: "4/3"  as const, depth: 0.5, src: "/images/best-of-all/best-08.webp" },
+  // row 1 — spread across full width
+  { x:  2, y:  8,  rot: 0, w: "clamp(100px,10vw,158px)", ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-07.webp" },
+  { x: 24, y: 11,  rot: 0, w: "clamp(82px,8vw,124px)",   ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-09.jpg" },
+  { x: 47, y:  7,  rot: 0, w: "clamp(88px,9vw,136px)",   ratio: "4/3"  as const, depth: 0.7, src: "/images/best-of-all/best-24.webp" },
+  { x: 70, y: 10,  rot: 0, w: "clamp(78px,8vw,118px)",   ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-19.jpg" },
+  { x: 89, y:  6,  rot: 0, w: "clamp(86px,9vw,132px)",   ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-14.jpg" },
+  // row 2 — mid screen
+  { x:  1, y: 36,  rot: 0, w: "clamp(90px,9vw,140px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-12.jpg" },
+  { x: 20, y: 38,  rot: 0, w: "clamp(84px,8vw,128px)",   ratio: "4/3"  as const, depth: 1.1, src: "/images/best-of-all/best-02.jpg" },
+  { x: 43, y: 34,  rot: 0, w: "clamp(78px,8vw,120px)",   ratio: "3/4"  as const, depth: 0.8, src: "/images/finland/finland-04.jpg" },
+  { x: 64, y: 37,  rot: 0, w: "clamp(86px,9vw,130px)",   ratio: "4/3"  as const, depth: 0.6, src: "/images/spain/spain-06.webp" },
+  { x: 86, y: 34,  rot: 0, w: "clamp(110px,11vw,168px)", ratio: "2/3"  as const, depth: 0.5, src: "/images/best-of-all/best-16.jpg" },
+  // row 3 — lower visible
+  { x:  3, y: 60,  rot: 0, w: "clamp(84px,9vw,128px)",   ratio: "4/3"  as const, depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
+  { x: 24, y: 62,  rot: 0, w: "clamp(80px,8vw,122px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-15.jpg" },
+  { x: 46, y: 58,  rot: 0, w: "clamp(88px,9vw,134px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/india/india-08.webp" },
+  { x: 68, y: 61,  rot: 0, w: "clamp(76px,8vw,116px)",   ratio: "3/4"  as const, depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
+  { x: 88, y: 58,  rot: 0, w: "clamp(90px,9vw,138px)",   ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
+  // row 4 — just below fold, rises in on scroll
+  { x:  5, y: 86,  rot: 0, w: "clamp(92px,9vw,140px)",   ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
+  { x: 27, y: 88,  rot: 0, w: "clamp(84px,8vw,128px)",   ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-05.jpg" },
+  { x: 50, y: 84,  rot: 0, w: "clamp(86px,9vw,132px)",   ratio: "3/4"  as const, depth: 0.7, src: "/images/best-of-all/best-20.jpg" },
+  { x: 71, y: 87,  rot: 0, w: "clamp(96px,10vw,148px)",  ratio: "4/3"  as const, depth: 0.5, src: "/images/spain/spain-40.jpg" },
+  { x: 89, y: 84,  rot: 0, w: "clamp(80px,8vw,122px)",   ratio: "3/4"  as const, depth: 0.9, src: "/images/best-of-all/best-03.jpg" },
 ];
 
 const PRELOADER_DELAY = 4.6; // the 3D intro runs first
