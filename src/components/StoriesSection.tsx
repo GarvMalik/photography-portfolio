@@ -85,14 +85,13 @@ export function StoriesSection() {
           return (
             <div key={story.slug}
                  ref={el => { storyRefs.current[i] = el; }}
+                 className="stories-grid"
                  style={{
-                   display: "grid",
                    gridTemplateColumns: isEven ? "1fr 1.1fr" : "1.1fr 1fr",
-                   gap: "clamp(1.5rem, 4vw, 4rem)", alignItems: "start",
                  }}>
-              {isEven && photo}
+              {isEven && <div className="stories-photo">{photo}</div>}
 
-              <div style={{
+              <div className="stories-text" style={{
                 display: "flex", flexDirection: "column", justifyContent: "center",
                 padding: isEven ? "0 0 0 clamp(1rem, 3vw, 3rem)" : "0 clamp(1rem, 3vw, 3rem) 0 0",
               }}>
@@ -127,7 +126,7 @@ export function StoriesSection() {
                 </Link>
               </div>
 
-              {!isEven && photo}
+              {!isEven && <div className="stories-photo">{photo}</div>}
             </div>
           );
         })}

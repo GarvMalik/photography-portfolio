@@ -8,6 +8,7 @@ import { StoriesSection } from "@/components/StoriesSection";
 import { Footer } from "@/components/Footer";
 import { Marquee } from "@/components/ui/Marquee";
 import { IntroReveal } from "@/components/IntroReveal";
+import { ControlsGuide } from "@/components/ui/ControlsGuide";
 import { PHOTOS } from "@/lib/photos";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
     <main style={{ background: "var(--c-bg)", minHeight: "100svh" }}>
       <IntroReveal />
       <Nav />
+      <ControlsGuide />
       <HeroSection />
       <Marquee
         text="ARCHITECTURE • STREET • LANDSCAPE • PEOPLE • LIGHT • MEMORY • "

@@ -92,7 +92,7 @@ export function Nav() {
         style={{
           position: "fixed", top: 0, left: 0, right: 0,
           display: "flex", justifyContent: "space-between", alignItems: "center",
-          padding: "18px var(--page-px)",
+          padding: "26px var(--page-px)",
           zIndex: 100,
           mixBlendMode: "difference",
         }}
@@ -120,7 +120,7 @@ export function Nav() {
           style={{
             background: "none", border: "none", padding: "12px 10px", margin: "-12px -10px",
             cursor: "none",
-            fontSize: "9.5px", letterSpacing: "0.28em", color: "#fff",
+            fontSize: "11.5px", letterSpacing: "0.28em", color: "#fff",
             textTransform: "uppercase", fontFamily: "var(--font-display)",
           }}
         >
@@ -220,6 +220,7 @@ export function Nav() {
           {/* Hover photo — right side */}
           <div
             ref={imgWrapRef}
+            className="hover-preview"
             style={{
               position: "absolute",
               right: "var(--page-px)",

@@ -21,6 +21,12 @@
 
   * { cursor: none !important; }
 
+  /* Restore native cursor on touch/coarse-pointer devices */
+  @media (pointer: coarse) {
+    * { cursor: auto !important; }
+    a, button, [role="button"] { cursor: pointer !important; }
+  }
+
   /* Visible keyboard focus (custom cursor hides the mouse pointer, so
      keyboard users need a clear, high-contrast focus ring) */
   :where(a, button, [role="button"], [role="link"], [tabindex]):focus-visible {
@@ -169,6 +175,43 @@
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   /* Fallback for browsers without backdrop-filter — solid translucent */
   .glass { background: rgba(20, 20, 22, 0.92); }
+}
+
+/* ── Back button arrow hover ───────────────────────────────── */
+a:hover .back-arrow { transform: translateX(-5px); }
+
+/* ── Stories section — stack to single column on mobile ─────── */
+.stories-grid {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .stories-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stories-photo { order: -1; }
+  .stories-text  { padding: 0 !important; }
+}
+
+/* ── Statement section — collapse photo on mobile ────────────── */
+@media (max-width: 640px) {
+  .statement-section {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .statement-photo { display: none !important; }
+}
+
+/* ── Hover previews — hide entirely on touch devices ─────────── */
+@media (pointer: coarse) {
+  .hover-preview { display: none !important; }
+}
+
+/* ── Series rows — tighter on mobile ────────────────────────── */
+@media (max-width: 640px) {
+  .series-row { padding: 1.1rem var(--page-px); }
+  .series-row-meta { display: none; }
 }
 
 /* ── Particle canvas ───────────────────────────────── */

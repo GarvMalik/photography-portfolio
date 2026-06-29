@@ -46,11 +46,34 @@ export default function StoryDetail() {
     <main style={{ background: "var(--c-bg)", minHeight: "100svh" }}>
       <Nav />
 
+      {/* Fixed back button — always visible regardless of scroll position */}
+      <Link
+        href="/stories"
+        data-cursor
+        aria-label="Back to all stories"
+        style={{
+          position: "fixed",
+          top: "18px",
+          left: "var(--page-px)",
+          zIndex: 110,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5em",
+          fontSize: "9.5px",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#fff",
+          textDecoration: "none",
+          mixBlendMode: "difference",
+          padding: "10px 0",
+        }}
+      >
+        <span style={{ fontSize: "1.1em", transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", display: "inline-block" }}
+              className="back-arrow">←</span>
+        Stories
+      </Link>
+
       <article style={{ padding: "clamp(7rem, 16vh, 11rem) var(--page-px) clamp(3rem, 6vw, 5rem)", maxWidth: "820px", margin: "0 auto" }}>
-        <Link href="/stories" className="story-link" data-cursor data-cursor-label="ARCHIVE"
-              style={{ marginBottom: "clamp(2rem, 5vw, 3.5rem)" }}>
-          All stories
-        </Link>
 
         <div style={{ display: "flex", gap: "1.5rem", margin: "1.5rem 0 1.25rem" }}>
           <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>{story.type}</span>

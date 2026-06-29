@@ -14,6 +14,31 @@ export default function StoriesArchive() {
     <main style={{ background: "var(--c-bg)", minHeight: "100svh" }}>
       <Nav />
 
+      {/* Fixed back-to-home button */}
+      <Link
+        href="/"
+        aria-label="Back to home"
+        style={{
+          position: "fixed",
+          top: "18px",
+          left: "var(--page-px)",
+          zIndex: 110,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5em",
+          fontSize: "9.5px",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#fff",
+          textDecoration: "none",
+          mixBlendMode: "difference",
+          padding: "10px 0",
+        }}
+      >
+        <span className="back-arrow" style={{ fontSize: "1.1em", transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", display: "inline-block" }}>←</span>
+        Home
+      </Link>
+
       <section style={{ padding: "clamp(7rem, 16vh, 11rem) var(--page-px) clamp(3rem, 7vw, 6rem)" }}>
         {/* Header */}
         <div style={{

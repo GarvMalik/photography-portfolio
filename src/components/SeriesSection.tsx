@@ -154,6 +154,7 @@ export function SeriesSection() {
           so dimensions never shift between rows. Images crossfade inside it. */}
       <div
         ref={imgWrapRef}
+        className="hover-preview"
         style={{
           position: "absolute",
           right: "var(--page-px)",
@@ -233,7 +234,7 @@ export function SeriesSection() {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-                <span className="series-dim caps tracked" style={{ fontSize: "9px", color: "var(--c-fg-3)" }}>
+                <span className="series-dim caps tracked series-row-meta" style={{ fontSize: "9px", color: "var(--c-fg-3)" }}>
                   {s.frames} frames · {s.year}
                 </span>
                 <span className="series-arrow" style={{ fontSize: "1.2rem", lineHeight: 1 }}>→</span>

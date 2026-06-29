@@ -44,7 +44,7 @@ export function StatementSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{
+    <section ref={sectionRef} className="statement-section" style={{
       padding: "clamp(4rem, 10vw, 9rem) var(--page-px)",
       borderTop: "0.5px solid var(--c-border)",
       display: "grid",
@@ -88,7 +88,7 @@ export function StatementSection() {
       </div>
 
       {/* Right: small accent photo */}
-      <div ref={photoRef} style={{
+      <div ref={photoRef} className="statement-photo" style={{
         width: "clamp(120px, 18vw, 240px)",
         marginTop: "0.5rem",
         flexShrink: 0,
