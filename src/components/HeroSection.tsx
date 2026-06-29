@@ -31,6 +31,14 @@ const FIELD = [
   { x: 93, y: 36,  rot: -4, w: "clamp(120px,12vw,182px)", ratio: "2/3" as const, depth: 0.4, src: "/images/best-of-all/best-16.jpg" },
   { x:  5, y: 60,  rot: -3, w: "clamp(84px,9vw,128px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/best-of-all/best-21.jpg" },
   { x: 90, y: 62,  rot:  3, w: "clamp(80px,8vw,122px)",  ratio: "3/4"  as const, depth: 0.8, src: "/images/best-of-all/best-15.jpg" },
+  // centre field — scattered mid-screen (blend mode on text handles overlap)
+  { x: 35, y: 22,  rot:  2, w: "clamp(90px,9vw,138px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-02.jpg" },
+  { x: 55, y: 18,  rot: -3, w: "clamp(78px,8vw,118px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/best-of-all/best-24.webp" },
+  { x: 42, y: 44,  rot:  3, w: "clamp(84px,8vw,126px)",  ratio: "3/4"  as const, depth: 0.7, src: "/images/finland/finland-04.jpg" },
+  { x: 62, y: 38,  rot: -2, w: "clamp(80px,8vw,122px)",  ratio: "4/3"  as const, depth: 0.9, src: "/images/spain/spain-06.webp" },
+  { x: 30, y: 55,  rot: -4, w: "clamp(76px,7vw,112px)",  ratio: "2/3"  as const, depth: 1.0, src: "/images/best-of-all/best-17.jpg" },
+  { x: 68, y: 58,  rot:  3, w: "clamp(88px,9vw,132px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/india/india-08.webp" },
+  { x: 48, y: 68,  rot: -2, w: "clamp(82px,8vw,124px)",  ratio: "4/3"  as const, depth: 0.8, src: "/images/spain/spain-10.webp" },
   // lower far corners (visible, clear of the centre text)
   { x:  3, y: 82,  rot:  4, w: "clamp(92px,9vw,140px)",  ratio: "3/4"  as const, depth: 0.6, src: "/images/best-of-all/best-18.jpg" },
   { x: 92, y: 84,  rot: -3, w: "clamp(98px,10vw,150px)", ratio: "4/3"  as const, depth: 0.6, src: "/images/best-of-all/best-22.jpg" },
@@ -144,7 +152,7 @@ export function HeroSection() {
       </div>
 
       {/* PHOTOGRAPHY */}
-      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none" }}>
+      <div ref={textRef} style={{ position: "relative", zIndex: 3, pointerEvents: "none", mixBlendMode: "difference" }}>
         <h1 style={{
           fontSize: "clamp(3.5rem, 13vw, 13rem)", fontWeight: 500,
           letterSpacing: "-0.03em", color: "var(--c-fg)", margin: 0,
