@@ -1,12 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const labelRef  = useRef<HTMLSpanElement>(null);
+  // Only on devices with a precise pointer — touch screens get the native cursor
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(pointer: fine)").matches) setEnabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
     const cursor = cursorRef.current!;
     const label  = labelRef.current!;
 
@@ -71,9 +78,11 @@ export function CustomCursor() {
       observer.disconnect();
       document.documentElement.style.cursor = "";
     };
-  }, []);
+  }, [enabled]);
 
   const S = 36; // bracket size px
+
+  if (!enabled) return null;
 
   return (
     <div

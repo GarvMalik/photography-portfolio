@@ -357,7 +357,7 @@ export function FilmReelViewer({
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-            <span style={{ fontSize: "12px", letterSpacing: "0.1em", fontVariantNumeric: "tabular-nums" }}>
+            <span style={{ fontSize: "12px", letterSpacing: "0.1em", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
               {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
             </span>
           </button>
