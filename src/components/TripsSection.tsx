@@ -237,12 +237,6 @@ export function TripsSection() {
                   }}>
                     {col.country} · {col.year} · {col.frames} frames
                   </div>
-                  <div style={{
-                    fontSize: "6.5px", letterSpacing: "0.28em", textTransform: "uppercase",
-                    color: "rgba(18,16,12,0.28)", marginTop: "9px",
-                  }}>
-                    tap to open →
-                  </div>
                 </div>
               </div>
 
