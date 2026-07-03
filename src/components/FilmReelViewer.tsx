@@ -148,11 +148,41 @@ export function FilmReelViewer({
     const wasDrag = drag.current.moved > 8;
     drag.current.active = false;
     if (wasDrag) {
-      animateTo(Math.round(fF.current.v), false);   // snap to nearest, no resistance
+      animateTo(Math.round(fF.current.v), false);
     } else {
-      // treat as a click — zone decides (prev / expand / next)
       const r = stageRef.current!.getBoundingClientRect();
       const rel = (e.clientX - r.left) / r.width;
+      if (rel < 0.32) prev();
+      else if (rel > 0.68) next();
+      else setExpanded(true);
+    }
+  };
+
+  // Touch swipe — explicit handlers for mobile browsers that don't reliably fire pointer events
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (expanded || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    drag.current = { active: true, startX: t.clientX, startV: fF.current.v, moved: 0 };
+    gsap.killTweensOf(fF.current);
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!drag.current.active || e.touches.length !== 1) return;
+    e.preventDefault();
+    const dx = e.touches[0].clientX - drag.current.startX;
+    drag.current.moved = Math.max(drag.current.moved, Math.abs(dx));
+    fF.current.v = clamp(drag.current.startV - dx / geomRef.current.spacing, -0.4, total - 0.6);
+    render();
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!drag.current.active) return;
+    const wasDrag = drag.current.moved > 8;
+    drag.current.active = false;
+    if (wasDrag) {
+      animateTo(Math.round(fF.current.v), false);
+    } else {
+      const t = e.changedTouches[0];
+      const r = stageRef.current!.getBoundingClientRect();
+      const rel = (t.clientX - r.left) / r.width;
       if (rel < 0.32) prev();
       else if (rel > 0.68) next();
       else setExpanded(true);
@@ -272,6 +302,9 @@ export function FilmReelViewer({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerLeave={(e) => drag.current.active && onPointerUp(e)}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
         style={{ position: "absolute", inset: 0, zIndex: 10, display: "flex", cursor: "none", touchAction: "pan-y" }}
       >
         <div data-cursor data-cursor-label="PREV"   style={{ flex: "0 0 32%" }} />

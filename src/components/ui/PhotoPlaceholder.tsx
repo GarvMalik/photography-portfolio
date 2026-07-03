@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 interface Props {
   ratio: string;
@@ -8,9 +9,10 @@ interface Props {
   label?: string;
   sub?: string;
   className?: string;
+  loading?: "eager" | "lazy";
 }
 
-export function PhotoPlaceholder({ ratio, src, alt, label, sub, className }: Props) {
+export function PhotoPlaceholder({ ratio, src, alt, label, sub, className, loading = "lazy" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -53,12 +55,13 @@ export function PhotoPlaceholder({ ratio, src, alt, label, sub, className }: Pro
          style={{ position: "relative", aspectRatio: ratio, width: "100%",
                   overflow: "hidden", background: "#0a0a0a" }}>
       {src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={src}
           alt={alt ?? ""}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
-                   objectFit: "cover", display: "block" }}
+          fill
+          loading={loading}
+          sizes="(max-width: 640px) 40vw, (max-width: 1024px) 25vw, 20vw"
+          style={{ objectFit: "cover" }}
         />
       ) : (
         <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />

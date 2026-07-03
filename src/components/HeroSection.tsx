@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
+import { Lightbox, type LightboxState } from "@/components/ui/Lightbox";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,6 +67,12 @@ export function HeroSection() {
   const scrollRef  = useRef<HTMLDivElement>(null);
   const photoRefs  = useRef<(HTMLDivElement | null)[]>([]);
   const textRef    = useRef<HTMLDivElement>(null);
+  const [lb, setLb] = useState<LightboxState | null>(null);
+
+  const openPhoto = (e: React.MouseEvent<HTMLButtonElement>, src: string) => {
+    const img = e.currentTarget.querySelector("img");
+    if (img) setLb({ src, rect: img.getBoundingClientRect() });
+  };
 
   // ── Entrance + damped cursor parallax ──────────────────────────
   useEffect(() => {
@@ -135,6 +142,7 @@ export function HeroSection() {
   }, []);
 
   return (
+    <>
     <section
       ref={sectionRef}
       style={{
@@ -152,17 +160,21 @@ export function HeroSection() {
       {/* Virtual photo field */}
       <div ref={scrollRef} style={{ position: "absolute", inset: 0, zIndex: 1, willChange: "transform" }}>
         {FIELD.map((p, i) => (
-          <div
+          <button
             key={i}
-            ref={el => { photoRefs.current[i] = el; }}
+            ref={el => { photoRefs.current[i] = el as HTMLDivElement | null; }}
+            onClick={e => openPhoto(e as unknown as React.MouseEvent<HTMLButtonElement>, p.src)}
+            data-cursor data-cursor-label="OPEN"
+            aria-label="Open photo"
             style={{
               position: "absolute", left: `${p.x}%`, top: `${p.y}%`,
               width: p.w, willChange: "transform",
               filter: "drop-shadow(0 4px 20px rgba(0,0,0,0.35))",
+              background: "none", border: "none", padding: 0, cursor: "none",
             }}
           >
-            <PhotoPlaceholder ratio="1/1" src={p.src} alt="" />
-          </div>
+            <PhotoPlaceholder ratio="1/1" src={p.src} alt="" loading={i < 8 ? "eager" : "lazy"} />
+          </button>
         ))}
       </div>
 
@@ -180,5 +192,8 @@ export function HeroSection() {
         </h1>
       </div>
     </section>
+
+      {lb && <Lightbox state={lb} onClose={() => setLb(null)} />}
+    </>
   );
 }

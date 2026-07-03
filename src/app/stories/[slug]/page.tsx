@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/Footer";
 import { Lightbox, type LightboxState } from "@/components/ui/Lightbox";
-import { getStory } from "@/lib/stories";
+import { getStory, STORIES } from "@/lib/stories";
 
 export default function StoryDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -16,6 +16,11 @@ export default function StoryDetail() {
     const img = e.currentTarget.querySelector("img") ?? e.currentTarget;
     setLb({ src, caption, rect: img.getBoundingClientRect() });
   };
+
+  const storyIndex = STORIES.findIndex(s => s.slug === slug);
+  const prevStory  = STORIES[storyIndex + 1] ?? null; // STORIES is newest-first
+  const nextStory  = STORIES[storyIndex - 1] ?? null;
+  const readTime   = story ? Math.max(1, Math.round(story.body.join(" ").split(/\s+/).length / 200)) : 1;
 
   if (!story) {
     return (
@@ -75,10 +80,11 @@ export default function StoryDetail() {
 
       <article style={{ padding: "clamp(7rem, 16vh, 11rem) var(--page-px) clamp(3rem, 6vw, 5rem)", maxWidth: "820px", margin: "0 auto" }}>
 
-        <div style={{ display: "flex", gap: "1.5rem", margin: "1.5rem 0 1.25rem" }}>
+        <div style={{ display: "flex", gap: "1.5rem", margin: "1.5rem 0 1.25rem", flexWrap: "wrap" }}>
           <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>{story.type}</span>
           <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>{story.location}</span>
           <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>{story.year}</span>
+          <span className="caps tracked text-dimmest" style={{ fontSize: "8px" }}>{readTime} min read</span>
         </div>
 
         <h1 style={{
@@ -111,6 +117,38 @@ export default function StoryDetail() {
           <ClickableImg key={i} src={src} caption={`${story.title} — ${story.location}`} />
         ))}
       </article>
+
+      {/* Next / Prev story navigation */}
+      {(prevStory || nextStory) && (
+        <nav style={{
+          borderTop: "0.5px solid var(--c-border)",
+          display: "grid",
+          gridTemplateColumns: prevStory && nextStory ? "1fr 1fr" : "1fr",
+          maxWidth: "820px", margin: "0 auto",
+          padding: "0 var(--page-px)",
+        }}>
+          {prevStory && (
+            <Link href={`/stories/${prevStory.slug}`} data-cursor style={{
+              textDecoration: "none", padding: "2rem 0", borderRight: nextStory ? "0.5px solid var(--c-border)" : "none",
+            }}>
+              <div className="caps tracked text-dimmest" style={{ fontSize: "8px", marginBottom: "0.6rem" }}>← Previous</div>
+              <div style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)", fontWeight: 500, letterSpacing: "-0.02em", textTransform: "uppercase", color: "var(--c-fg)" }}>
+                {prevStory.title}
+              </div>
+            </Link>
+          )}
+          {nextStory && (
+            <Link href={`/stories/${nextStory.slug}`} data-cursor style={{
+              textDecoration: "none", padding: "2rem 0", paddingLeft: prevStory ? "2rem" : 0, textAlign: prevStory ? "right" : "left",
+            }}>
+              <div className="caps tracked text-dimmest" style={{ fontSize: "8px", marginBottom: "0.6rem" }}>Next →</div>
+              <div style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)", fontWeight: 500, letterSpacing: "-0.02em", textTransform: "uppercase", color: "var(--c-fg)" }}>
+                {nextStory.title}
+              </div>
+            </Link>
+          )}
+        </nav>
+      )}
 
       <Footer />
       {lb && <Lightbox state={lb} onClose={() => setLb(null)} />}
