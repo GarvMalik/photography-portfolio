@@ -26,6 +26,11 @@ export function IntroReveal() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    // Skip intro if it has already played this session
+    if (sessionStorage.getItem("introPlayed")) {
+      setDone(true);
+      return;
+    }
     document.body.style.overflow = "hidden";
 
     const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
@@ -45,6 +50,7 @@ export function IntroReveal() {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        sessionStorage.setItem("introPlayed", "1");
         setDone(true);
         document.body.style.overflow = "";
       },
