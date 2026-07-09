@@ -67,7 +67,7 @@ export function StoriesSection() {
               aria-label={`Expand ${story.title}`}
               style={{ position: "relative", padding: 0, border: "none", background: "none", cursor: "none", display: "block", width: "100%" }}
             >
-              <div style={{ aspectRatio: story.ratio, overflow: "hidden", background: "#0a0a0a" }}>
+              <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "#0a0a0a" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={story.src} alt={story.title} loading="lazy"
                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
