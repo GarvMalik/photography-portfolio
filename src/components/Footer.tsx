@@ -103,7 +103,7 @@ export function Footer() {
         </div>
 
         <span className="caps tracked text-dimmest" style={{ fontSize: "9px" }}>
-          © 2024 GM
+          © 2026 GM
         </span>
       </div>
     </footer>

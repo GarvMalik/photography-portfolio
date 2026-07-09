@@ -268,7 +268,7 @@ export function Nav() {
             fontSize: "9px", letterSpacing: "0.2em",
             color: "var(--c-fg-3)", textTransform: "uppercase",
           }}>
-            © 2024
+            © 2026
           </span>
         </div>
       </div>

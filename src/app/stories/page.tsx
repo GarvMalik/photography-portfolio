@@ -6,7 +6,7 @@ import { STORIES } from "@/lib/stories";
 
 export const metadata: Metadata = {
   title: "Stories",
-  description: "Field notes — short stories from behind the photographs.",
+  description: "Field notes — the stories behind the photographs.",
 };
 
 export default function StoriesArchive() {
