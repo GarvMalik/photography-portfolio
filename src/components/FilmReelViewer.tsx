@@ -61,8 +61,9 @@ export function FilmReelViewer({
         `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${rotY}deg) scale(${sc})`;
       el.style.opacity = String(op);
       el.style.zIndex = String(100 - Math.round(a * 10));
-      // centre frame: sharp & bright; sides: gently dimmed (cheap, no blur)
-      el.style.filter = a < 0.5 ? "none" : `brightness(${(1 - Math.min(a, 3) * 0.12).toFixed(2)})`;
+      // centre frame stays full; sides recede by desaturating and fading toward
+      // the paper — on a light ground, darkening reads as muddy, not distant
+      el.style.filter = a < 0.5 ? "none" : `saturate(${(1 - Math.min(a, 3) * 0.16).toFixed(2)})`;
     });
   }, []);
 
@@ -427,18 +428,18 @@ function ReelFrameEl({ src, alt }: { src: string; alt: string }) {
     <div style={{
       position: "relative", width: "100%", height: "100%",
       borderRadius: "8px", padding: "7px",
-      background: "linear-gradient(160deg, rgba(36,36,40,0.96), rgba(12,12,14,0.96))",
-      boxShadow: "0 24px 56px rgba(22,20,15,0.28), inset 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.18)",
+      background: "linear-gradient(160deg, #E6E1D7 0%, #D2CBBE 100%)",
+      boxShadow: "0 18px 44px rgba(22,20,15,0.20), inset 0 0 0 1px rgba(22,20,15,0.10), inset 0 1px 0 rgba(255,255,255,0.65)",
     }}>
       {/* perforation hint — abstract sprocket rails, very subtle */}
       <div aria-hidden style={{
         position: "absolute", top: "7px", bottom: "7px", left: "2px", width: "3px",
-        background: "repeating-linear-gradient(to bottom, rgba(255,255,255,0.16) 0 3px, transparent 3px 9px)",
+        background: "repeating-linear-gradient(to bottom, rgba(22,20,15,0.20) 0 3px, transparent 3px 9px)",
         opacity: 0.5, borderRadius: "2px",
       }} />
       <div aria-hidden style={{
         position: "absolute", top: "7px", bottom: "7px", right: "2px", width: "3px",
-        background: "repeating-linear-gradient(to bottom, rgba(255,255,255,0.16) 0 3px, transparent 3px 9px)",
+        background: "repeating-linear-gradient(to bottom, rgba(22,20,15,0.20) 0 3px, transparent 3px 9px)",
         opacity: 0.5, borderRadius: "2px",
       }} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
