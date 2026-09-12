@@ -26,13 +26,13 @@ export function PhotoPlaceholder({ ratio, src, alt, label, sub, className, loadi
     canvas.width = W; canvas.height = H;
 
     const g = ctx.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, "#030303"); g.addColorStop(0.32, "#111111");
-    g.addColorStop(0.65, "#1c1c1c"); g.addColorStop(1, "#070707");
+    g.addColorStop(0, "#E7E2D9"); g.addColorStop(0.32, "#DED8CD");
+    g.addColorStop(0.65, "#D6CFC3"); g.addColorStop(1, "#E2DCD2");
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
     const gl = ctx.createRadialGradient(W*.5, H*.33, 0, W*.5, H*.33, W*.7);
-    gl.addColorStop(0, "rgba(60,60,60,.55)"); gl.addColorStop(.6, "rgba(22,22,22,.20)");
-    gl.addColorStop(1, "rgba(0,0,0,0)");
+    gl.addColorStop(0, "rgba(255,255,255,.55)"); gl.addColorStop(.6, "rgba(255,255,255,.18)");
+    gl.addColorStop(1, "rgba(255,255,255,0)");
     ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
 
     const id = ctx.getImageData(0, 0, W, H); const d = id.data;
@@ -42,18 +42,18 @@ export function PhotoPlaceholder({ ratio, src, alt, label, sub, className, loadi
     }
     ctx.putImageData(id, 0, 0);
 
-    ctx.strokeStyle = "rgba(0,0,0,0.18)"; ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(22,20,15,0.05)"; ctx.lineWidth = 1;
     for (let y = 1; y < H; y += 2) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
 
     const vig = ctx.createRadialGradient(W/2, H/2, W*.08, W/2, H/2, W*1.05);
-    vig.addColorStop(0, "rgba(0,0,0,0)"); vig.addColorStop(1, "rgba(0,0,0,.80)");
+    vig.addColorStop(0, "rgba(22,20,15,0)"); vig.addColorStop(1, "rgba(22,20,15,.14)");
     ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
   }, [src]);
 
   return (
     <div className={className}
          style={{ position: "relative", aspectRatio: ratio, width: "100%",
-                  overflow: "hidden", background: "#0a0a0a" }}>
+                  overflow: "hidden", background: "var(--c-bg-3)" }}>
       {src ? (
         <Image
           src={src}
@@ -71,17 +71,17 @@ export function PhotoPlaceholder({ ratio, src, alt, label, sub, className, loadi
       {!src && (
         <div aria-hidden style={{
           position: "absolute", inset: 0, pointerEvents: "none",
-          background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,.018) 50%, transparent 60%)",
+          background: "linear-gradient(105deg, transparent 40%, rgba(22,20,15,.035) 50%, transparent 60%)",
           backgroundSize: "200% 100%", animation: "shimmer 8s linear infinite",
         }} />
       )}
 
       {/* Viewfinder corner marks */}
       {[
-        { top: 6, left: 6,   borderTop: "1px solid rgba(255,255,255,.2)", borderLeft:  "1px solid rgba(255,255,255,.2)" },
-        { top: 6, right: 6,  borderTop: "1px solid rgba(255,255,255,.2)", borderRight: "1px solid rgba(255,255,255,.2)" },
-        { bottom: 6, left: 6,  borderBottom: "1px solid rgba(255,255,255,.2)", borderLeft:  "1px solid rgba(255,255,255,.2)" },
-        { bottom: 6, right: 6, borderBottom: "1px solid rgba(255,255,255,.2)", borderRight: "1px solid rgba(255,255,255,.2)" },
+        { top: 6, left: 6,   borderTop: "1px solid rgba(255,255,255,.45)", borderLeft:  "1px solid rgba(255,255,255,.45)" },
+        { top: 6, right: 6,  borderTop: "1px solid rgba(255,255,255,.45)", borderRight: "1px solid rgba(255,255,255,.45)" },
+        { bottom: 6, left: 6,  borderBottom: "1px solid rgba(255,255,255,.45)", borderLeft:  "1px solid rgba(255,255,255,.45)" },
+        { bottom: 6, right: 6, borderBottom: "1px solid rgba(255,255,255,.45)", borderRight: "1px solid rgba(255,255,255,.45)" },
       ].map((s, i) => (
         <div key={i} aria-hidden style={{ position: "absolute", width: 14, height: 14, pointerEvents: "none", ...s }} />
       ))}

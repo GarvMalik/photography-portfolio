@@ -125,7 +125,7 @@ export function IntroReveal() {
       aria-hidden
       style={{
         position: "fixed", inset: 0,
-        background: "radial-gradient(120% 90% at 50% 45%, #0c0c0e 0%, #050505 60%, #020202 100%)",
+        background: "radial-gradient(120% 90% at 50% 45%, #FBF9F6 0%, #F3F0EA 60%, #E9E5DD 100%)",
         zIndex: 500,
         overflow: "hidden",
         display: "grid", placeItems: "center",
@@ -159,7 +159,7 @@ export function IntroReveal() {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       borderRadius: "2px",
-                      boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
+                      boxShadow: "0 12px 40px rgba(22,20,15,0.28)",
                       willChange: "transform, opacity",
                     }}
                   >

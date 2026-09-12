@@ -37,12 +37,12 @@ export function ControlsGuide() {
         display: "flex",
         flexDirection: "column",
         gap: "5px",
-        borderLeft: "0.5px solid rgba(255,255,255,0.12)",
+        borderLeft: "0.5px solid rgba(22,20,15,0.12)",
         paddingLeft: "10px",
       }}>
         <span style={{
           fontSize: "6.5px", letterSpacing: "0.3em", textTransform: "uppercase",
-          color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-display)",
+          color: "rgba(22,20,15,0.34)", fontFamily: "var(--font-display)",
         }}>
           Guide
         </span>
@@ -50,14 +50,14 @@ export function ControlsGuide() {
           <div key={h.label} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
             <span style={{
               fontSize: "7.5px", letterSpacing: "0.05em",
-              color: "rgba(255,255,255,0.18)", fontFamily: "var(--font-mono)",
+              color: "rgba(22,20,15,0.30)", fontFamily: "var(--font-mono)",
               minWidth: "22px",
             }}>
               {h.icon}
             </span>
             <span style={{
               fontSize: "7px", letterSpacing: "0.2em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.16)", fontFamily: "var(--font-display)",
+              color: "rgba(22,20,15,0.28)", fontFamily: "var(--font-display)",
             }}>
               {h.label}
             </span>

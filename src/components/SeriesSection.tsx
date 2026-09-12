@@ -167,8 +167,8 @@ export function SeriesSection() {
         }}
       >
         <div style={{
-          background: "#F7F4EE", borderRadius: "3px", padding: "7%",
-          boxShadow: "0 18px 50px rgba(0,0,0,0.42)",
+          background: "#FDFCFA", borderRadius: "3px", padding: "7%",
+          boxShadow: "0 18px 46px rgba(22,20,15,0.18)",
         }}>
           <div style={{ position: "relative", aspectRatio: "3 / 4", overflow: "hidden", background: "#e9e6df" }}>
             {SERIES.map((s, i) => (

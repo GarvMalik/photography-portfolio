@@ -30,14 +30,14 @@
   /* Visible keyboard focus (custom cursor hides the mouse pointer, so
      keyboard users need a clear, high-contrast focus ring) */
   :where(a, button, [role="button"], [role="link"], [tabindex]):focus-visible {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--c-fg);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
+    background: rgba(22, 20, 15, 0.14);
+    color: var(--c-fg);
   }
 }
 
@@ -156,25 +156,30 @@
 /* ── Framed prints (museum matting) ────────────────── */
 .art-frame {
   position: relative;
+  /* hairline edge so a white mat still reads as a mounted frame on the
+     warm paper wall */
+  box-shadow: 0 1px 2px rgba(22, 20, 15, 0.06),
+              0 10px 28px rgba(22, 20, 15, 0.10);
   transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
 }
 .art-frame:hover {
   /* clean, minimal: the frame lifts a touch — no overlays, no captions */
   transform: translateY(-4px);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 1px 2px rgba(22, 20, 15, 0.08),
+              0 22px 46px rgba(22, 20, 15, 0.18);
 }
 
 /* ── Glass surfaces (frosted control bars / pills) ─── */
 .glass {
-  background: rgba(18, 18, 20, 0.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  backdrop-filter: blur(20px) saturate(1.5);
-  border: 0.5px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55);
+  background: rgba(255, 255, 255, 0.58);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 0.5px solid rgba(22, 20, 15, 0.12);
+  box-shadow: 0 10px 40px rgba(22, 20, 15, 0.16);
 }
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   /* Fallback for browsers without backdrop-filter — solid translucent */
-  .glass { background: rgba(20, 20, 22, 0.92); }
+  .glass { background: rgba(250, 249, 246, 0.94); }
 }
 
 /* ── Back button arrow hover ───────────────────────────────── */

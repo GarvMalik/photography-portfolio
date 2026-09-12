@@ -95,6 +95,9 @@ export function CustomCursor() {
         pointerEvents: "none",
         zIndex: "var(--z-cursor)" as string,
         willChange: "transform",
+        /* inverts against whatever is behind — dark on the paper page,
+           light over photos and the film frames */
+        mixBlendMode: "difference",
       }}
     >
       {/* Center dot */}
@@ -103,7 +106,7 @@ export function CustomCursor() {
         top: "50%", left: "50%",
         width: 3, height: 3,
         borderRadius: "50%",
-        background: "var(--c-fg)",
+        background: "#fff",
         transform: "translate(-50%, -50%)",
       }} />
 
@@ -130,7 +133,7 @@ export function CustomCursor() {
         fontSize: "8px",
         letterSpacing: "0.22em",
         textTransform: "uppercase",
-        color: "var(--c-fg)",
+        color: "#fff",
         whiteSpace: "nowrap",
         opacity: 0,
         translate: "0 4px",

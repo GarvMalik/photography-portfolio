@@ -154,7 +154,7 @@ export function HeroSection() {
       {/* Top-fade gradient — photos darken as they rise toward the top */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
-        background: "linear-gradient(to bottom, var(--c-bg) 0%, rgba(0,0,0,0.75) 18%, transparent 42%)",
+        background: "linear-gradient(to bottom, rgba(243,240,234,0.92) 0%, rgba(243,240,234,0.34) 11%, transparent 26%)",
       }} />
 
       {/* Virtual photo field */}
@@ -169,7 +169,7 @@ export function HeroSection() {
             style={{
               position: "absolute", left: `${p.x}%`, top: `${p.y}%`,
               width: p.w, willChange: "transform",
-              filter: "drop-shadow(0 4px 20px rgba(0,0,0,0.35))",
+              filter: "drop-shadow(0 4px 18px rgba(22,20,15,0.22))",
               background: "none", border: "none", padding: 0, cursor: "none",
             }}
           >
@@ -181,7 +181,7 @@ export function HeroSection() {
       {/* PHOTOGRAPHY — pinned to bottom, goes black over bright photos */}
       <div ref={textRef} style={{
         position: "absolute", bottom: "3rem", left: "var(--page-px)", right: "var(--page-px)",
-        zIndex: 3, pointerEvents: "none", mixBlendMode: "hard-light",
+        zIndex: 3, pointerEvents: "none", mixBlendMode: "multiply",
       }}>
         <h1 style={{
           fontSize: "clamp(3.5rem, 13vw, 13rem)", fontWeight: 500,

@@ -9,7 +9,7 @@ import type { Photo } from "@/lib/photos";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MAT = "#F7F4EE"; // warm museum-mat white
+const MAT = "#FDFCFA"; // warm museum-mat white
 
 export function MasonryGrid({ photos }: { photos: Photo[] }) {
   const gridRef  = useRef<HTMLDivElement>(null);
@@ -83,7 +83,6 @@ export function MasonryGrid({ photos }: { photos: Photo[] }) {
                  style={{
                    background: MAT, borderRadius: "3px", cursor: "none",
                    padding: "8.5% 8.5% 0", willChange: "transform",
-                   boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
                  }}>
               {/* the photograph */}
               <div style={{ aspectRatio: "1 / 1", overflow: "hidden", background: "#e9e6df" }}>

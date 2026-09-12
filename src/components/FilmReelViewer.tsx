@@ -211,7 +211,7 @@ export function FilmReelViewer({
       aria-label={collectionTitle ? `${collectionTitle} reel` : "Gallery reel"}
       style={{
         position: "fixed", inset: 0, zIndex: 460,
-        background: "radial-gradient(120% 100% at 50% 42%, #0b0b0d 0%, #060606 55%, #020202 100%)",
+        background: "radial-gradient(120% 100% at 50% 42%, #FAF8F4 0%, #F3F0EA 55%, #EBE7DF 100%)",
         overflow: "hidden",
       }}
     >
@@ -220,20 +220,20 @@ export function FilmReelViewer({
         position: "absolute", top: "26px", left: "var(--page-px)", zIndex: 30, pointerEvents: "none",
       }}>
         <div style={{
-          fontSize: "9px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.42)",
+          fontSize: "9px", letterSpacing: "0.28em", color: "rgba(22,20,15,0.45)",
           textTransform: "uppercase", fontVariantNumeric: "tabular-nums",
         }}>
           Frame {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </div>
         <div style={{
           fontSize: "clamp(0.95rem, 2.4vw, 1.5rem)", fontWeight: 500, letterSpacing: "-0.01em",
-          textTransform: "uppercase", color: "#fff", lineHeight: 1, marginTop: "8px",
+          textTransform: "uppercase", color: "var(--c-fg)", lineHeight: 1, marginTop: "8px",
         }}>
           {contextLabel}
         </div>
         {variant === "rich" && cur?.location && (
           <div style={{
-            fontSize: "8px", letterSpacing: "0.24em", color: "rgba(255,255,255,0.4)",
+            fontSize: "8px", letterSpacing: "0.24em", color: "rgba(22,20,15,0.42)",
             textTransform: "uppercase", marginTop: "7px",
           }}>
             {cur.location} · {cur.date}
@@ -280,7 +280,7 @@ export function FilmReelViewer({
       }}>
         {variant === "rich" && cur?.caption && (
           <div style={{
-            fontSize: "clamp(11px, 1.4vw, 13px)", color: "rgba(255,255,255,0.72)",
+            fontSize: "clamp(11px, 1.4vw, 13px)", color: "rgba(22,20,15,0.66)",
             fontStyle: "italic", maxWidth: "560px", margin: "0 auto", lineHeight: 1.5,
           }}>
             {cur.caption}
@@ -288,7 +288,7 @@ export function FilmReelViewer({
         )}
         {variant === "minimal" && cur?.title && (
           <div style={{
-            fontSize: "11px", letterSpacing: "0.12em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase",
+            fontSize: "11px", letterSpacing: "0.12em", color: "rgba(22,20,15,0.78)", textTransform: "uppercase",
           }}>
             {cur.title}{cur.type ? ` — ${cur.type}` : ""}
           </div>
@@ -330,7 +330,7 @@ export function FilmReelViewer({
             overscrollBehavior: "contain", WebkitOverflowScrolling: "touch", touchAction: "pan-y",
           }}
         >
-          <div style={{ fontSize: "8px", letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase", margin: "2px 8px 12px" }}>
+          <div style={{ fontSize: "8px", letterSpacing: "0.3em", color: "rgba(22,20,15,0.42)", textTransform: "uppercase", margin: "2px 8px 12px" }}>
             {contextLabel} · {total} frames
           </div>
           {frames.map((f, i) => {
@@ -344,19 +344,19 @@ export function FilmReelViewer({
                   display: "flex", gap: "16px", alignItems: "baseline", width: "100%",
                   border: "none", padding: "11px 10px", cursor: "none", textAlign: "left",
                   borderRadius: "7px",
-                  background: active ? "rgba(255,255,255,0.09)" : "transparent",
+                  background: active ? "rgba(22,20,15,0.08)" : "transparent",
                   transition: "background 0.25s",
                 }}
               >
                 {/* lowest emphasis — frame number */}
-                <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
+                <span style={{ fontSize: "9px", letterSpacing: "0.18em", color: "rgba(22,20,15,0.34)", fontVariantNumeric: "tabular-nums", minWidth: "22px" }}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {/* highest emphasis — frame title */}
                 <span style={{
                   fontSize: "13px", letterSpacing: "0.01em",
                   fontWeight: active ? 500 : 400,
-                  color: active ? "#fff" : "rgba(255,255,255,0.62)",
+                  color: active ? "var(--c-fg)" : "rgba(22,20,15,0.6)",
                 }}>
                   {f.caption ?? f.title ?? `Frame ${i + 1}`}
                 </span>
@@ -385,11 +385,11 @@ export function FilmReelViewer({
             data-cursor data-cursor-label="INDEX"
             style={{
               display: "flex", alignItems: "center", gap: "9px", padding: "8px 16px",
-              background: panelOpen ? "rgba(255,255,255,0.16)" : "transparent",
-              border: "none", borderRadius: "100px", cursor: "none", color: "#fff",
+              background: panelOpen ? "rgba(22,20,15,0.10)" : "transparent",
+              border: "none", borderRadius: "100px", cursor: "none", color: "var(--c-fg)",
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16140F" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
             <span style={{ fontSize: "12px", letterSpacing: "0.1em", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
               {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
             </span>
@@ -407,9 +407,9 @@ export function FilmReelViewer({
           aria-label="Close gallery"
           data-cursor data-cursor-label="CLOSE"
           className="glass"
-          style={{ width: 46, height: 46, borderRadius: "50%", display: "grid", placeItems: "center", cursor: "none", color: "#fff" }}
+          style={{ width: 46, height: 46, borderRadius: "50%", display: "grid", placeItems: "center", cursor: "none", color: "var(--c-fg)" }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16140F" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
         </button>
       </div>
 
@@ -428,7 +428,7 @@ function ReelFrameEl({ src, alt }: { src: string; alt: string }) {
       position: "relative", width: "100%", height: "100%",
       borderRadius: "8px", padding: "7px",
       background: "linear-gradient(160deg, rgba(36,36,40,0.96), rgba(12,12,14,0.96))",
-      boxShadow: "0 30px 70px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.18)",
+      boxShadow: "0 24px 56px rgba(22,20,15,0.28), inset 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.18)",
     }}>
       {/* perforation hint — abstract sprocket rails, very subtle */}
       <div aria-hidden style={{
@@ -514,7 +514,7 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
       onClick={handleBackdrop}
       data-cursor data-cursor-label={zoom > 1.1 ? "RESET" : "CLOSE"}
       style={{
-        position: "absolute", inset: 0, zIndex: 50, background: "rgba(3,3,4,0.94)",
+        position: "absolute", inset: 0, zIndex: 50, background: "rgba(243,240,234,0.95)",
         display: "grid", placeItems: "center", cursor: "none",
       }}
     >
@@ -530,7 +530,7 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
         onTouchEnd={onTouchEnd}
         style={{
           maxWidth: "86vw", maxHeight: "82vh", objectFit: "contain", display: "block",
-          boxShadow: "0 40px 120px rgba(0,0,0,0.7)",
+          boxShadow: "0 40px 120px rgba(22,20,15,0.28)",
           transform: `scale(${zoom})`,
           transformOrigin: `${origin.x}% ${origin.y}%`,
           transition: zoom === 1 ? "transform 0.35s cubic-bezier(0.16,1,0.3,1)" : "none",
@@ -540,7 +540,7 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
       {frame.caption && (
         <div style={{
           position: "absolute", bottom: "32px", left: 0, right: 0, textAlign: "center",
-          fontSize: "12px", letterSpacing: "0.04em", color: "rgba(255,255,255,0.7)", fontStyle: "italic",
+          fontSize: "12px", letterSpacing: "0.04em", color: "rgba(22,20,15,0.66)", fontStyle: "italic",
           opacity: zoom > 1.1 ? 0 : 1, transition: "opacity 0.3s",
           pointerEvents: "none",
         }}>
@@ -556,7 +556,7 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
         className="glass"
         style={{
           position: "absolute", top: "26px", right: "var(--page-px)",
-          border: "none", cursor: "none", color: "#fff",
+          border: "none", cursor: "none", color: "var(--c-fg)",
           padding: "8px 16px", borderRadius: "100px",
           fontSize: "9px", letterSpacing: "0.26em", textTransform: "uppercase",
           fontFamily: "var(--font-display)",
@@ -567,7 +567,7 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
 
       <div style={{
         position: "absolute", bottom: "32px", left: 0, right: 0, textAlign: "center",
-        fontSize: "8px", letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)",
+        fontSize: "8px", letterSpacing: "0.22em", color: "rgba(22,20,15,0.3)",
         textTransform: "uppercase", pointerEvents: "none",
         opacity: zoom > 1.1 || frame.caption ? 0 : 1, transition: "opacity 0.3s",
       }}>
@@ -580,12 +580,12 @@ function ExpandedImageViewer({ frame, onClose }: { frame: ReelFrame; onClose: ()
 /* ── Dock arrow (mobile) ── */
 const dockBtn = (disabled: boolean): CSSProperties => ({
   width: 38, height: 38, borderRadius: "50%", display: "grid", placeItems: "center",
-  background: "rgba(255,255,255,0.06)", border: "none", cursor: "none", color: "#fff",
+  background: "rgba(22,20,15,0.06)", border: "none", cursor: "none", color: "var(--c-fg)",
   opacity: disabled ? 0.3 : 1, transition: "opacity 0.2s",
 });
 function Chevron({ dir }: { dir: "prev" | "next" }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16140F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
          style={{ transform: dir === "prev" ? "none" : "rotate(180deg)" }}>
       <polyline points="15 18 9 12 15 6" />
     </svg>

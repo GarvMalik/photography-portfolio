@@ -70,7 +70,7 @@ export default function StoriesArchive() {
           {STORIES.map(story => (
             <Link key={story.slug} href={`/stories/${story.slug}`} data-cursor data-cursor-label="READ"
                   style={{ textDecoration: "none", cursor: "none", display: "block" }}>
-              <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "#0a0a0a", marginBottom: "1.25rem" }}>
+              <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--c-bg-3)", marginBottom: "1.25rem" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={story.src} alt={story.title} loading="lazy"
                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />

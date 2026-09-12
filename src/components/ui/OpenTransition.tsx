@@ -23,16 +23,16 @@ export function OpenTransition({
     const vw = window.innerWidth, vh = window.innerHeight;
     const R = Math.hypot(Math.max(x, vw - x), Math.max(y, vh - y)) + 60;
 
-    gsap.set(el, { clipPath: `circle(0px at ${x}px ${y}px)`, backgroundColor: "#F7F4EE", opacity: 1 });
+    gsap.set(el, { clipPath: `circle(0px at ${x}px ${y}px)`, backgroundColor: "#FDFCFA", opacity: 1 });
 
     const tl = gsap.timeline();
     // Phase 2 — mat expands from the click point
     tl.to(el, { clipPath: `circle(${R}px at ${x}px ${y}px)`, duration: 0.5, ease: "power3.inOut" });
     // Phase 4 — the gallery lights dim
-    tl.to(el, { backgroundColor: "#D6D2CB", duration: 0.12, ease: "none" })
-      .to(el, { backgroundColor: "#4A4A4A", duration: 0.16, ease: "none" })
+    tl.to(el, { backgroundColor: "#F7F4EE", duration: 0.12, ease: "none" })
+      .to(el, { backgroundColor: "#F0ECE5", duration: 0.16, ease: "none" })
       .to(el, {
-        backgroundColor: "#0B0B0B", duration: 0.2, ease: "power2.in",
+        backgroundColor: "#F3F0EA", duration: 0.2, ease: "power2.in",
         onComplete: () => { if (!revealed.current) { revealed.current = true; onReveal(); } },
       });
     // Phase 5 — hold, then dissolve to reveal the emerged reel

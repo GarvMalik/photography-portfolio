@@ -116,7 +116,7 @@ export function Lightbox({ state, onClose }: { state: LightboxState; onClose: ()
       data-cursor data-cursor-label={zoom > 1.1 ? "RESET" : "CLOSE"}
       style={{
         position: "fixed", inset: 0, zIndex: 480,
-        background: "rgba(4,4,5,0.82)",
+        background: "rgba(243,240,234,0.94)",
         display: "grid", placeItems: "center",
         cursor: "none",
       }}
@@ -133,7 +133,7 @@ export function Lightbox({ state, onClose }: { state: LightboxState; onClose: ()
         onTouchEnd={onTouchEnd}
         style={{
           maxWidth: "86vw", maxHeight: "84vh", objectFit: "contain", display: "block",
-          boxShadow: "0 40px 120px rgba(0,0,0,0.7)", willChange: "transform",
+          boxShadow: "0 40px 120px rgba(22,20,15,0.26)", willChange: "transform",
           transform: `scale(${zoom})`,
           transformOrigin: `${origin.x}% ${origin.y}%`,
           transition: zoom === 1 ? "transform 0.35s cubic-bezier(0.16,1,0.3,1)" : "none",
@@ -144,7 +144,7 @@ export function Lightbox({ state, onClose }: { state: LightboxState; onClose: ()
       {state.caption && (
         <div style={{
           position: "absolute", bottom: "30px", left: 0, right: 0, textAlign: "center",
-          fontSize: "12px", letterSpacing: "0.04em", color: "rgba(255,255,255,0.7)",
+          fontSize: "12px", letterSpacing: "0.04em", color: "rgba(22,20,15,0.66)",
           fontStyle: "italic", pointerEvents: "none",
           opacity: zoom > 1.1 ? 0 : 1, transition: "opacity 0.3s",
         }}>
@@ -155,7 +155,7 @@ export function Lightbox({ state, onClose }: { state: LightboxState; onClose: ()
       {/* Zoom hint — fades in briefly on open */}
       <div style={{
         position: "absolute", bottom: "30px", left: 0, right: 0, textAlign: "center",
-        fontSize: "8px", letterSpacing: "0.24em", color: "rgba(255,255,255,0.28)",
+        fontSize: "8px", letterSpacing: "0.24em", color: "rgba(22,20,15,0.38)",
         textTransform: "uppercase", pointerEvents: "none",
         opacity: zoom > 1.1 ? 0 : 1, transition: "opacity 0.3s",
       }}>
@@ -169,7 +169,7 @@ export function Lightbox({ state, onClose }: { state: LightboxState; onClose: ()
         style={{
           position: "absolute", top: "1.6rem", right: "var(--page-px)",
           background: "none", border: "none", cursor: "none",
-          fontSize: "9px", letterSpacing: "0.26em", color: "rgba(255,255,255,0.65)",
+          fontSize: "9px", letterSpacing: "0.26em", color: "rgba(22,20,15,0.62)",
           textTransform: "uppercase", fontFamily: "var(--font-display)", padding: "10px",
         }}
       >

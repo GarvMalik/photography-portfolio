@@ -145,7 +145,7 @@ export function Nav() {
         style={{
           display: "none",
           position: "fixed", inset: 0,
-          background: "#050505",
+          background: "var(--c-bg)",
           zIndex: 300,
           flexDirection: "column",
           clipPath: "inset(100% 0% 0% 0%)",

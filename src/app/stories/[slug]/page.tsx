@@ -43,7 +43,7 @@ export default function StoryDetail() {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={caption} loading="lazy"
-           style={{ width: "100%", height: "auto", display: "block", background: "#0a0a0a" }} />
+           style={{ width: "100%", height: "auto", display: "block", background: "var(--c-bg-3)" }} />
     </button>
   );
 

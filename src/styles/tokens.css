@@ -1,12 +1,15 @@
 :root {
-  --c-bg:      #050505;
-  --c-bg-2:    #0d0d0d;
-  --c-bg-3:    #141414;
-  --c-fg:      #ffffff;
-  --c-fg-2:    rgba(255, 255, 255, 0.62);
-  --c-fg-3:    rgba(255, 255, 255, 0.55);
-  --c-fg-4:    rgba(255, 255, 255, 0.42);
-  --c-border:  rgba(255, 255, 255, 0.08);
+  /* Warm gallery light — the page is the wall (soft paper), mats are crisp
+     white so framed prints still read as mounted against it. */
+  --c-bg:      #F3F0EA;
+  --c-bg-2:    #EBE7DF;
+  --c-bg-3:    #E3DED4;
+  --c-mat:     #FDFCFA;
+  --c-fg:      #16140F;
+  --c-fg-2:    rgba(22, 20, 15, 0.66);
+  --c-fg-3:    rgba(22, 20, 15, 0.52);
+  --c-fg-4:    rgba(22, 20, 15, 0.34);
+  --c-border:  rgba(22, 20, 15, 0.14);
 
   --font-display: var(--font-space-grotesk, system-ui, sans-serif);
   --font-mono:    var(--font-geist-mono,   'Courier New', monospace);

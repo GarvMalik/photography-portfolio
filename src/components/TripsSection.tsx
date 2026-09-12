@@ -6,7 +6,7 @@ import { FilmReelViewer } from "@/components/FilmReelViewer";
 import { OpenTransition } from "@/components/ui/OpenTransition";
 import { collectionToFrames, type Collection } from "@/lib/reel";
 
-const MAT = "#F7F4EE";
+const MAT = "#FDFCFA";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -215,7 +215,6 @@ export function TripsSection() {
                 style={{
                   background: MAT, borderRadius: "3px", cursor: "none",
                   padding: "7% 7% 0", willChange: "transform",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
                 }}
               >
                 <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "#e9e6df" }}>
