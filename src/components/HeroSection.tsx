@@ -50,7 +50,7 @@ const FIELD = [
   { x: 68, y: 102, rot:  1, w: "clamp(82px,8vw,124px)",  depth: 0.9, src: "/images/india/india-04.jpg" },
   { x: 20, y: 124, rot: -1, w: "clamp(94px,9vw,142px)",  depth: 0.5, src: "/images/best-of-all/best-11.jpg" },
   { x: 54, y: 120, rot:  3, w: "clamp(86px,8vw,130px)",  depth: 0.8, src: "/images/best-of-all/best-10.webp" },
-  { x: 84, y: 126, rot: -3, w: "clamp(90px,9vw,136px)",  depth: 0.6, src: "/images/best-of-all/best-23.jpg" },
+  { x: 84, y: 126, rot: -3, w: "clamp(90px,9vw,136px)",  depth: 0.6, src: "/images/best-of-all/best-23.webp" },
   // y 155 → 210
   { x:  4, y: 158, rot:  2, w: "clamp(88px,8vw,132px)",  depth: 0.7, src: "/images/best-of-all/best-07.webp" },
   { x: 38, y: 162, rot: -1, w: "clamp(96px,9vw,144px)",  depth: 0.9, src: "/images/spain/spain-06.webp" },

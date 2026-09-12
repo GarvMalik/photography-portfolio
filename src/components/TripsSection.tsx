@@ -87,8 +87,8 @@ const COLLECTIONS: Collection[] = [
       { src: "/images/india/india-05.webp", ratio: "4/3"  }, // heritage interior
       { src: "/images/india/india-07.jpg", ratio: "4/3"  }, // sunflower
       { src: "/images/india/india-11.webp", ratio: "4/3"  }, // full moon
-      { src: "/images/india/india-12.jpg", ratio: "4/3"  }, // night road
-      { src: "/images/india/india-13.jpg", ratio: "4/3"  }, // night travel
+      { src: "/images/india/india-12.webp", ratio: "4/3"  }, // night road
+      { src: "/images/india/india-13.webp", ratio: "4/3"  }, // night travel
     ],
   },
   {
